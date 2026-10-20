@@ -78,7 +78,7 @@
   function freshProfile() {
     return {
       v: 1, name: '', avatar: '🦊', created: Date.now(), stars: 0, stickers: [], medals: [],
-      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [],
+      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [], gym: { pace: 30, max: 30 },
       settings: { voice: true, sfx: true, rate: 0.92, roundLen: 6, unlockAll: false, autoRead: true, voiceName: '' },
     };
   }
@@ -161,7 +161,7 @@
         const fin = () => { if (!done) { done = true; res(); } };
         u.onend = fin; u.onerror = fin;
         setTimeout(() => speechSynthesis.speak(u), 40);
-        setTimeout(fin, 600 + clean.length * 110);
+        setTimeout(fin, (600 + clean.length * 110) * Math.max(1, 0.92 / u.rate)); // respaldo si no llega onend (más largo si habla despacio)
       });
     },
     stop() { if ('speechSynthesis' in window) speechSynthesis.cancel(); },

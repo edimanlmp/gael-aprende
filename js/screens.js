@@ -39,6 +39,14 @@
       <g transform="translate(92 70)"><path d="M-48 -26 Q-24 -36 0 -24 Q24 -36 48 -26 V30 Q24 20 0 32 Q-24 20 -48 30Z" fill="#fff"/><path d="M0 -24 V32" stroke="#E2457F" stroke-width="3"/>
       <g stroke="#F5A3C2" stroke-width="3" stroke-linecap="round"><path d="M-38 -12 H-10 M-38 -2 H-10 M-38 8 H-14 M10 -12 H38 M10 -2 H38 M10 8 H32"/></g></g>
       <g fill="#fff" font-family="Baloo 2, sans-serif" font-weight="800"><text x="22" y="40" font-size="30" opacity=".85">a</text><text x="170" y="44" font-size="26" opacity=".7">ñ</text><text x="292" y="140" font-size="28" opacity=".8">e</text></g></svg>`,
+    gimnasio: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0F9BA8"/>
+      <path d="M0 162 Q90 140 180 160 T320 152 V200 H0Z" fill="#0B7480"/>
+      <g transform="translate(160 96)"><rect x="-70" y="-6" width="140" height="12" rx="6" fill="#E8F7F9"/>
+      <rect x="-104" y="-38" width="34" height="76" rx="10" fill="#FFC233"/><rect x="70" y="-38" width="34" height="76" rx="10" fill="#FF7A59"/>
+      <text x="-87" y="10" text-anchor="middle" font-family="Andika, Baloo 2, sans-serif" font-weight="700" font-size="30" fill="#7A4A00">b</text>
+      <text x="87" y="10" text-anchor="middle" font-family="Andika, Baloo 2, sans-serif" font-weight="700" font-size="30" fill="#fff">d</text></g>
+      <g font-family="Andika, Baloo 2, sans-serif" font-weight="700" fill="#fff"><text x="22" y="48" font-size="28">es · se</text><text x="214" y="46" font-size="28">la · al</text>
+      <text x="28" y="182" font-size="22" opacity=".85">bo-ta</text><text x="236" y="182" font-size="22" opacity=".85">pla</text></g></svg>`,
     hyrule: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2E8B57"/>
       <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1E6B41"/>
       <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>
@@ -324,7 +332,7 @@
       }
       try { item.render(stage, api); }
       catch (err) { console.error('Error en actividad', skill.id, err); stage.innerHTML = ''; S.i++; next(); return; }
-      if (GA.settings().autoRead) setTimeout(() => GA.say(item.say || item.text, { lang: item.sayLang }), 250);
+      if (GA.settings().autoRead && !item.noAutoRead) setTimeout(() => GA.say(item.say || item.text, { lang: item.sayLang }), 250);
     }
 
     function showFb(kind, title, text, html, onContinue, iconEl, extra) {

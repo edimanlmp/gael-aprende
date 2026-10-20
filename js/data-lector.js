@@ -90,7 +90,7 @@
       tf: [['¿Las vacas vuelan?', false], ['¿El fuego moja?', false], ['¿Un gato tiene bigotes?', true], ['¿La jirafa es baja?', false], ['¿El agua moja?', true]],
     },
     {
-      id: 'g5', n: 'Ñ · LL · CH · Y · Z', letters: ['ñ', 'll', 'ch', 'y', 'z'], syl: [...cv('ñ ll ch y'), 'za', 'zo', 'zu'],
+      id: 'g5', n: 'Ñ · LL · CH · Y · Z', letters: ['ñ', 'll', 'ch', 'y', 'z'], syl: [...cv('ñ ll ch y').filter((s) => s !== 'yi'), 'za', 'zo', 'zu'],
       words: [W('piña', '🍍', 'pi-ña'), W('araña', '🕷️', 'a-ra-ña'), W('uña', '💅', 'u-ña'), W('niño', '👦', 'ni-ño'), W('llave', '🔑', 'lla-ve'),
         W('silla', '🪑', 'si-lla'), W('pollito', '🐥', 'po-lli-to'), W('gallina', '🐔', 'ga-lli-na'), W('caballo', '🐴', 'ca-ba-llo'), W('ballena', '🐳', 'ba-lle-na'),
         W('camello', '🐫', 'ca-me-llo'), W('anillo', '💍', 'a-ni-llo'), W('leche', '🥛', 'le-che'), W('chile', '🌶️', 'chi-le'), W('mochila', '🎒', 'mo-chi-la'),
@@ -116,7 +116,7 @@
       tf: [['¿El hielo está caliente?', false], ['¿Las hormigas son gigantes?', false], ['¿Un cohete puede ir al espacio?', true], ['¿Los helados son de queso?', false], ['¿Las gallinas ponen huevos?', true]],
     },
     {
-      id: 'g7', n: 'Sílabas inversas y mixtas', letters: [], syl: ['al', 'el', 'il', 'ol', 'ul', 'an', 'en', 'in', 'on', 'un', 'as', 'es', 'is', 'os', 'us', 'ar', 'er', 'ir', 'or', 'ur', 'sol', 'mar', 'pan', 'con', 'sal', 'luz', 'mil', 'tos', 'dos', 'pez'],
+      id: 'g7', n: 'Sílabas inversas y mixtas', letters: [], syl: ['al', 'el', 'ol', 'ul', 'an', 'en', 'in', 'on', 'un', 'as', 'es', 'is', 'os', 'us', 'ar', 'er', 'or', 'ur', 'sol', 'mar', 'pan', 'con', 'sal', 'luz', 'mil', 'tos', 'dos', 'pez'],
       words: [W('árbol', '🌳', 'ár-bol'), W('lápiz', '✏️', 'lá-piz'), W('escoba', '🧹', 'es-co-ba'), W('ardilla', '🐿️', 'ar-di-lla'), W('elefante', '🐘', 'e-le-fan-te'),
         W('campana', '🔔', 'cam-pa-na'), W('ventana', '🪟', 'ven-ta-na'), W('delfín', '🐬', 'del-fín'), W('tiburón', '🦈', 'ti-bu-rón'), W('caracol', '🐌', 'ca-ra-col'),
         W('manzana', '🍎', 'man-za-na'), W('martillo', '🔨', 'mar-ti-llo'), W('corazón', '❤️', 'co-ra-zón'), W('sandía', '🍉', 'san-dí-a'), W('calcetín', '🧦', 'cal-ce-tín'),
@@ -128,7 +128,7 @@
       tf: [['¿Los caracoles son muy rápidos?', false], ['¿Los árboles tienen hojas?', true], ['¿El delfín vive en el desierto?', false], ['¿Un lápiz sirve para dibujar?', true], ['¿Los murciélagos salen de noche?', true]],
     },
     {
-      id: 'g8', n: 'Sílabas trabadas', letters: [], syl: cv('pl bl cl fl gl pr br cr dr fr gr tr'),
+      id: 'g8', n: 'Sílabas trabadas', letters: [], syl: cv('pl bl cl fl gl pr br cr dr fr gr tr').filter((s) => !['fli', 'gli', 'glu', 'dru'].includes(s)),
       words: [W('fresa', '🍓', 'fre-sa'), W('bruja', '🧙', 'bru-ja'), W('plato', '🍽️', 'pla-to'), W('globo', '🎈', 'glo-bo'), W('grillo', '🦗', 'gri-llo'),
         W('tigre', '🐯', 'ti-gre'), W('cabra', '🐐', 'ca-bra'), W('libro', '📖', 'li-bro'), W('dragón', '🐉', 'dra-gón'), W('trompeta', '🎺', 'trom-pe-ta'),
         W('estrella', '⭐', 'es-tre-lla'), W('cocodrilo', '🐊', 'co-co-dri-lo'), W('plátano', '🍌', 'plá-ta-no'), W('cangrejo', '🦀', 'can-gre-jo'), W('bicicleta', '🚲', 'bi-ci-cle-ta'),

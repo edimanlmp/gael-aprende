@@ -25,7 +25,7 @@
     vocales: 'Sonido de las vocales', 'primer-sonido': 'Sonido inicial', 'ultimo-sonido': 'Sonido final', 'letra-sonido': 'Relación letra-sonido', 'letras-espejo': 'Letras espejo (b, d, p, q)', 'mayus-minus': 'Mayúsculas y minúsculas',
     silabas: 'Formar palabras con sílabas', 'silabas-trabadas': 'Sílabas trabadas', deletrear: 'Escribir palabras', dictado: 'Dictado', 'contar-silabas': 'Contar sílabas', rimas: 'Rimas',
     'leer-palabras': 'Leer palabras', 'leer-precision': 'Leer con precisión palabras parecidas', 'leer-frases': 'Leer frases', sintaxis: 'Ordenar oraciones', 'comprension-literal': 'Comprensión literal',
-    secuencia: 'Secuencia de un cuento', 'lx-silabas': 'Leer sílabas', 'lx-palabras': 'Leer palabras nuevas', 'lx-precision': 'Leer con precisión (todas las letras)', 'lx-oraciones': 'Leer y entender oraciones', 'lx-relampago': 'Reconocer palabras de un vistazo', 'hy-palabras': 'Leer palabras de Hyrule', 'hy-frases': 'Leer frases de Hyrule', 'hy-verdad': 'Entender preguntas de Hyrule', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
+    secuencia: 'Secuencia de un cuento', 'lx-silabas': 'Leer sílabas', 'lx-palabras': 'Leer palabras nuevas', 'lx-precision': 'Leer con precisión (todas las letras)', 'lx-oraciones': 'Leer y entender oraciones', 'lx-relampago': 'Reconocer palabras de un vistazo', 'hy-palabras': 'Leer palabras de Hyrule', 'g-silabas': 'Leer sílaba por sílaba (palabras nuevas e inventadas)', 'g-bd': 'Distinguir b y d', 'g-espejo': 'Palabras espejo (es/se, la/al, el/le…)', 'g-trabadas': 'Sílabas trabadas', 'g-tren': 'Reconocer sílabas rápido', 'g-fluidez': 'Leer oraciones con ritmo y entenderlas', 'hy-frases': 'Leer frases de Hyrule', 'hy-verdad': 'Entender preguntas de Hyrule', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
   };
   const tagName = (t) => TAGS[t] || (t.startsWith('ciclo-') ? 'Ciclo de vida: ' + t.slice(6) : t.startsWith('tabla-') ? 'Tabla del ' + t.slice(6) : t);
 
@@ -112,7 +112,8 @@
       h('div', { class: 'pp-stats' },
         stat('Letras y sílabas', learned ? `${learned}/${G.length}` : '—', learned ? 'Ya domina: ' + G.slice(0, learned).map((g) => g.n).join(' · ') : 'Empezando: ' + G[0].n),
         stat('Libritos leídos', books, `${reads.length} ${reads.length === 1 ? 'lectura' : 'lecturas'} en total`),
-        stat('Velocidad lectora', avg ? `${avg} ppm` : '—', avg ? 'promedio de las últimas 3 lecturas sin ayuda' : 'aparece al leer un librito sin “Leer conmigo”')),
+        stat('Velocidad lectora', avg ? `${avg} ppm` : '—', avg ? 'promedio de las últimas 3 lecturas sin ayuda' : 'aparece al leer un librito sin “Leer conmigo”'),
+        stat('Ritmo en el Gimnasio', `${(D().gym || {}).pace || 30} ppm`, `ritmo de “Oraciones veloces”; récord ${(D().gym || {}).max || 30} ppm`)),
       chart ? h('h3', { class: 'pp-h3' }, 'Palabras por minuto (últimas lecturas)') : null, chart,
       enReads.length ? h('p', null, `🇺🇸 Lecturas en inglés (Legends of Hyrule): ${enReads.length}, de ${new Set(enReads.map((r) => r.id)).size} textos distintos. No se mezclan con la velocidad en español.`) : null,
       h('p', { class: 'muted' }, 'Referencia de la SEP (México) para lectura en voz alta: 1º de primaria 35–59 ppm, 2º 60–84, 3º 85–99, 4º 100–114. Más importante que la velocidad es que lea con precisión, con expresión y que entienda.'),

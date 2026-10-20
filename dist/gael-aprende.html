@@ -29,6 +29,7 @@
   --read: #E2457F;  --read-d: #B8285E;  --read-l: #FDE6EF;
   --eng: #2F6FE0;   --eng-d: #1F4FB0;   --eng-l: #E3ECFF;
   --hyr: #2E8B57;   --hyr-d: #1E6B41;   --hyr-l: #E1F4E8;
+  --gym: #0F9BA8;   --gym-d: #0B7480;   --gym-l: #DDF4F6;
   --sun: #FFC233;   --sun-d: #E09B00;
   --ok: #26BF63;    --ok-d: #189049;    --ok-l: #E2F8EB;
   --bad: #FF6B6B;   --bad-d: #D94848;   --bad-l: #FFE7E7;
@@ -48,6 +49,7 @@
 .area-ciencia { --c: var(--sci); --c-d: var(--sci-d); --c-l: var(--sci-l); }
 .area-lengua { --c: var(--lang); --c-d: var(--lang-d); --c-l: var(--lang-l); }
 .area-lector { --c: var(--read); --c-d: var(--read-d); --c-l: var(--read-l); }
+.area-gimnasio { --c: var(--gym); --c-d: var(--gym-d); --c-l: var(--gym-l); }
 .area-hyrule { --c: var(--hyr); --c-d: var(--hyr-d); --c-l: var(--hyr-l); }
 .area-ingles { --c: var(--eng); --c-d: var(--eng-d); --c-l: var(--eng-l); }
 .area-mix { --c: var(--info); --c-d: var(--info-d); --c-l: var(--info-l); }
@@ -803,6 +805,47 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; line-height: 1.1; text-wr
 .hy-frame, .hy-reader .rd-pic { display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .hy-frame .hy-img, .hy-reader .rd-pic .hy-img { width: auto; height: auto; max-width: 100%; max-height: 100%; min-height: 0; }
 
+/* ---------- Gimnasio de Lectura ---------- */
+.g-syl-box { display: grid; gap: 12px; justify-items: center; }
+.g-tiles { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; transition: gap .4s; }
+.g-tiles.joined { gap: 0; }
+.g-tiles.joined .g-tile { border-radius: 0; box-shadow: 0 6px 0 var(--c-l); }
+.g-tiles.joined .g-tile:first-child { border-radius: 20px 0 0 20px; }
+.g-tiles.joined .g-tile:last-child { border-radius: 0 20px 20px 0; }
+.g-tile { font-family: var(--f-read); font-weight: 700; font-size: clamp(2.4rem, 8vw, 3.6rem); min-width: 96px; min-height: 92px; padding: 0 16px; border: 0; border-radius: 20px;
+  background: var(--c-l); color: var(--c-d); box-shadow: 0 6px 0 var(--c); cursor: pointer; transition: all .25s; }
+.g-tile.next { background: #fff; outline: 4px dashed var(--c); animation: pulse 1.4s infinite; }
+.g-tile.open { background: #fff; color: var(--ink); }
+.g-tile.pulse { animation: shake .4s; }
+.g-after { display: grid; gap: 12px; justify-items: center; width: 100%; }
+.g-sounds { display: grid; gap: 10px; justify-items: center; }
+.g-sound { display: flex; gap: 10px; align-items: center; padding: 6px 10px; border-radius: 18px; background: #fff; box-shadow: var(--shadow); }
+.g-sound.right { background: var(--ok-l); outline: 3px solid var(--ok); }
+.g-sound.wrong { background: var(--bad-l); opacity: .7; }
+.g-b { color: #2563D6; } .g-d { color: #E0571C; }
+.g-target { font-size: 1.6rem; font-weight: 800; background: #fff; border-radius: 16px; padding: 6px 18px; box-shadow: var(--shadow); }
+.g-target span { font-family: var(--f-read); font-size: 2.4rem; }
+.g-grid { display: grid; grid-template-columns: repeat(4, minmax(64px, 96px)); gap: 10px; }
+.g-letter { font-family: var(--f-read); font-weight: 700; font-size: clamp(2.4rem, 9vw, 3.4rem); aspect-ratio: 1; border: 0; border-radius: 18px; background: #fff; color: var(--ink); box-shadow: 0 6px 0 var(--line); cursor: pointer; }
+.g-letter.ok { background: var(--ok); color: #fff; box-shadow: 0 6px 0 var(--ok-d); animation: pop .3s; }
+.g-letter.no { background: var(--bad-l); animation: shake .4s; }
+.g-track { position: relative; width: 100%; height: 120px; overflow: hidden; background: linear-gradient(transparent 82%, #B98B5E 82%, #B98B5E 86%, transparent 86%); border-radius: 18px; }
+.g-train { position: absolute; top: 10px; left: 0; transform: translateX(110vw); display: flex; gap: 8px; align-items: center; white-space: nowrap; will-change: transform; }
+.g-loco { font-size: 3.6rem; }
+.g-car { font-family: var(--f-read); font-weight: 700; font-size: 2rem; min-width: 84px; height: 76px; border: 0; border-radius: 14px; background: var(--c); color: #fff; box-shadow: 0 6px 0 var(--c-d); cursor: pointer; }
+.g-car.ok { background: var(--ok); box-shadow: 0 6px 0 var(--ok-d); }
+.g-car.no { background: var(--bad); opacity: .6; }
+.g-sign { font-size: 1.4rem; font-weight: 800; background: #fff; border-radius: 14px; padding: 6px 16px; }
+.g-sign b { font-family: var(--f-read); font-size: 2.2rem; color: var(--c-d); }
+.g-pace-card { font-family: var(--f-read); background: #FFFDF7; border-radius: 24px; padding: 18px 24px; box-shadow: 0 8px 0 var(--c-l), var(--shadow); width: min(820px, 100%); line-height: 1.7; text-align: center; }
+.pw { border-radius: 8px; padding: 0 3px; transition: background .12s, color .12s; }
+.pace-now { background: var(--c, #0F9BA8); color: #fff; border-radius: 8px; padding: 0 3px; }
+.pace-done { color: var(--ink-soft); }
+.g-pace-chip { background: var(--c-l); color: var(--c-d); }
+@media (max-width: 560px) { .g-tile { min-width: 74px; min-height: 76px; } .g-car { min-width: 70px; height: 66px; font-size: 1.7rem; } }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+.g-station { font-weight: 800; color: var(--c-d); background: var(--c-l); border-radius: 14px; padding: 6px 14px; }
+
 </style>
 </head>
 <body>
@@ -891,7 +934,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
   function freshProfile() {
     return {
       v: 1, name: '', avatar: '🦊', created: Date.now(), stars: 0, stickers: [], medals: [],
-      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [],
+      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [], gym: { pace: 30, max: 30 },
       settings: { voice: true, sfx: true, rate: 0.92, roundLen: 6, unlockAll: false, autoRead: true, voiceName: '' },
     };
   }
@@ -974,7 +1017,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
         const fin = () => { if (!done) { done = true; res(); } };
         u.onend = fin; u.onerror = fin;
         setTimeout(() => speechSynthesis.speak(u), 40);
-        setTimeout(fin, 600 + clean.length * 110);
+        setTimeout(fin, (600 + clean.length * 110) * Math.max(1, 0.92 / u.rate)); // respaldo si no llega onend (más largo si habla despacio)
       });
     },
     stop() { if ('speechSynthesis' in window) speechSynthesis.cancel(); },
@@ -1448,6 +1491,8 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       blurb: 'Sonidos, sílabas, palabras, rimas y cuentos.' },
     lector: { id: 'lector', name: 'Aprender a leer', short: 'Lectura', world: 'Camino del Lector', icon: '📖', cls: 'area-lector', color: '#E2457F',
       blurb: 'De las primeras sílabas a leer libros completos, paso a paso.' },
+    gimnasio: { id: 'gimnasio', name: 'Gimnasio de Lectura', short: 'Gimnasio', world: 'Gimnasio de Lectura', icon: '🏋️', cls: 'area-gimnasio', color: '#0F9BA8',
+      blurb: 'Sílaba por sílaba, b y d, es y se, trabadas y lectura veloz.' },
     hyrule: { id: 'hyrule', name: 'Hyrule en español', short: 'Hyrule', world: 'Hyrule en español', icon: '🗡️', cls: 'area-hyrule', color: '#2E8B57',
       blurb: 'Aprende a leer con las aventuras de Zelda: Breath of the Wild.' },
     ingles: { id: 'ingles', name: 'Inglés', short: 'Inglés', world: 'Hyrule in English', icon: '🇺🇸', cls: 'area-ingles', color: '#2F6FE0',
@@ -2452,7 +2497,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       tf: [['¿Las vacas vuelan?', false], ['¿El fuego moja?', false], ['¿Un gato tiene bigotes?', true], ['¿La jirafa es baja?', false], ['¿El agua moja?', true]],
     },
     {
-      id: 'g5', n: 'Ñ · LL · CH · Y · Z', letters: ['ñ', 'll', 'ch', 'y', 'z'], syl: [...cv('ñ ll ch y'), 'za', 'zo', 'zu'],
+      id: 'g5', n: 'Ñ · LL · CH · Y · Z', letters: ['ñ', 'll', 'ch', 'y', 'z'], syl: [...cv('ñ ll ch y').filter((s) => s !== 'yi'), 'za', 'zo', 'zu'],
       words: [W('piña', '🍍', 'pi-ña'), W('araña', '🕷️', 'a-ra-ña'), W('uña', '💅', 'u-ña'), W('niño', '👦', 'ni-ño'), W('llave', '🔑', 'lla-ve'),
         W('silla', '🪑', 'si-lla'), W('pollito', '🐥', 'po-lli-to'), W('gallina', '🐔', 'ga-lli-na'), W('caballo', '🐴', 'ca-ba-llo'), W('ballena', '🐳', 'ba-lle-na'),
         W('camello', '🐫', 'ca-me-llo'), W('anillo', '💍', 'a-ni-llo'), W('leche', '🥛', 'le-che'), W('chile', '🌶️', 'chi-le'), W('mochila', '🎒', 'mo-chi-la'),
@@ -2478,7 +2523,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       tf: [['¿El hielo está caliente?', false], ['¿Las hormigas son gigantes?', false], ['¿Un cohete puede ir al espacio?', true], ['¿Los helados son de queso?', false], ['¿Las gallinas ponen huevos?', true]],
     },
     {
-      id: 'g7', n: 'Sílabas inversas y mixtas', letters: [], syl: ['al', 'el', 'il', 'ol', 'ul', 'an', 'en', 'in', 'on', 'un', 'as', 'es', 'is', 'os', 'us', 'ar', 'er', 'ir', 'or', 'ur', 'sol', 'mar', 'pan', 'con', 'sal', 'luz', 'mil', 'tos', 'dos', 'pez'],
+      id: 'g7', n: 'Sílabas inversas y mixtas', letters: [], syl: ['al', 'el', 'ol', 'ul', 'an', 'en', 'in', 'on', 'un', 'as', 'es', 'is', 'os', 'us', 'ar', 'er', 'or', 'ur', 'sol', 'mar', 'pan', 'con', 'sal', 'luz', 'mil', 'tos', 'dos', 'pez'],
       words: [W('árbol', '🌳', 'ár-bol'), W('lápiz', '✏️', 'lá-piz'), W('escoba', '🧹', 'es-co-ba'), W('ardilla', '🐿️', 'ar-di-lla'), W('elefante', '🐘', 'e-le-fan-te'),
         W('campana', '🔔', 'cam-pa-na'), W('ventana', '🪟', 'ven-ta-na'), W('delfín', '🐬', 'del-fín'), W('tiburón', '🦈', 'ti-bu-rón'), W('caracol', '🐌', 'ca-ra-col'),
         W('manzana', '🍎', 'man-za-na'), W('martillo', '🔨', 'mar-ti-llo'), W('corazón', '❤️', 'co-ra-zón'), W('sandía', '🍉', 'san-dí-a'), W('calcetín', '🧦', 'cal-ce-tín'),
@@ -2490,7 +2535,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       tf: [['¿Los caracoles son muy rápidos?', false], ['¿Los árboles tienen hojas?', true], ['¿El delfín vive en el desierto?', false], ['¿Un lápiz sirve para dibujar?', true], ['¿Los murciélagos salen de noche?', true]],
     },
     {
-      id: 'g8', n: 'Sílabas trabadas', letters: [], syl: cv('pl bl cl fl gl pr br cr dr fr gr tr'),
+      id: 'g8', n: 'Sílabas trabadas', letters: [], syl: cv('pl bl cl fl gl pr br cr dr fr gr tr').filter((s) => !['fli', 'gli', 'glu', 'dru'].includes(s)),
       words: [W('fresa', '🍓', 'fre-sa'), W('bruja', '🧙', 'bru-ja'), W('plato', '🍽️', 'pla-to'), W('globo', '🎈', 'glo-bo'), W('grillo', '🦗', 'gri-llo'),
         W('tigre', '🐯', 'ti-gre'), W('cabra', '🐐', 'ca-bra'), W('libro', '📖', 'li-bro'), W('dragón', '🐉', 'dra-gón'), W('trompeta', '🎺', 'trom-pe-ta'),
         W('estrella', '⭐', 'es-tre-lla'), W('cocodrilo', '🐊', 'co-co-dri-lo'), W('plátano', '🍌', 'plá-ta-no'), W('cangrejo', '🦀', 'can-gre-jo'), W('bicicleta', '🚲', 'bi-ci-cle-ta'),
@@ -3140,6 +3185,110 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
 
   const LEVELS = ['Hyrule words', 'Adventure words', 'Hero sentences', 'True or false?', 'Travel tips', 'Adventurer tips', 'The Hyrule Compendium', 'Champions and Divine Beasts', 'Hyrule stories', 'Great legends'];
   GA.HYRULE_EN = { WORDS, SENTS, TF, TEXTS, LEVELS };
+})();
+
+</script>
+<script>
+/* Gael Aprende — datos del Gimnasio de Lectura
+   Práctica dirigida a: lectura sílaba por sílaba (decodificar, no adivinar), confusión b/d,
+   palabras espejo (es/se, la/al, el/le…), sílabas trabadas y fluidez con oraciones de 2 a 35 palabras. */
+(function () {
+  'use strict';
+  const W = (w, e, s) => ({ w, e, s: s.split('-') });
+
+  // Palabras para leer sílaba por sílaba
+  const SYL = {
+    1: [W('mapa', '🗺️', 'ma-pa'), W('sopa', '🍲', 'so-pa'), W('luna', '🌙', 'lu-na'), W('dado', '🎲', 'da-do'), W('bota', '👢', 'bo-ta'), W('dedo', '☝️', 'de-do'),
+      W('nube', '☁️', 'nu-be'), W('boca', '👄', 'bo-ca'), W('mono', '🐒', 'mo-no'), W('pato', '🦆', 'pa-to'), W('vaca', '🐮', 'va-ca'), W('dona', '🍩', 'do-na'),
+      W('lobo', '🐺', 'lo-bo'), W('gato', '🐱', 'ga-to'), W('foca', '🦭', 'fo-ca'), W('nido', '🪺', 'ni-do'), W('rosa', '🌹', 'ro-sa'), W('uva', '🍇', 'u-va')],
+    2: [W('pelota', '⚽', 'pe-lo-ta'), W('tomate', '🍅', 'to-ma-te'), W('caballo', '🐴', 'ca-ba-llo'), W('ballena', '🐳', 'ba-lle-na'), W('moneda', '🪙', 'mo-ne-da'),
+      W('helado', '🍦', 'he-la-do'), W('abeja', '🐝', 'a-be-ja'), W('conejo', '🐰', 'co-ne-jo'), W('paloma', '🕊️', 'pa-lo-ma'), W('banana', '🍌', 'ba-na-na'),
+      W('bebida', '🥤', 'be-bi-da'), W('candado', '🔒', 'can-da-do'), W('soldado', '💂', 'sol-da-do'), W('jirafa', '🦒', 'ji-ra-fa'), W('zapato', '👞', 'za-pa-to'),
+      W('gusano', '🐛', 'gu-sa-no'), W('botella', '🍾', 'bo-te-lla'), W('cebolla', '🧅', 'ce-bo-lla')],
+    3: [W('árbol', '🌳', 'ár-bol'), W('escoba', '🧹', 'es-co-ba'), W('ardilla', '🐿️', 'ar-di-lla'), W('elefante', '🐘', 'e-le-fan-te'), W('espada', '🗡️', 'es-pa-da'),
+      W('escalera', '🪜', 'es-ca-le-ra'), W('isla', '🏝️', 'is-la'), W('ensalada', '🥗', 'en-sa-la-da'), W('antena', '📡', 'an-te-na'), W('escuela', '🏫', 'es-cue-la'),
+      W('ostión', '🦪', 'os-tión'), W('alcancía', '🐷', 'al-can-cí-a'), W('insecto', '🐞', 'in-sec-to'), W('elote', '🌽', 'e-lo-te'),
+      W('almohada', '🛏️', 'al-mo-ha-da'), W('escudo', '🛡️', 'es-cu-do'), W('ancla', '⚓', 'an-cla')],
+    5: [W('hipopótamo', '🦛', 'hi-po-pó-ta-mo'), W('helicóptero', '🚁', 'he-li-cóp-te-ro'), W('computadora', '💻', 'com-pu-ta-do-ra'), W('calculadora', '🧮', 'cal-cu-la-do-ra'),
+      W('mariposa', '🦋', 'ma-ri-po-sa'), W('dinosaurio', '🦕', 'di-no-sau-rio'), W('mariquita', '🐞', 'ma-ri-qui-ta'), W('zanahoria', '🥕', 'za-na-ho-ria'),
+      W('cucaracha', '🪳', 'cu-ca-ra-cha'), W('telescopio', '🔭', 'te-les-co-pio'), W('paracaídas', '🪂', 'pa-ra-ca-í-das'), W('bicicleta', '🚲', 'bi-ci-cle-ta'),
+      W('semáforo', '🚦', 'se-má-fo-ro'), W('murciélago', '🦇', 'mur-cié-la-go'), W('cocodrilo', '🐊', 'co-co-dri-lo'), W('caramelo', '🍬', 'ca-ra-me-lo'),
+      W('teléfono', '☎️', 'te-lé-fo-no'), W('mantequilla', '🧈', 'man-te-qui-lla'), W('hamburguesa', '🍔', 'ham-bur-gue-sa'), W('calabaza', '🎃', 'ca-la-ba-za'),
+      W('unicornio', '🦄', 'u-ni-cor-nio'), W('chocolate', '🍫', 'cho-co-la-te')],
+  };
+
+  // Palabras con b y d (con dibujo) y oraciones donde aparecen
+  const BD = [W('bota', '👢', 'bo-ta'), W('boca', '👄', 'bo-ca'), W('bebé', '👶', 'be-bé'), W('ballena', '🐳', 'ba-lle-na'), W('bolsa', '👜', 'bol-sa'),
+    W('búho', '🦉', 'bú-ho'), W('barco', '⛵', 'bar-co'), W('bandera', '🚩', 'ban-de-ra'), W('abeja', '🐝', 'a-be-ja'), W('lobo', '🐺', 'lo-bo'),
+    W('nube', '☁️', 'nu-be'), W('globo', '🎈', 'glo-bo'), W('bombero', '🧑‍🚒', 'bom-be-ro'), W('banco', '🏦', 'ban-co'), W('dado', '🎲', 'da-do'),
+    W('dedo', '☝️', 'de-do'), W('dona', '🍩', 'do-na'), W('diente', '🦷', 'dien-te'), W('delfín', '🐬', 'del-fín'), W('dulce', '🍬', 'dul-ce'),
+    W('nido', '🪺', 'ni-do'), W('helado', '🍦', 'he-la-do'), W('candado', '🔒', 'can-da-do'), W('moneda', '🪙', 'mo-ne-da'), W('dragón', '🐉', 'dra-gón'),
+    W('boda', '💒', 'bo-da'), W('soldado', '💂', 'sol-da-do'), W('dinosaurio', '🦕', 'di-no-sau-rio'), W('bebida', '🥤', 'be-bi-da'), W('escudo', '🛡️', 'es-cu-do')];
+  // [oración, palabra objetivo, dibujo]
+  const BD_SENTS = [['El bebé toma leche.', 'bebé', '👶'], ['Tiro el dado en el juego.', 'dado', '🎲'], ['La ballena nada en el mar.', 'ballena', '🐳'],
+    ['Me duele un diente.', 'diente', '🦷'], ['El búho vuela de noche.', 'búho', '🦉'], ['Mi dedo es pequeño.', 'dedo', '☝️'], ['El barco navega despacio.', 'barco', '⛵'],
+    ['El delfín salta alto.', 'delfín', '🐬'], ['La abeja hace miel.', 'abeja', '🐝'], ['El dragón sopla fuego.', 'dragón', '🐉'], ['La bota es de lluvia.', 'bota', '👢'],
+    ['Como una dona de chocolate.', 'dona', '🍩'], ['El lobo aúlla a la luna.', 'lobo', '🐺'], ['Guardo una moneda.', 'moneda', '🪙'], ['El bombero apaga el fuego.', 'bombero', '🧑‍🚒'],
+    ['El pájaro duerme en su nido.', 'nido', '🪺'], ['La nube es blanca.', 'nube', '☁️'], ['Abro la boca grande.', 'boca', '👄']];
+
+  // Palabras espejo: [la oración con ___, la correcta, la del espejo]
+  const MIRROR = [['es', 'se'], ['la', 'al'], ['el', 'le'], ['los', 'sol'], ['las', 'sal'], ['no', 'on'], ['me', 'em'], ['en', 'ne'], ['mi', 'im'], ['un', 'nu'], ['lo', 'ol'], ['sí', 'is'], ['de', 'ed'], ['ya', 'ay']];
+  const MIRROR_SENTS = [['Mi perro ___ muy bonito.', 'es', 'se'], ['El gato ___ duerme en la cama.', 'se', 'es'], ['Ana ___ lava las manos.', 'se', 'es'], ['La luna ___ blanca.', 'es', 'se'],
+    ['Vamos ___ parque.', 'al', 'la'], ['___ niña come pan.', 'La', 'Al'], ['Dame ___ pelota roja.', 'la', 'al'], ['Papá va ___ mercado.', 'al', 'la'],
+    ['___ perro corre rápido.', 'El', 'Le'], ['Mamá ___ da un beso a Gael.', 'le', 'el'], ['___ niños juegan futbol.', 'Los', 'Sol'], ['El ___ sale en la mañana.', 'sol', 'los'],
+    ['Échale ___ a la sopa.', 'sal', 'las'], ['Mira ___ flores amarillas.', 'las', 'sal'], ['Yo ___ quiero dormir.', 'no', 'on'], ['El pez vive ___ el agua.', 'en', 'ne'],
+    ['___ gato es negro.', 'Mi', 'Im'], ['Tengo ___ perro café.', 'un', 'nu'], ['Mi mamá ___ abraza.', 'me', 'em'], ['El vaso ___ de vidrio.', 'es', 'se'],
+    ['La sopa ___ enfría.', 'se', 'es'], ['Llevo el agua ___ jardín.', 'al', 'la'], ['El libro ___ mío.', 'es', 'se'], ['Gael ___ ríe mucho.', 'se', 'es']];
+
+  // Sílabas trabadas
+  const TRAB = [W('fresa', '🍓', 'fre-sa'), W('bruja', '🧙', 'bru-ja'), W('plato', '🍽️', 'pla-to'), W('globo', '🎈', 'glo-bo'), W('grillo', '🦗', 'gri-llo'),
+    W('tigre', '🐯', 'ti-gre'), W('cabra', '🐐', 'ca-bra'), W('libro', '📖', 'li-bro'), W('dragón', '🐉', 'dra-gón'), W('trompeta', '🎺', 'trom-pe-ta'),
+    W('estrella', '⭐', 'es-tre-lla'), W('cocodrilo', '🐊', 'co-co-dri-lo'), W('plátano', '🍌', 'plá-ta-no'), W('cangrejo', '🦀', 'can-gre-jo'), W('bicicleta', '🚲', 'bi-ci-cle-ta'),
+    W('tren', '🚂', 'tren'), W('flor', '🌸', 'flor'), W('tractor', '🚜', 'trac-tor'), W('princesa', '👸', 'prin-ce-sa'), W('blusa', '👚', 'blu-sa'),
+    W('crayón', '🖍️', 'cra-yón'), W('planeta', '🪐', 'pla-ne-ta'), W('brócoli', '🥦', 'bró-co-li'), W('flamenco', '🦩', 'fla-men-co'), W('sombrero', '👒', 'som-bre-ro'),
+    W('trofeo', '🏆', 'tro-fe-o'), W('micrófono', '🎤', 'mi-cró-fo-no'), W('flecha', '🏹', 'fle-cha'), W('brazo', '💪', 'bra-zo'), W('grúa', '🏗️', 'grú-a'),
+    W('bloque', '🧱', 'blo-que'), W('trineo', '🛷', 'tri-ne-o'), W('trigo', '🌾', 'tri-go'), W('piedra', '🪨', 'pie-dra'), W('refresco', '🥤', 're-fres-co'),
+    W('dromedario', '🐪', 'dro-me-da-rio'), W('cebra', '🦓', 'ce-bra'), W('clavel', '💐', 'cla-vel'), W('ogro', '👹', 'o-gro'), W('cráter', '🌋', 'crá-ter')];
+  const TRAB_SENTS = [['La bruja vuela en su escoba.', 'bruja', '🧙'], ['El tren cruza el puente.', 'tren', '🚂'], ['El tigre tiene rayas negras.', 'tigre', '🐯'],
+    ['La princesa lee un libro.', 'princesa', '👸'], ['Como fresas con crema.', 'fresas', '🍓'], ['El grillo canta de noche.', 'grillo', '🦗'], ['Mi globo es grande.', 'globo', '🎈'],
+    ['El cocodrilo nada en el río.', 'cocodrilo', '🐊'], ['La cebra corre rápido.', 'cebra', '🦓'], ['El tractor trabaja en el campo.', 'tractor', '🚜'],
+    ['Bruno toca la trompeta.', 'trompeta', '🎺'], ['La flor es amarilla.', 'flor', '🌸'], ['El plato está limpio.', 'plato', '🍽️'], ['La cabra sube la montaña.', 'cabra', '🐐']];
+
+  // Oraciones veloces: niveles 1–4 se comprueban con el dibujo; 5–7 con una pregunta (la correcta va primero)
+  const FLU = {
+    1: [['El sol.', '☀️'], ['Un dado.', '🎲'], ['La bota.', '👢'], ['Mi bebé.', '👶'], ['Es un tren.', '🚂'], ['Se cae.', '🍂'], ['La flor.', '🌸'], ['Al agua.', '💦'],
+      ['Un globo.', '🎈'], ['El dedo.', '☝️'], ['Una boca.', '👄'], ['Dos patos.', '🦆🦆'], ['Es un búho.', '🦉'], ['La nube.', '☁️']],
+    2: [['El dado es rojo.', '🎲'], ['La bruja vuela.', '🧙'], ['El bebé se ríe.', '👶'], ['Mi globo es azul.', '🎈'], ['La nube es blanca.', '☁️'], ['El tren se va.', '🚂'],
+      ['Doy un abrazo.', '🤗'], ['La cabra come pasto.', '🐐'], ['El dragón es verde.', '🐉'], ['Bebo agua fría.', '🥛'], ['Veo una estrella.', '⭐'], ['El delfín salta.', '🐬']],
+    3: [['El delfín salta en el mar.', '🐬'], ['La niña se baña en la tina.', '🛁'], ['Mi abuelo toca la trompeta.', '🎺'], ['El tigre duerme bajo el árbol.', '🐯'],
+      ['Papá va al parque en bici.', '🚲'], ['La abeja busca una flor.', '🐝'], ['Dame la pelota, por favor.', '⚽'], ['El cocodrilo nada en el río.', '🐊'],
+      ['Las fresas son dulces y rojas.', '🍓'], ['El libro está sobre la mesa.', '📖'], ['El búho abre los ojos de noche.', '🦉'], ['El bombero apaga el fuego.', '🚒']],
+    4: [['El dinosaurio grande come hojas de los árboles altos.', '🦕'], ['La princesa se pone una corona brillante de oro.', '👸'], ['Mi hermano y yo jugamos con bloques de colores.', '🧱'],
+      ['El cangrejo camina de lado por la arena blanca.', '🦀'], ['Debajo de la cama hay un dado y una bota.', '🎲'], ['El astronauta viaja en un cohete hacia la luna.', '🚀'],
+      ['La ballena azul es el animal más grande del mar.', '🐳'], ['El tractor trabaja en el campo con el granjero.', '🚜'], ['Cuando llueve, me pongo botas y un impermeable.', '☔'],
+      ['El dragón sopla fuego y vuela sobre el castillo.', '🏰'], ['Bruno se lava los dientes después de comer.', '🪥'], ['La cebra tiene rayas blancas y negras.', '🦓']],
+    5: [['El domingo, Daniela y su abuelo fueron al bosque a buscar piñas para decorar la casa.', '¿Qué buscaban en el bosque?', '🌲 Piñas', '🍓 Fresas', '🐦 Pájaros'],
+      ['Bruno tenía un globo rojo, pero el viento sopló fuerte y el globo se fue volando.', '¿Qué pasó con el globo?', '🎈 Se fue volando', '💥 Se reventó', '🎁 Lo regaló'],
+      ['En la granja hay una vaca, dos cabras, tres gallinas y un burro que rebuzna.', '¿Cuántas cabras hay?', '2️⃣ Dos', '3️⃣ Tres', '1️⃣ Una'],
+      ['La tortuga Blanca camina despacio, pero nunca se detiene hasta llegar a su casa.', '¿Cómo camina la tortuga?', '🐢 Despacio', '🏃 Muy rápido', '🦘 Saltando'],
+      ['Diego dibujó un dragón enorme con alas brillantes y lo pegó en la puerta de su cuarto.', '¿Dónde pegó el dibujo?', '🚪 En la puerta de su cuarto', '🧊 En el refrigerador', '🏫 En la escuela'],
+      ['Cuando el sol se esconde, las estrellas aparecen y el búho sale a buscar comida.', '¿Quién sale a buscar comida?', '🦉 El búho', '🐓 El gallo', '🐝 La abeja'],
+      ['El tren sale a las ocho y llega a la playa antes de la hora de la comida.', '¿A qué hora sale el tren?', '8️⃣ A las ocho', '🔟 A las diez', '🕛 A las doce'],
+      ['Brenda le regaló a su mamá un ramo de flores amarillas por su cumpleaños.', '¿Qué le regaló Brenda a su mamá?', '🌼 Flores amarillas', '🎂 Un pastel', '🧸 Un oso']],
+    6: [['Dani encontró un dado debajo del sillón. Era el dado que había perdido su hermana la semana pasada.', '¿De quién era el dado?', '👧 De su hermana', '👨 De su papá', '🐶 Del perro'],
+      ['El cocodrilo abrió la boca muy grande. Un pajarito entró y le limpió los dientes sin miedo.', '¿Qué hizo el pajarito?', '🪥 Le limpió los dientes', '🎵 Le cantó', '🍽️ Se comió su comida'],
+      ['La bruja Brígida preparó una sopa de calabaza. Le puso sal, pimienta y un poco de magia.', '¿De qué era la sopa?', '🎃 De calabaza', '🍅 De tomate', '🥔 De papa'],
+      ['En invierno hace frío y los árboles pierden sus hojas. Las aves vuelan al sur buscando lugares calientitos.', '¿A dónde vuelan las aves?', '⬇️ Al sur', '⬆️ Al norte', '🌙 A la luna'],
+      ['Pablo se puso el casco antes de subir a su bicicleta. Así protege su cabeza si se cae.', '¿Para qué usa casco Pablo?', '⛑️ Para proteger su cabeza', '☀️ Para el sol', '🎉 Para una fiesta'],
+      ['Doña Berta vende tamales en la esquina. Los de dulce son rosas y los de salsa verde pican un poco.', '¿Cuáles tamales pican un poco?', '🌶️ Los de salsa verde', '🍬 Los de dulce', '🧀 Los de queso']],
+    7: [['Bety y Dora son gemelas, pero no son iguales. Bety tiene el pelo rizado y le gusta bailar. Dora tiene el pelo lacio y prefiere leer libros de dragones.', '¿Quién prefiere leer?', '📖 Dora', '💃 Bety', '👩 Las dos'],
+      ['El trompo de Bruno daba vueltas y vueltas sobre la mesa. De pronto, chocó con un vaso de agua. El agua se derramó y mojó todos los dibujos de Bruno.', '¿Qué mojó el agua?', '🖍️ Los dibujos de Bruno', '👕 La ropa', '🐱 Al gato'],
+      ['Las abejas viven en una colmena. Cada día vuelan de flor en flor para recoger néctar. Con el néctar hacen la miel que guardan para el invierno.', '¿Para cuándo guardan la miel?', '❄️ Para el invierno', '🎂 Para una fiesta', '🌞 Para el verano'],
+      ['Diana quería ver las estrellas, pero las nubes tapaban el cielo. Esperó un rato sentada en el balcón. Cuando el viento se llevó las nubes, vio una estrella fugaz y pidió un deseo.', '¿Qué tapaba el cielo?', '☁️ Las nubes', '🌳 Un árbol', '🏠 Una casa'],
+      ['El dragón Bruno no sabía lanzar fuego. Practicó todos los días con su abuela dragona. Un día, por fin, salió una flamita y toda la familia aplaudió.', '¿Con quién practicó Bruno?', '🐉 Con su abuela', '🧙 Con una bruja', '🦖 Con un dinosaurio']],
+  };
+
+  GA.GYM = { SYL, BD, BD_SENTS, MIRROR, MIRROR_SENTS, TRAB, TRAB_SENTS, FLU };
 })();
 
 </script>
@@ -5538,6 +5687,48 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
   const clean = (w) => w.replace(/[^\p{L}\p{N}]/gu, '');
   const units = (syl) => syl.match(/ch|ll|rr|qu|gu(?=[eiéí])|./g);
   const allWords = (upTo) => G.slice(0, upTo).flatMap((g) => g.words);
+
+  // ---------- Voz para sílabas sueltas ----------
+  // La voz sintética pronuncia mal las sílabas aisladas ("ji", "ce", "ha"…). Para que se entiendan:
+  // 1) se escriben como suenan (ge→je, ce→se, que→ke, ha→a…), 2) se dicen dos veces, despacio,
+  // 3) se dice una palabra que empieza con esa sílaba: "ji… ji. Como en jirafa".
+  const SYL_SPEAK = { ge: 'je', gi: 'ji', ce: 'se', ci: 'si', que: 'ke', qui: 'ki', za: 'sa', zo: 'so', zu: 'su', ha: 'a', he: 'e', hi: 'i', ho: 'o', hu: 'u', ya: 'ya', lla: 'ya', lle: 'ye', lli: 'yi', llo: 'yo', llu: 'yu' };
+  const EXTRA_ANCHORS = {
+    tu: ['tulipán', '🌷'], ne: ['negro', '⚫'], du: ['durazno', '🍑'], ri: ['rinoceronte', '🦏'], ru: ['rubí', '💎'], vi: ['víbora', '🐍'], vo: ['volcán', '🌋'],
+    vu: ['vuelo', '✈️'], fa: ['familia', '👨‍👩‍👧'], fe: ['feliz', '😀'], fi: ['fiesta', '🎉'], fu: ['futbol', '⚽'], je: ['jeringa', '💉'], jo: ['joya', '💍'],
+    llo: ['llorar', '😢'], llu: ['lluvia', '🌧️'], cha: ['chamarra', '🧥'], che: ['chef', '👨‍🍳'], ya: ['yate', '🛥️'], ye: ['yema', '🍳'], hu: ['huevo', '🥚'],
+    qui: ['quince', '🎂'], gue: ['guerrero', '⚔️'], el: ['elfo', '🧝'], on: ['onda', '🌊'], as: ['astronauta', '🧑‍🚀'], or: ['orca', '🐋'], con: ['concha', '🐚'],
+    sal: ['salchicha', '🌭'], luz: ['luz', '💡'], mil: ['milpa', '🌽'], tos: ['tostada', '🥙'], dos: ['dos', '✌️'], plu: ['pluma', '🪶'], plo: ['plomero', '🔧'],
+    bla: ['blanco', '⚪'], flo: ['flor', '🌸'], gla: ['glaciar', '🧊'], pre: ['premio', '🏆'], pri: ['princesa', '👸'], pro: ['profesor', '👨‍🏫'], bri: ['brillo', '✨'],
+    cre: ['crema', '🍦'], cro: ['cronómetro', '⏱️'], cru: ['cruz', '➕'], fri: ['frijol', '🫘'], fru: ['fruta', '🍎'], gra: ['granja', '🐄'], tra: ['tractor', '🚜'],
+    tre: ['tren', '🚂'], tru: ['trueno', '⛈️'],
+    lle: ['calle', '🛣️'], lli: ['pollito', '🐥'], chu: ['lechuza', '🦉'], yu: ['ayuda', '🆘'], zu: ['azúcar', '🍬'], ol: ['olvidar', '🤔'],
+    ul: ['último', '🏁'], un: ['untar', '🧈'], us: ['usted', '🫵'], er: ['ermitaño', '🐚'], ur: ['urna', '🗳️'], em: ['empanada', '🥟'],
+    ple: ['cumpleaños', '🎂'], pli: ['aplicación', '📱'], ble: ['cable', '🔌'], bli: ['público', '👏'], cle: ['bicicleta', '🚲'], cli: ['clima', '🌦️'],
+    clo: ['cíclope', '👁️'], clu: ['club', '⚽'], flu: ['flúor', '🦷'], gle: ['iglesia', '⛪'], pra: ['prado', '🌾'], pru: ['prueba', '📝'],
+    bre: ['sombrero', '👒'], cri: ['cristal', '🔮'], dre: ['madre', '👩'], dri: ['cocodrilo', '🐊'], fra: ['frambuesa', '🫐'], fro: ['frontera', '🗺️'],
+    gre: ['cangrejo', '🦀'], gro: ['ogro', '👹'], ñe: ['muñeca', '🪆'], ñu: ['ñu', '🐃'],
+  };
+  let ANCHORS = null;
+  function anchorFor(syl) {
+    if (!ANCHORS) {
+      ANCHORS = {};
+      const pool = [...GA.WORDS, ...G.flatMap((g) => g.words)];
+      if (GA.GYM) pool.push(...Object.values(GA.GYM.SYL).flat(), ...GA.GYM.BD, ...GA.GYM.TRAB);
+      pool.forEach((w) => { if (!w.e || !w.s) return; const k = plain(w.s[0]); if (!ANCHORS[k] || w.w.length < ANCHORS[k].w.length) ANCHORS[k] = w; });
+      // Palabras de ejemplo para las sílabas que no tienen dibujo en las listas
+      Object.entries(EXTRA_ANCHORS).forEach(([k, [w, e]]) => { if (!ANCHORS[k]) ANCHORS[k] = { w, e }; });
+    }
+    return ANCHORS[plain(syl)] || null;
+  }
+  const sylPhrase = (syl) => { const p = SYL_SPEAK[plain(syl)] || syl; const a = anchorFor(syl); return a ? `${p}… ${p}. Como en ${a.w}.` : `${p}… ${p}.`; };
+  GA.syl = {
+    anchor: anchorFor,
+    phrase: sylPhrase,
+    say: (syl) => GA.say(sylPhrase(syl), { rate: 0.72 }),
+    // Botón para volver a escuchar, con el dibujo de la palabra de ejemplo como pista
+    btn: (syl, label = '🔊 Escuchar otra vez', cls = 'btn btn-big btn-white lx-ear') => { const a = anchorFor(syl); return h('button', { class: cls, onclick: () => GA.syl.say(syl) }, label, a ? ' ' + a.e : ''); },
+  };
   const big = (txt, cls = '') => h('div', { class: 'big-word lx-word ' + cls }, txt);
   const helpBtn = (api, text, lang) => h('button', { class: 'btn btn-white btn-sm', onclick: () => { api.hintUsed(); GA.say(text, { rate: 0.75, lang }); } }, '🔊 Ayuda');
 
@@ -5626,7 +5817,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
           render(stage, api) {
             stage.append(h('div', { class: 'lx-blend' }, u.map((x, i) => [i ? h('span', { class: 'plus' }, '+') : null, h('span', { class: 'lx-tile' + (VOW.includes(x) || VOW_ACC.includes(x) ? ' v' : '') }, x)]), h('span', { class: 'plus' }, '='), h('span', { class: 'lx-tile q' }, '?')),
               helpBtn(api, syl),
-              ui.answerChoices(opts.map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api, { after: (o) => { if (o.ok) { const q = stage.querySelector('.lx-tile.q'); q.textContent = syl; q.classList.add('ok'); GA.say(syl); } } }));
+              ui.answerChoices(opts.map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api, { after: (o) => { if (o.ok) { const q = stage.querySelector('.lx-tile.q'); q.textContent = syl; q.classList.add('ok'); GA.syl.say(syl); } } }));
           },
           hint: 'Di cada sonido y luego júntalos rapidito.',
           explain: { text: `${u.join(' y ')} juntos se leen “${syl}”.` },
@@ -5635,9 +5826,9 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       }
       const opts = GA.shuffle([syl, ...similarSyl(syl, pool, 3)]);
       return {
-        text: 'Escucha y toca la sílaba', say: `Toca la sílaba: ${syl}.`,
+        text: 'Escucha y toca la sílaba', say: `Escucha y toca la sílaba. ${sylPhrase(syl)}`,
         render(stage, api) {
-          stage.append(h('button', { class: 'btn btn-big btn-white lx-ear', onclick: () => GA.say(syl, { rate: 0.75 }) }, '🔊 Escuchar otra vez'),
+          stage.append(GA.syl.btn(syl),
             ui.answerChoices(opts.map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api));
         },
         hint: 'Escucha con atención la primera letra y la vocal.',
@@ -5775,7 +5966,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
         text: '¡Palabra relámpago!', say: 'Toca listo y mira bien. La palabra va a desaparecer.',
         render(stage, api) {
           const card = h('div', { class: 'lx-flash' }, h('span', { class: 'lx-flash-q' }, '⚡'));
-          const choices = ui.answerChoices(opts.map((o) => ({ label: o, ok: o === target, cls: 'txt lx-opt' })), api, { after: (o) => { if (o.ok) { card.innerHTML = ''; card.append(h('span', { class: 'lx-flash-w' }, target)); } } });
+          const choices = ui.answerChoices(opts.map((o) => ({ label: o, ok: o === target, cls: 'txt lx-opt' })), api, { after: (o, r) => { if (o.ok) { card.innerHTML = ''; card.append(h('span', { class: 'lx-flash-w' }, target)); } if (o.ok || r === 'done') go.remove(); } });
           choices.style.visibility = 'hidden';
           let shown = 0;
           const flash = () => {
@@ -6126,6 +6317,579 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
 
 </script>
 <script>
+/* Gael Aprende — Gimnasio de Lectura
+   Entrenamiento dirigido para automatizar la decodificación y ganar fluidez:
+   - Sílaba por sílaba: las sílabas aparecen una a la vez (no se puede "adivinar" la palabra completa) y luego se juntan.
+   - Palabras inventadas: la mejor prueba de que se lee cada sílaba y no la forma de la palabra.
+   - b/d, palabras espejo (es/se, la/al…) y trabadas: práctica de discriminación con errores típicos como distractores.
+   - Tren de sílabas: reconocimiento automático con tiempo.
+   - Oraciones veloces: lectura guiada con ritmo (pacer) que se ajusta solo, de 2 a 35 palabras, con comprensión. */
+(function () {
+  'use strict';
+  const { h } = GA;
+  const ui = GA.ui;
+  const Y = GA.GYM;
+  const D = () => GA.store.data;
+
+  const plain = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const VOW = 'aeiou';
+  const canHear = () => !!(GA.settings().voice && 'speechSynthesis' in window);
+  const big = (t, cls = '') => h('div', { class: 'big-word lx-word ' + cls }, t);
+  const help = (api, text) => h('button', { class: 'btn btn-white btn-sm', onclick: () => { api.hintUsed(); GA.say(text, { rate: 0.75 }); } }, '🔊 Ayuda');
+  const uniq = (arr, n) => [...new Set(arr)].slice(0, n);
+
+  // ---------- Palabras inventadas ----------
+  const REAL = new Set([...GA.WORDS.map((w) => plain(w.w)), ...GA.LECTOR.GROUPS.flatMap((g) => g.words.map((w) => plain(w.w))), ...Object.values(Y.SYL).flat().map((w) => plain(w.w))]);
+  const ONSET = ['m', 'p', 's', 'l', 't', 'n', 'd', 'b', 'r', 'f', 'v', 'j', 'ch', 'll', 'ñ'];
+  const cv = () => {
+    const r = Math.random();
+    if (r < 0.12) return GA.pick(['ca', 'co', 'cu', 'ga', 'go', 'gu']);
+    return GA.pick(ONSET) + GA.pick([...VOW]);
+  };
+  function pseudo(n, extra) {
+    for (let g = 0; g < 50; g++) {
+      const s = GA.range(1, n).map(cv);
+      if (extra) s[GA.rand(0, n - 1)] = extra();
+      if (!REAL.has(s.join(''))) return s;
+    }
+    return ['bo', 'fe', 'la'];
+  }
+  const swapVowel = (syl) => {
+    const i = [...syl].findLastIndex((c) => VOW.includes(c));
+    if (i < 0) return syl;
+    return syl.slice(0, i) + GA.pick([...VOW].filter((v) => v !== syl[i])) + syl.slice(i + 1);
+  };
+  // Cambia b↔d (una o todas) — el error que más comete Gael
+  function swapBD(word) {
+    const out = new Set();
+    const idx = [...word].map((c, i) => (/[bd]/i.test(c) ? i : -1)).filter((i) => i >= 0);
+    const flip = (c) => ({ b: 'd', d: 'b', B: 'D', D: 'B' }[c] || c);
+    idx.forEach((i) => out.add(word.slice(0, i) + flip(word[i]) + word.slice(i + 1)));
+    if (idx.length > 1) out.add([...word].map(flip).join(''));
+    out.delete(word);
+    return [...out];
+  }
+  // Errores típicos con trabadas: quitar la l/r (plato→pato), voltearla (plato→palto) o meter vocal (plato→palato)
+  function trabVariants(word) {
+    const m = /([bcdfgpt])([lr])([aeiouáéíóú])/i.exec(word);
+    if (!m) return [];
+    const [all, c, l, v] = m, i = m.index, rest = word.slice(i + all.length);
+    const base = word.slice(0, i);
+    const out = [base + c + v + rest, base + c + v + l + rest, base + c + v + l + v + rest];
+    return uniq(out.filter((x) => x !== word), 3);
+  }
+  // Variantes de una palabra inventada (sílabas al revés, b/d, vocal)
+  function pseudoVariants(syls) {
+    const w = syls.join('');
+    const out = [];
+    if (syls.length > 1) out.push(syls.slice().reverse().join(''));
+    out.push(...swapBD(w));
+    const k = GA.rand(0, syls.length - 1);
+    out.push(syls.map((s, i) => (i === k ? swapVowel(s) : s)).join(''));
+    out.push(...trabVariants(w));
+    return uniq(GA.shuffle(out.filter((x) => x !== w)), 2);
+  }
+
+  // Opciones para escuchar: cada una se oye y se escoge (comprueba que se leyó lo escrito, sin adivinar)
+  function soundChoices(opts, api, onOk) {
+    let locked = false;
+    const lock = () => { locked = true; wrap.classList.add('locked'); };
+    const rows = opts.map((o, i) => {
+      const row = h('div', { class: 'g-sound' },
+        h('button', { class: 'btn btn-white', onclick: () => GA.say(o.say, { rate: 0.8 }) }, `🔊 ${i + 1}`),
+        h('button', { class: 'btn btn-sm', onclick: () => {
+          if (locked) return;
+          GA.sfx.play('tap');
+          const r = api.answer(!!o.ok);
+          if (o.ok) { row.classList.add('right'); lock(); onOk && onOk(); }
+          else { row.classList.add('wrong'); if (r === 'done') { lock(); rows.forEach((x, j) => opts[j].ok && x.classList.add('right')); } }
+        } }, '✔ Es esta'));
+      return row;
+    });
+    const wrap = h('div', { class: 'g-sounds' }, h('p', { class: 'muted' }, 'Escucha las tres y escoge la que dice lo que está escrito.'), rows);
+    return wrap;
+  }
+
+  // Sílabas tapadas que se destapan una por una, de izquierda a derecha
+  function syllableTiles(syls, onDone) {
+    let k = 0;
+    const tiles = syls.map((s, i) => h('button', { class: 'g-tile' + (i === 0 ? ' next' : ''), onclick: () => {
+      if (i !== k) { tiles[k].classList.remove('pulse'); void tiles[k].offsetWidth; tiles[k].classList.add('pulse'); return; }
+      GA.sfx.play('tap');
+      tiles[i].textContent = s; tiles[i].classList.remove('next'); tiles[i].classList.add('open');
+      k++;
+      if (k < syls.length) tiles[k].classList.add('next');
+      else { joinBtn.style.display = ''; }
+    } }, '👆'));
+    const row = h('div', { class: 'g-tiles' }, tiles);
+    const joinBtn = h('button', { class: 'btn btn-big', style: { display: 'none' }, onclick: () => { row.classList.add('joined'); joinBtn.remove(); onDone(); } }, '⚡ ¡Ahora todo junto!');
+    return h('div', { class: 'g-syl-box' }, h('p', { class: 'muted' }, '👆 Toca cada cuadro en orden. Lee cada sílaba en voz alta.'), row, joinBtn);
+  }
+
+  const AREA = 'gimnasio';
+
+  // ======================= 1. SÍLABA POR SÍLABA =======================
+  GA.skill({
+    id: 'gsil', area: AREA, title: 'Sílaba por sílaba', icon: '🧩', desc: 'Destapa la palabra sílaba por sílaba, léela despacito y luego júntala rápido.',
+    levels: ['Palabras de 2 sílabas', 'Palabras de 3 sílabas', 'Con sílabas al, en, es', 'Palabras inventadas', 'Palabras largas'],
+    lessons: {
+      1: [{ say: 'Los grandes lectores leen sílaba por sílaba, sin adivinar. Pon tu dedo debajo de cada sílaba: bo… ta… y luego júntalas rápido: ¡bota!', html: '<div class="lx-syls">bo · ta ➜ bota</div><div class="lx-ex">☝️👢</div>' },
+        { say: 'Aquí las sílabas están tapadas. Destápalas una por una, de izquierda a derecha, y lee cada una en voz alta.', html: '<div class="lx-syls">👆 ➜ ➜ ➜</div>' }],
+      4: [{ say: 'Ahora leerás palabras inventadas. ¡No existen! Por eso no se pueden adivinar: hay que leer cada sílaba. Luego escucha las opciones y escoge la que dice lo mismo.', html: '<div class="lx-syls">fo · bi · ta</div><div class="lx-ex">🔊 1 · 🔊 2 · 🔊 3</div>' }],
+    },
+    make(L, ctx) {
+      if (L === 4) {
+        const syls = pseudo(GA.rand(2, 3));
+        const w = syls.join('');
+        const vars = pseudoVariants(syls);
+        const hear = canHear();
+        return {
+          text: 'Lee la palabra inventada', say: 'Destapa la palabra inventada y léela sílaba por sílaba.',
+          render(stage, api) {
+            const box = h('div', { class: 'g-after' });
+            stage.append(syllableTiles(syls, () => {
+              if (hear) box.append(soundChoices(GA.shuffle([{ say: w, ok: true }, ...vars.map((v) => ({ say: v }))]), api));
+              else {
+                stage.querySelector('.g-tiles').style.visibility = 'hidden';
+                box.append(h('p', { class: 'muted' }, '¿Cuál era la palabra?'), ui.answerChoices(GA.shuffle([w, ...vars]).map((x) => ({ label: x, ok: x === w, cls: 'txt lx-opt' })), api));
+              }
+            }), box);
+          },
+          hint: `Lee despacito: ${syls.join(' - ')}.`,
+          explain: { text: `Decía “${w}”: ${syls.join(' - ')}.`, html: `<span class="lx-explain">${syls.join(' · ')}</span>` },
+          tag: 'g-silabas',
+        };
+      }
+      const pool = Y.SYL[L === 5 ? 5 : L];
+      const w = GA.fresh(ctx, pool, (x) => x.w);
+      const others = GA.sample(pool.filter((x) => x.e !== w.e), 2);
+      return {
+        text: 'Destapa y lee', say: 'Destapa la palabra sílaba por sílaba y léela en voz alta.',
+        render(stage, api) {
+          const box = h('div', { class: 'g-after' });
+          stage.append(syllableTiles(w.s, () => {
+            box.append(h('p', { class: 'muted' }, '¿Qué palabra leíste?'), ui.answerChoices(GA.shuffle([w, ...others]).map((x) => ({ label: x.e, ok: x === w, cls: 'huge' })), api, { after: (o) => o.ok && GA.say(w.w) }));
+          }), box);
+        },
+        hint: `Lee cada sílaba: ${w.s.join(' - ')}. Luego júntalas.`,
+        explain: { text: `Dice “${w.w}”: ${w.s.join(' - ')}.`, html: `<span style="font-size:2.4rem">${w.e}</span>` },
+        tag: 'g-silabas',
+      };
+    },
+  });
+
+  // ======================= 2. LA B Y LA D =======================
+  const BD_TIP = 'b: primero el bastón y luego la barriga. d: primero la dona y luego el palito.';
+  GA.skill({
+    id: 'gbd', area: AREA, title: 'La b y la d', icon: '🅱️', desc: 'Entrena tus ojos para no confundir la b con la d.',
+    levels: ['Encuentra la letra', 'Sílabas con b y d', 'Palabras con b y d', 'Oraciones con b y d'],
+    lessons: {
+      1: [{ say: 'La b y la d se parecen mucho, ¡pero miran hacia lados distintos! La b se escribe primero con el bastón y luego la barriga: b de bastón y barriga.', html: '<div class="lx-letter"><span class="g-b">b</span></div><div class="lx-ex">🦯 + 🫃</div>' },
+        { say: 'La d se escribe primero con la dona y después el palito: d de dona.', html: '<div class="lx-letter"><span class="g-d">d</span></div><div class="lx-ex">🍩 + 🦯</div>' },
+        { say: 'Otro truco: haz la cama con tus manos. Levanta los pulgares y junta los puños. La mano izquierda es la b y la derecha es la d. ¡Como una cama: b, d!', html: '<div class="lx-letter"><span class="g-b">b</span> 🛏️ <span class="g-d">d</span></div>' }],
+    },
+    make(L, ctx) {
+      if (L === 1) {
+        const target = GA.pick(['b', 'd']);
+        const other = target === 'b' ? 'd' : 'b';
+        const n = 12, nT = GA.rand(3, 5);
+        const extra = Math.random() < 0.4 ? ['p', 'q'] : [other];
+        const letters = GA.shuffle([...Array(nT).fill(target), ...GA.range(1, n - nT).map((i) => (i <= n - nT - 2 ? other : GA.pick(extra)))]);
+        return {
+          text: `Toca todas las ${target}`, say: `Toca todas las letras ${target === 'b' ? 'be, de bastón y barriga' : 'de, de dona'}.`,
+          render(stage, api) {
+            let found = 0;
+            const grid = h('div', { class: 'g-grid' }, letters.map((c) => {
+              const b = h('button', { class: 'g-letter', 'data-t': c === target ? '1' : null, onclick: () => {
+                if (b.classList.contains('ok') || grid.classList.contains('done')) return;
+                if (c === target) { GA.sfx.play('pop'); b.classList.add('ok'); found++; if (found === nT) { grid.classList.add('done'); api.answer(true); } }
+                else { b.classList.add('no'); setTimeout(() => b.classList.remove('no'), 600); const r = api.answer(false); if (r === 'done') { grid.classList.add('done'); GA.$$('.g-letter', grid).forEach((x, i) => letters[i] === target && x.classList.add('ok')); } }
+              } }, c);
+              return b;
+            }));
+            stage.append(h('div', { class: 'g-target' }, 'Busca: ', h('span', { class: target === 'b' ? 'g-b' : 'g-d' }, target), ` · ${nT} escondidas`), grid);
+          },
+          hint: BD_TIP,
+          explain: { text: BD_TIP, html: '<span class="lx-explain"><span class="g-b">b</span> 🦯🫃 · <span class="g-d">d</span> 🍩🦯</span>' },
+          tag: 'g-bd',
+        };
+      }
+      if (L === 2) {
+        const words = Y.BD.filter((w) => /^[bd]/.test(w.s[0]));
+        const w = GA.fresh(ctx, words, (x) => x.w);
+        const syl = w.s[0];
+        const opts = uniq([syl, syl.replace(/^[bd]/, (c) => (c === 'b' ? 'd' : 'b')), 'p' + syl.slice(1)], 3);
+        if (canHear() && Math.random() < 0.5) {
+          return {
+            text: 'Escucha y toca la sílaba', say: `Escucha y toca la sílaba. ${GA.syl.phrase(syl)}`,
+            render(stage, api) { stage.append(GA.syl.btn(syl), ui.answerChoices(GA.shuffle(opts).map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api)); },
+            hint: BD_TIP, explain: { text: `Era “${syl}”. ${BD_TIP}` }, tag: 'g-bd',
+          };
+        }
+        return {
+          text: '¿Qué sílaba falta?', say: 'Mira el dibujo. ¿Con qué sílaba empieza?',
+          render(stage, api) {
+            stage.append(h('div', { class: 'big-pic' }, w.e), h('div', { class: 'lx-blanks' }, w.s.map((s, i) => h('span', { class: 'lx-syl' + (i === 0 ? ' gap' : '') }, i === 0 ? '?' : s))));
+            stage.append(ui.answerChoices(GA.shuffle(opts).map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api, { after: (o) => { if (o.ok) { const g = stage.querySelector('.gap'); g.textContent = syl; g.classList.add('ok'); GA.say(w.w); } } }));
+          },
+          hint: `Di “${w.w}” despacito. ${BD_TIP}`,
+          explain: { text: `Es ${w.w}: empieza con “${syl}”.` },
+          tag: 'g-bd',
+        };
+      }
+      if (L === 3) {
+        const w = GA.fresh(ctx, Y.BD, (x) => x.w);
+        const vars = GA.sample(swapBD(w.w), 2);
+        return {
+          text: '¿Cuál está bien escrita?', say: 'Mira el dibujo y toca la palabra bien escrita. ¡Fíjate en la b y la d!',
+          render(stage, api) {
+            stage.append(h('div', { class: 'big-pic' }, w.e));
+            stage.append(ui.answerChoices(GA.shuffle([w.w, ...vars]).map((x) => ({ label: x, ok: x === w.w, cls: 'txt lx-opt' })), api, { after: (o) => o.ok && GA.say(w.w) }));
+          },
+          hint: BD_TIP,
+          explain: { text: `Se escribe “${w.w}”. ${BD_TIP}` },
+          tag: 'g-bd',
+        };
+      }
+      const [s, word, pic] = GA.fresh(ctx, Y.BD_SENTS, (x) => x[0]);
+      if (Math.random() < 0.5) {
+        const wrongWord = GA.pick(swapBD(word));
+        const ok = Math.random() < 0.5;
+        const shown = ok ? s : s.replace(word, wrongWord);
+        return {
+          text: '¿Está bien escrita?', say: 'Lee la oración con cuidado. ¿Está bien escrita?',
+          render(stage, api) {
+            const card = big(shown, 'lx-sent');
+            stage.append(h('div', { class: 'big-pic' }, pic), card);
+            stage.append(ui.answerChoices([{ label: '👍 Sí, está bien', ok, cls: 'txt' }, { label: '👎 No, tiene un error', ok: !ok, cls: 'txt' }], api, { after: (o) => { if (o.ok && !ok) { card.textContent = s; } } }));
+          },
+          hint: `Revisa cada b y cada d. ${BD_TIP}`,
+          explain: { text: ok ? `Sí, está bien: “${s}”` : `Tenía un error: decía “${wrongWord}” y debe decir “${word}”.` },
+          tag: 'g-bd',
+        };
+      }
+      const opts = uniq([word, ...swapBD(word)], 3);
+      const show = s.replace(word, '____');
+      return {
+        text: 'Completa la oración', say: 'Mira el dibujo y escoge la palabra bien escrita.',
+        render(stage, api) {
+          const card = big(show, 'lx-sent');
+          stage.append(h('div', { class: 'big-pic' }, pic), card);
+          stage.append(ui.answerChoices(GA.shuffle(opts).map((x) => ({ label: x, ok: x === word, cls: 'txt lx-opt' })), api, { after: (o) => { if (o.ok) { card.textContent = s; GA.say(s); } } }));
+        },
+        hint: BD_TIP,
+        explain: { text: `“${s}”` },
+        tag: 'g-bd',
+      };
+    },
+  });
+
+  // ======================= 3. PALABRAS ESPEJO (es/se, la/al…) =======================
+  const MIRROR_TIP = 'Mira primero la PRIMERA letra: “es” empieza con e, “se” empieza con s.';
+  GA.skill({
+    id: 'gesp', area: AREA, title: 'Palabras espejo', icon: '🪞', desc: 'es o se, la o al, el o le… ¡Tienen las mismas letras al revés!',
+    levels: ['Mira bien', 'En la oración', '¿Está bien escrita?', '¡Mirada rápida!'],
+    lessons: {
+      1: [{ say: 'Algunas palabras son como espejos: es y se, la y al, el y le. Tienen las mismas letras, pero en otro orden. El truco es mirar primero la primera letra.', html: '<div class="lx-syls"><b>e</b>s ↔ <b>s</b>e<br><b>l</b>a ↔ <b>a</b>l</div>' },
+        { say: 'Lee siempre de izquierda a derecha, como cuando caminas hacia adelante. Primera letra, segunda letra… ¡y listo!', html: '<div class="lx-syls">👀 ➜ ➜</div>' }],
+    },
+    make(L, ctx) {
+      if (L === 1 || L === 4) {
+        const pair = GA.fresh(ctx, Y.MIRROR, (x) => x.join());
+        const target = GA.pick(pair);
+        const third = GA.pick(Y.MIRROR.filter((p) => p !== pair).flat().filter((x) => x.length === target.length));
+        const opts = GA.shuffle(uniq([target, pair[0] === target ? pair[1] : pair[0], third], 3));
+        const ms = L === 1 ? 1600 : 800;
+        return {
+          text: '¡Mira bien!', say: 'Toca listo, mira la palabra y luego encuéntrala.',
+          render(stage, api) {
+            const card = h('div', { class: 'lx-flash' }, h('span', { class: 'lx-flash-q' }, '🪞'));
+            const choices = ui.answerChoices(opts.map((o) => ({ label: o, ok: o === target, cls: 'txt lx-opt' })), api, { after: (o, r) => { if (o.ok || r === 'done') go.remove(); } });
+            choices.style.visibility = 'hidden';
+            let shown = 0;
+            const go = h('button', { class: 'btn btn-big', onclick: () => {
+              if (shown++) api.hintUsed();
+              card.innerHTML = ''; card.append(h('span', { class: 'lx-flash-w' }, target)); go.disabled = true;
+              setTimeout(() => { if (!card.isConnected) return; card.innerHTML = ''; card.append(h('span', { class: 'lx-flash-q' }, '❓')); choices.style.visibility = 'visible'; go.disabled = false; go.textContent = '👀 Ver otra vez'; }, ms);
+            } }, '👀 ¡Listo!');
+            stage.append(card, go, choices);
+          },
+          hint: MIRROR_TIP,
+          explain: { text: `Era “${target}”. ${MIRROR_TIP}`, html: `<span class="lx-explain">${target}</span>` },
+          tag: 'g-espejo',
+        };
+      }
+      const [s, ok, bad] = GA.fresh(ctx, Y.MIRROR_SENTS, (x) => x[0]);
+      const full = s.replace('___', ok);
+      if (L === 2) {
+        return {
+          text: 'Completa la oración', say: 'Lee la oración y escoge la palabra que va.',
+          render(stage, api) {
+            const card = big(s.replace('___', '____'), 'lx-sent');
+            stage.append(card, h('button', { class: 'btn btn-white btn-sm', onclick: () => { api.hintUsed(); GA.say(full, { rate: 0.8 }); } }, '🔊 Ayuda'));
+            stage.append(ui.answerChoices(GA.shuffle([ok, bad]).map((x) => ({ label: x, ok: x === ok, cls: 'txt lx-opt' })), api, { after: (o) => { if (o.ok) { card.textContent = full; GA.say(full); } } }));
+          },
+          hint: `Lee la oración con cada palabra. ¿Cuál tiene sentido? ${MIRROR_TIP}`,
+          explain: { text: `“${full}”` },
+          tag: 'g-espejo',
+        };
+      }
+      const right = Math.random() < 0.5;
+      const shown = right ? full : s.replace('___', bad);
+      return {
+        text: '¿Está bien escrita?', say: 'Lee con cuidado. ¿La oración está bien escrita?',
+        render(stage, api) {
+          const card = big(shown, 'lx-sent');
+          stage.append(card);
+          stage.append(ui.answerChoices([{ label: '👍 Sí, está bien', ok: right, cls: 'txt' }, { label: '👎 No, tiene un error', ok: !right, cls: 'txt' }], api, { after: (o) => { if (o.ok && !right) card.textContent = full; } }));
+        },
+        hint: MIRROR_TIP,
+        explain: { text: right ? `Sí, está bien: “${full}”` : `Decía “${bad}” y debe decir “${ok}”: “${full}”` },
+        tag: 'g-espejo',
+      };
+    },
+  });
+
+  // ======================= 4. SÍLABAS TRABADAS =======================
+  const TR_L = ['pl', 'bl', 'cl', 'fl', 'gl'], TR_R = ['pr', 'br', 'cr', 'dr', 'fr', 'gr', 'tr'];
+  GA.skill({
+    id: 'gtrb', area: AREA, title: 'Sílabas trabadas', icon: '🔗', desc: 'pla, bra, tre, clo… dos consonantes juntas que se leen de un jalón.',
+    levels: ['Trabadas con l', 'Trabadas con r', 'Palabras trabadas', 'Palabras inventadas', 'Oraciones con trabadas'],
+    lessons: {
+      1: [{ say: 'En las trabadas hay dos consonantes pegaditas antes de la vocal. Se leen juntas, rapidito: p, l, a: pla. ¡No te comas la l!', html: '<div class="lx-syls">p + l + a = pla</div><div class="lx-ex">🍽️ plato</div>' }],
+      2: [{ say: 'También hay trabadas con erre: b, r, a: bra. t, r, e: tre. Cuidado: no es bar ni tar, ¡la erre va pegada a la primera letra!', html: '<div class="lx-syls">b + r + a = bra</div><div class="lx-ex">🧙 bruja</div>' }],
+    },
+    make(L, ctx) {
+      if (L <= 2) {
+        let cl, v;
+        do { cl = GA.pick(L === 1 ? TR_L : TR_R); v = GA.pick([...VOW]); } while (!GA.syl.anchor(cl + v));
+        const syl = cl + v;
+        const opts = uniq([syl, cl[0] + v + cl[1], cl[0] + v, cl[0] + v + cl[1] + v], 3);
+        if (canHear() && Math.random() < 0.4) {
+          return {
+            text: 'Escucha y toca la sílaba', say: `Escucha y toca la sílaba. ${GA.syl.phrase(syl)}`,
+            render(stage, api) { stage.append(GA.syl.btn(syl), ui.answerChoices(GA.shuffle(opts).map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api)); },
+            hint: 'Las dos consonantes van juntas al principio.', explain: { text: `Era “${syl}”.` }, tag: 'g-trabadas',
+          };
+        }
+        return {
+          text: 'Junta los sonidos', say: 'Junta los sonidos y escoge la sílaba trabada.',
+          render(stage, api) {
+            stage.append(h('div', { class: 'lx-blend' }, h('span', { class: 'lx-tile' }, cl[0]), h('span', { class: 'plus' }, '+'), h('span', { class: 'lx-tile' }, cl[1]), h('span', { class: 'plus' }, '+'), h('span', { class: 'lx-tile v' }, v), h('span', { class: 'plus' }, '='), h('span', { class: 'lx-tile q' }, '?')));
+            stage.append(ui.answerChoices(GA.shuffle(opts).map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api, { after: (o) => { if (o.ok) { const q = stage.querySelector('.lx-tile.q'); q.textContent = syl; q.classList.add('ok'); GA.syl.say(syl); } } }));
+          },
+          hint: `Lee ${cl[0]} y ${cl[1]} pegaditas, y luego la ${v}.`,
+          explain: { text: `${cl[0]} + ${cl[1]} + ${v} = “${syl}”.` },
+          tag: 'g-trabadas',
+        };
+      }
+      if (L === 4) {
+        const syls = pseudo(GA.rand(2, 3), () => GA.pick([...TR_L, ...TR_R]) + GA.pick([...VOW]));
+        const w = syls.join('');
+        const vars = uniq([...trabVariants(w), ...pseudoVariants(syls)], 2);
+        const hear = canHear();
+        return {
+          text: 'Lee la palabra inventada', say: 'Destapa la palabra inventada y léela sílaba por sílaba. ¡Ojo con la trabada!',
+          render(stage, api) {
+            const box = h('div', { class: 'g-after' });
+            stage.append(syllableTiles(syls, () => {
+              if (hear) box.append(soundChoices(GA.shuffle([{ say: w, ok: true }, ...vars.map((v) => ({ say: v }))]), api));
+              else { stage.querySelector('.g-tiles').style.visibility = 'hidden'; box.append(h('p', { class: 'muted' }, '¿Cuál era la palabra?'), ui.answerChoices(GA.shuffle([w, ...vars]).map((x) => ({ label: x, ok: x === w, cls: 'txt lx-opt' })), api)); }
+            }), box);
+          },
+          hint: `Lee despacito: ${syls.join(' - ')}.`,
+          explain: { text: `Decía “${w}”: ${syls.join(' - ')}.` },
+          tag: 'g-trabadas',
+        };
+      }
+      if (L === 3) {
+        const w = GA.fresh(ctx, Y.TRAB, (x) => x.w);
+        const vars = GA.sample(trabVariants(w.w), 2);
+        return {
+          text: '¿Cuál está bien escrita?', say: 'Mira el dibujo y toca la palabra bien escrita.',
+          render(stage, api) {
+            stage.append(h('div', { class: 'big-pic' }, w.e));
+            stage.append(ui.answerChoices(GA.shuffle([w.w, ...vars]).map((x) => ({ label: x, ok: x === w.w, cls: 'txt lx-opt' })), api, { after: (o) => o.ok && GA.say(w.w) }));
+          },
+          hint: `Busca la trabada: ${w.s.join(' - ')}.`,
+          explain: { text: `Se escribe “${w.w}”: ${w.s.join(' - ')}.` },
+          tag: 'g-trabadas',
+        };
+      }
+      const [s, word, pic] = GA.fresh(ctx, Y.TRAB_SENTS, (x) => x[0]);
+      const opts = uniq([word, ...trabVariants(word)], 3);
+      return {
+        text: 'Completa la oración', say: 'Mira el dibujo, lee la oración y escoge la palabra bien escrita.',
+        render(stage, api) {
+          const card = big(s.replace(word, '____'), 'lx-sent');
+          stage.append(h('div', { class: 'big-pic' }, pic), card);
+          stage.append(ui.answerChoices(GA.shuffle(opts).map((x) => ({ label: x, ok: x === word, cls: 'txt lx-opt' })), api, { after: (o) => { if (o.ok) { card.textContent = s; GA.say(s); } } }));
+        },
+        hint: 'Fíjate que la l o la r vaya pegada a la primera consonante.',
+        explain: { text: `“${s}”` },
+        tag: 'g-trabadas',
+      };
+    },
+  });
+
+  // ======================= 5. TREN DE SÍLABAS (automatización) =======================
+  const DIRECT = GA.LECTOR.GROUPS.slice(0, 4).flatMap((g) => g.syl);
+  const BDP = ['ba', 'be', 'bi', 'bo', 'bu', 'da', 'de', 'di', 'do', 'du', 'pa', 'pe', 'pi', 'po', 'pu'];
+  const INV = [['al', 'la'], ['el', 'le'], ['es', 'se'], ['os', 'so'], ['as', 'sa'], ['an', 'na'], ['en', 'ne'], ['on', 'no'], ['ar', 'ra'], ['er', 're'], ['or', 'ro'], ['is', 'si'], ['us', 'su'], ['ol', 'lo'], ['em', 'me'], ['un', 'nu'], ['in', 'ni']];
+  const TRAIN_S = [0, 13, 13, 12, 12, 8];
+  GA.skill({
+    id: 'gtren', area: AREA, title: 'Tren de sílabas', icon: '🚂', desc: 'Escucha la sílaba y atrápala antes de que se vaya el tren.',
+    levels: ['Sílabas directas', 'ba, da, pa', 'Al derecho y al revés (la, al, se, es)', 'Trabadas', '¡Súper rápido!'],
+    lessons: { 1: [{ say: 'Escucha la sílaba y búscala en el tren. ¡Tócala antes de que el tren se vaya! Cada vez lo harás más rápido.', html: '<div class="lx-ex">🔊 ➜ 🚂🚃🚃🚃 ➜ 👆</div>' }] },
+    make(L) {
+      let target, conf;
+      const lvl = L === 5 ? GA.rand(1, 4) : L;
+      if (lvl === 1) { target = GA.pick(DIRECT); conf = GA.sample(DIRECT.filter((s) => s !== target), 4); }
+      else if (lvl === 2) { target = GA.pick(BDP); conf = GA.sample(BDP.filter((s) => s !== target && (s[1] === target[1] || s[0] === target[0])), 4); }
+      else if (lvl === 3) { const p = GA.pick(INV); target = GA.pick(p); conf = [p[0] === target ? p[1] : p[0], ...GA.sample(INV.filter((x) => x !== p).flat(), 3)]; }
+      else {
+        let cl, v;
+        do { cl = GA.pick([...TR_L, ...TR_R]); v = GA.pick([...VOW]); } while (!GA.syl.anchor(cl + v));
+        target = cl + v; conf = uniq([cl[0] + v + cl[1], cl[0] + v, cl[1] + v, GA.pick([...TR_L, ...TR_R]) + v].filter((x) => x !== target), 4);
+      }
+      const cars = GA.shuffle([target, ...conf.slice(0, 4)]);
+      const hear = canHear();
+      return {
+        text: hear ? '¡Atrapa la sílaba!' : '¡Encuentra la sílaba!', say: hear ? 'Atrapa la sílaba.' : 'Encuentra en el tren la misma sílaba del letrero.',
+        noAutoRead: hear, // aquí la voz la controla el juego: primero habla y después sale el tren
+        render(stage, api) {
+          let done = false;
+          const track = h('div', { class: 'g-track' });
+          const train = h('div', { class: 'g-train' }, h('span', { class: 'g-loco' }, '🚂'), cars.map((s) => {
+            const b = h('button', { class: 'g-car', onclick: () => {
+              if (done) return;
+              GA.sfx.play('tap');
+              const r = api.answer(s === target);
+              if (s === target) { done = true; train.classList.add('done'); b.classList.add('ok'); }
+              else { b.classList.add('no'); if (r === 'done') { done = true; train.classList.add('done'); GA.$$('.g-car', train).forEach((x) => x.textContent === target && x.classList.add('ok')); } }
+            } }, s);
+            return b;
+          }));
+          // El tren avanza con JS cuadro por cuadro (no con animación CSS): así se mueve igual en Mac, iPad y Android,
+          // aunque el sistema tenga activado "reducir movimiento".
+          let t0 = 0;
+          const frame = () => {
+            if (done || !train.isConnected) return;
+            const p = (performance.now() - t0) / (TRAIN_S[L] * 1000);
+            const W = track.clientWidth, tw = train.offsetWidth;
+            train.style.transform = `translateX(${W - p * (W + tw)}px)`;
+            if (p < 1) { requestAnimationFrame(frame); return; }
+            GA.sfx.play('bad');
+            const r = api.answer(false);
+            if (r === 'done') { done = true; train.classList.add('done'); return; }
+            start();
+          };
+          let waited = 0;
+          const go = () => {
+            if (!train.isConnected || done) return;
+            // si la voz sigue hablando, el tren espera un poquito más (máximo 6 s)
+            if (window.speechSynthesis && speechSynthesis.speaking && waited < 6000) { waited += 200; setTimeout(go, 200); return; }
+            waited = 0; station.style.display = 'none'; t0 = performance.now(); requestAnimationFrame(frame);
+          };
+          // El tren espera en la estación hasta que la voz termina de decir la sílaba (y medio segundo más)
+          const start = (intro) => {
+            train.style.transform = '';
+            if (!hear) { setTimeout(go, 600); return; }
+            station.style.display = '';
+            (intro ? GA.say('Atrapa la sílaba.') : Promise.resolve()).then(() => GA.syl.say(target)).then(() => setTimeout(go, 500));
+          };
+          const station = h('div', { class: 'g-station' }, '🚉 El tren sale cuando termine de hablar…');
+          track.append(train);
+          stage.append(hear ? GA.syl.btn(target, '🔊 Otra vez', 'btn btn-white lx-ear') : h('div', { class: 'g-sign' }, 'Busca: ', h('b', null, target)), track, station);
+          setTimeout(() => start(true), 300);
+        },
+        hint: lvl === 3 ? MIRROR_TIP : lvl === 2 ? BD_TIP : 'Escucha la primera letra y la vocal.',
+        explain: { text: `Era “${target}”.`, html: `<span class="lx-explain">${target}</span>` },
+        tag: 'g-tren',
+      };
+    },
+  });
+
+  // ======================= 6. ORACIONES VELOCES (lectura guiada con ritmo) =======================
+  const gym = () => { const d = D(); if (!d.gym || typeof d.gym !== 'object') d.gym = { pace: 30, max: 30 }; return d.gym; };
+  function pacer(spans, wpm, onEnd) {
+    let i = 0, t = null;
+    const base = 60000 / wpm;
+    const step = () => {
+      if (i > 0) { spans[i - 1].classList.remove('pace-now'); spans[i - 1].classList.add('pace-done'); }
+      if (i >= spans.length || !spans[0].isConnected) { onEnd(); return; }
+      spans[i].classList.add('pace-now');
+      const len = spans[i].textContent.replace(/[^\p{L}]/gu, '').length;
+      const ms = base * Math.min(1.8, Math.max(0.6, len / 4.5));
+      i++;
+      t = setTimeout(step, ms);
+    };
+    step();
+    return () => clearTimeout(t);
+  }
+  GA.skill({
+    id: 'gvel', area: AREA, title: 'Oraciones veloces', icon: '⚡', desc: 'Lee siguiendo la luz que marca el ritmo. Empieza despacio y cada vez lees más rápido.',
+    levels: ['2 o 3 palabras', '4 o 5 palabras', '6 o 7 palabras', '8 a 10 palabras', 'Oraciones largas', 'Dos oraciones', 'Párrafos'],
+    lessons: {
+      1: [{ say: 'Vamos a leer con ritmo. Cuando toques empezar, una luz irá pasando por las palabras. Léelas en voz alta siguiendo la luz, sin quedarte atrás.', html: '<div class="lx-syls"><span class="pace-now">El</span> sol.</div>' },
+        { say: 'Si lees bien, la luz irá cada vez más rápido. ¡Así tus ojos y tu boca se vuelven veloces!', html: '<div class="lx-ex">🐢 ➜ 🐇 ➜ 🚀</div>' }],
+      5: [{ say: 'Ahora las oraciones son largas. Haz una pequeña pausa en las comas y en los puntos, como un buen lector.', html: '<div class="lx-syls">, ⏸️ . ⏹️</div>' }],
+    },
+    make(L, ctx) {
+      const pool = Y.FLU[L];
+      const item = GA.fresh(ctx, pool, (x) => x[0]);
+      const text = item[0];
+      const size = [0, 2.6, 2.3, 2.1, 1.9, 1.7, 1.6, 1.5][L];
+      return {
+        text: 'Lee con el ritmo', say: 'Toca empezar y lee en voz alta siguiendo la luz.',
+        render(stage, api) {
+          const g = gym();
+          let firstTry = true;
+          const words = text.split(/\s+/).map((w) => h('span', { class: 'pw' }, w));
+          const card = h('div', { class: 'g-pace-card', style: { fontSize: size + 'rem' } }, words.map((s, i) => [i ? ' ' : null, s]));
+          const chip = h('div', { class: 'chip g-pace-chip' }, `🎵 Ritmo: ${g.pace} palabras por minuto`);
+          const qBox = h('div', { class: 'lx-q', style: { display: 'none' } });
+          let stopper = null;
+          const listen = h('button', { class: 'btn btn-white btn-sm', onclick: () => { api.hintUsed(); GA.lector.readAlong(words, () => {}); } }, '🐢 Escuchar primero');
+          const go = h('button', { class: 'btn btn-big', onclick: () => {
+            GA.sfx.play('tap'); go.remove(); listen.remove(); GA.voice.stop();
+            stopper = pacer(words, g.pace, ask);
+          } }, '▶ ¡Empezar!');
+          const again = h('button', { class: 'btn btn-white btn-sm', onclick: () => { api.hintUsed(); card.style.display = ''; again.remove(); } }, '👀 Ver otra vez');
+          function ask() {
+            if (!card.isConnected) return;
+            card.style.display = 'none';
+            const after = (o, r) => {
+              if (!o.ok) { firstTry = false; return; }
+              if (api.test) return;
+              g.pace = GA.clamp(g.pace + (firstTry ? 3 : -2), 20, 160);
+              g.max = Math.max(g.max || 0, g.pace);
+              GA.store.save();
+            };
+            if (L <= 4) {
+              const others = GA.sample(pool.filter((x) => x[1] !== item[1]), 2);
+              qBox.append(h('div', { class: 'word-problem' }, '¿Qué dibujo va con lo que leíste?'), again,
+                ui.answerChoices(GA.shuffle([item, ...others]).map((x) => ({ label: x[1], ok: x === item, cls: 'huge' })), api, { after }));
+            } else {
+              qBox.append(h('div', { class: 'word-problem', style: { fontSize: '1.4rem' } }, item[1], ' ', ui.speakBtn(item[1])), again,
+                ui.answerChoices(GA.shuffle(item.slice(2).map((t, i) => ({ label: t, ok: i === 0, cls: 'wide' }))), api, { after }));
+            }
+            qBox.style.display = 'grid';
+            api.setText(L <= 4 ? '¿Qué dibujo va?' : item[1]);
+          }
+          stage.append(chip, card, h('div', { class: 'actions', style: { display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' } }, listen, go), qBox);
+          stage._stop = () => stopper && stopper();
+        },
+        hint: 'Toca 👀 Ver otra vez y lee con calma.',
+        explain: { text: `Decía: “${text}”` },
+        tag: 'g-fluidez',
+      };
+    },
+  });
+})();
+
+</script>
+<script>
 /* Gael Aprende — pantallas: bienvenida, inicio, mundos, actividades, resumen y álbum */
 (function () {
   'use strict';
@@ -6167,6 +6931,14 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       <g transform="translate(92 70)"><path d="M-48 -26 Q-24 -36 0 -24 Q24 -36 48 -26 V30 Q24 20 0 32 Q-24 20 -48 30Z" fill="#fff"/><path d="M0 -24 V32" stroke="#E2457F" stroke-width="3"/>
       <g stroke="#F5A3C2" stroke-width="3" stroke-linecap="round"><path d="M-38 -12 H-10 M-38 -2 H-10 M-38 8 H-14 M10 -12 H38 M10 -2 H38 M10 8 H32"/></g></g>
       <g fill="#fff" font-family="Baloo 2, sans-serif" font-weight="800"><text x="22" y="40" font-size="30" opacity=".85">a</text><text x="170" y="44" font-size="26" opacity=".7">ñ</text><text x="292" y="140" font-size="28" opacity=".8">e</text></g></svg>`,
+    gimnasio: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#0F9BA8"/>
+      <path d="M0 162 Q90 140 180 160 T320 152 V200 H0Z" fill="#0B7480"/>
+      <g transform="translate(160 96)"><rect x="-70" y="-6" width="140" height="12" rx="6" fill="#E8F7F9"/>
+      <rect x="-104" y="-38" width="34" height="76" rx="10" fill="#FFC233"/><rect x="70" y="-38" width="34" height="76" rx="10" fill="#FF7A59"/>
+      <text x="-87" y="10" text-anchor="middle" font-family="Andika, Baloo 2, sans-serif" font-weight="700" font-size="30" fill="#7A4A00">b</text>
+      <text x="87" y="10" text-anchor="middle" font-family="Andika, Baloo 2, sans-serif" font-weight="700" font-size="30" fill="#fff">d</text></g>
+      <g font-family="Andika, Baloo 2, sans-serif" font-weight="700" fill="#fff"><text x="22" y="48" font-size="28">es · se</text><text x="214" y="46" font-size="28">la · al</text>
+      <text x="28" y="182" font-size="22" opacity=".85">bo-ta</text><text x="236" y="182" font-size="22" opacity=".85">pla</text></g></svg>`,
     hyrule: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2E8B57"/>
       <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1E6B41"/>
       <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>
@@ -6452,7 +7224,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       }
       try { item.render(stage, api); }
       catch (err) { console.error('Error en actividad', skill.id, err); stage.innerHTML = ''; S.i++; next(); return; }
-      if (GA.settings().autoRead) setTimeout(() => GA.say(item.say || item.text, { lang: item.sayLang }), 250);
+      if (GA.settings().autoRead && !item.noAutoRead) setTimeout(() => GA.say(item.say || item.text, { lang: item.sayLang }), 250);
     }
 
     function showFb(kind, title, text, html, onContinue, iconEl, extra) {
@@ -6631,7 +7403,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
     vocales: 'Sonido de las vocales', 'primer-sonido': 'Sonido inicial', 'ultimo-sonido': 'Sonido final', 'letra-sonido': 'Relación letra-sonido', 'letras-espejo': 'Letras espejo (b, d, p, q)', 'mayus-minus': 'Mayúsculas y minúsculas',
     silabas: 'Formar palabras con sílabas', 'silabas-trabadas': 'Sílabas trabadas', deletrear: 'Escribir palabras', dictado: 'Dictado', 'contar-silabas': 'Contar sílabas', rimas: 'Rimas',
     'leer-palabras': 'Leer palabras', 'leer-precision': 'Leer con precisión palabras parecidas', 'leer-frases': 'Leer frases', sintaxis: 'Ordenar oraciones', 'comprension-literal': 'Comprensión literal',
-    secuencia: 'Secuencia de un cuento', 'lx-silabas': 'Leer sílabas', 'lx-palabras': 'Leer palabras nuevas', 'lx-precision': 'Leer con precisión (todas las letras)', 'lx-oraciones': 'Leer y entender oraciones', 'lx-relampago': 'Reconocer palabras de un vistazo', 'hy-palabras': 'Leer palabras de Hyrule', 'hy-frases': 'Leer frases de Hyrule', 'hy-verdad': 'Entender preguntas de Hyrule', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
+    secuencia: 'Secuencia de un cuento', 'lx-silabas': 'Leer sílabas', 'lx-palabras': 'Leer palabras nuevas', 'lx-precision': 'Leer con precisión (todas las letras)', 'lx-oraciones': 'Leer y entender oraciones', 'lx-relampago': 'Reconocer palabras de un vistazo', 'hy-palabras': 'Leer palabras de Hyrule', 'g-silabas': 'Leer sílaba por sílaba (palabras nuevas e inventadas)', 'g-bd': 'Distinguir b y d', 'g-espejo': 'Palabras espejo (es/se, la/al, el/le…)', 'g-trabadas': 'Sílabas trabadas', 'g-tren': 'Reconocer sílabas rápido', 'g-fluidez': 'Leer oraciones con ritmo y entenderlas', 'hy-frases': 'Leer frases de Hyrule', 'hy-verdad': 'Entender preguntas de Hyrule', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
   };
   const tagName = (t) => TAGS[t] || (t.startsWith('ciclo-') ? 'Ciclo de vida: ' + t.slice(6) : t.startsWith('tabla-') ? 'Tabla del ' + t.slice(6) : t);
 
@@ -6718,7 +7490,8 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       h('div', { class: 'pp-stats' },
         stat('Letras y sílabas', learned ? `${learned}/${G.length}` : '—', learned ? 'Ya domina: ' + G.slice(0, learned).map((g) => g.n).join(' · ') : 'Empezando: ' + G[0].n),
         stat('Libritos leídos', books, `${reads.length} ${reads.length === 1 ? 'lectura' : 'lecturas'} en total`),
-        stat('Velocidad lectora', avg ? `${avg} ppm` : '—', avg ? 'promedio de las últimas 3 lecturas sin ayuda' : 'aparece al leer un librito sin “Leer conmigo”')),
+        stat('Velocidad lectora', avg ? `${avg} ppm` : '—', avg ? 'promedio de las últimas 3 lecturas sin ayuda' : 'aparece al leer un librito sin “Leer conmigo”'),
+        stat('Ritmo en el Gimnasio', `${(D().gym || {}).pace || 30} ppm`, `ritmo de “Oraciones veloces”; récord ${(D().gym || {}).max || 30} ppm`)),
       chart ? h('h3', { class: 'pp-h3' }, 'Palabras por minuto (últimas lecturas)') : null, chart,
       enReads.length ? h('p', null, `🇺🇸 Lecturas en inglés (Legends of Hyrule): ${enReads.length}, de ${new Set(enReads.map((r) => r.id)).size} textos distintos. No se mezclan con la velocidad en español.`) : null,
       h('p', { class: 'muted' }, 'Referencia de la SEP (México) para lectura en voz alta: 1º de primaria 35–59 ppm, 2º 60–84, 3º 85–99, 4º 100–114. Más importante que la velocidad es que lea con precisión, con expresión y que entienda.'),

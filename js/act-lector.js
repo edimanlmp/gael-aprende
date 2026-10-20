@@ -18,6 +18,48 @@
   const clean = (w) => w.replace(/[^\p{L}\p{N}]/gu, '');
   const units = (syl) => syl.match(/ch|ll|rr|qu|gu(?=[eiéí])|./g);
   const allWords = (upTo) => G.slice(0, upTo).flatMap((g) => g.words);
+
+  // ---------- Voz para sílabas sueltas ----------
+  // La voz sintética pronuncia mal las sílabas aisladas ("ji", "ce", "ha"…). Para que se entiendan:
+  // 1) se escriben como suenan (ge→je, ce→se, que→ke, ha→a…), 2) se dicen dos veces, despacio,
+  // 3) se dice una palabra que empieza con esa sílaba: "ji… ji. Como en jirafa".
+  const SYL_SPEAK = { ge: 'je', gi: 'ji', ce: 'se', ci: 'si', que: 'ke', qui: 'ki', za: 'sa', zo: 'so', zu: 'su', ha: 'a', he: 'e', hi: 'i', ho: 'o', hu: 'u', ya: 'ya', lla: 'ya', lle: 'ye', lli: 'yi', llo: 'yo', llu: 'yu' };
+  const EXTRA_ANCHORS = {
+    tu: ['tulipán', '🌷'], ne: ['negro', '⚫'], du: ['durazno', '🍑'], ri: ['rinoceronte', '🦏'], ru: ['rubí', '💎'], vi: ['víbora', '🐍'], vo: ['volcán', '🌋'],
+    vu: ['vuelo', '✈️'], fa: ['familia', '👨‍👩‍👧'], fe: ['feliz', '😀'], fi: ['fiesta', '🎉'], fu: ['futbol', '⚽'], je: ['jeringa', '💉'], jo: ['joya', '💍'],
+    llo: ['llorar', '😢'], llu: ['lluvia', '🌧️'], cha: ['chamarra', '🧥'], che: ['chef', '👨‍🍳'], ya: ['yate', '🛥️'], ye: ['yema', '🍳'], hu: ['huevo', '🥚'],
+    qui: ['quince', '🎂'], gue: ['guerrero', '⚔️'], el: ['elfo', '🧝'], on: ['onda', '🌊'], as: ['astronauta', '🧑‍🚀'], or: ['orca', '🐋'], con: ['concha', '🐚'],
+    sal: ['salchicha', '🌭'], luz: ['luz', '💡'], mil: ['milpa', '🌽'], tos: ['tostada', '🥙'], dos: ['dos', '✌️'], plu: ['pluma', '🪶'], plo: ['plomero', '🔧'],
+    bla: ['blanco', '⚪'], flo: ['flor', '🌸'], gla: ['glaciar', '🧊'], pre: ['premio', '🏆'], pri: ['princesa', '👸'], pro: ['profesor', '👨‍🏫'], bri: ['brillo', '✨'],
+    cre: ['crema', '🍦'], cro: ['cronómetro', '⏱️'], cru: ['cruz', '➕'], fri: ['frijol', '🫘'], fru: ['fruta', '🍎'], gra: ['granja', '🐄'], tra: ['tractor', '🚜'],
+    tre: ['tren', '🚂'], tru: ['trueno', '⛈️'],
+    lle: ['calle', '🛣️'], lli: ['pollito', '🐥'], chu: ['lechuza', '🦉'], yu: ['ayuda', '🆘'], zu: ['azúcar', '🍬'], ol: ['olvidar', '🤔'],
+    ul: ['último', '🏁'], un: ['untar', '🧈'], us: ['usted', '🫵'], er: ['ermitaño', '🐚'], ur: ['urna', '🗳️'], em: ['empanada', '🥟'],
+    ple: ['cumpleaños', '🎂'], pli: ['aplicación', '📱'], ble: ['cable', '🔌'], bli: ['público', '👏'], cle: ['bicicleta', '🚲'], cli: ['clima', '🌦️'],
+    clo: ['cíclope', '👁️'], clu: ['club', '⚽'], flu: ['flúor', '🦷'], gle: ['iglesia', '⛪'], pra: ['prado', '🌾'], pru: ['prueba', '📝'],
+    bre: ['sombrero', '👒'], cri: ['cristal', '🔮'], dre: ['madre', '👩'], dri: ['cocodrilo', '🐊'], fra: ['frambuesa', '🫐'], fro: ['frontera', '🗺️'],
+    gre: ['cangrejo', '🦀'], gro: ['ogro', '👹'], ñe: ['muñeca', '🪆'], ñu: ['ñu', '🐃'],
+  };
+  let ANCHORS = null;
+  function anchorFor(syl) {
+    if (!ANCHORS) {
+      ANCHORS = {};
+      const pool = [...GA.WORDS, ...G.flatMap((g) => g.words)];
+      if (GA.GYM) pool.push(...Object.values(GA.GYM.SYL).flat(), ...GA.GYM.BD, ...GA.GYM.TRAB);
+      pool.forEach((w) => { if (!w.e || !w.s) return; const k = plain(w.s[0]); if (!ANCHORS[k] || w.w.length < ANCHORS[k].w.length) ANCHORS[k] = w; });
+      // Palabras de ejemplo para las sílabas que no tienen dibujo en las listas
+      Object.entries(EXTRA_ANCHORS).forEach(([k, [w, e]]) => { if (!ANCHORS[k]) ANCHORS[k] = { w, e }; });
+    }
+    return ANCHORS[plain(syl)] || null;
+  }
+  const sylPhrase = (syl) => { const p = SYL_SPEAK[plain(syl)] || syl; const a = anchorFor(syl); return a ? `${p}… ${p}. Como en ${a.w}.` : `${p}… ${p}.`; };
+  GA.syl = {
+    anchor: anchorFor,
+    phrase: sylPhrase,
+    say: (syl) => GA.say(sylPhrase(syl), { rate: 0.72 }),
+    // Botón para volver a escuchar, con el dibujo de la palabra de ejemplo como pista
+    btn: (syl, label = '🔊 Escuchar otra vez', cls = 'btn btn-big btn-white lx-ear') => { const a = anchorFor(syl); return h('button', { class: cls, onclick: () => GA.syl.say(syl) }, label, a ? ' ' + a.e : ''); },
+  };
   const big = (txt, cls = '') => h('div', { class: 'big-word lx-word ' + cls }, txt);
   const helpBtn = (api, text, lang) => h('button', { class: 'btn btn-white btn-sm', onclick: () => { api.hintUsed(); GA.say(text, { rate: 0.75, lang }); } }, '🔊 Ayuda');
 
@@ -106,7 +148,7 @@
           render(stage, api) {
             stage.append(h('div', { class: 'lx-blend' }, u.map((x, i) => [i ? h('span', { class: 'plus' }, '+') : null, h('span', { class: 'lx-tile' + (VOW.includes(x) || VOW_ACC.includes(x) ? ' v' : '') }, x)]), h('span', { class: 'plus' }, '='), h('span', { class: 'lx-tile q' }, '?')),
               helpBtn(api, syl),
-              ui.answerChoices(opts.map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api, { after: (o) => { if (o.ok) { const q = stage.querySelector('.lx-tile.q'); q.textContent = syl; q.classList.add('ok'); GA.say(syl); } } }));
+              ui.answerChoices(opts.map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api, { after: (o) => { if (o.ok) { const q = stage.querySelector('.lx-tile.q'); q.textContent = syl; q.classList.add('ok'); GA.syl.say(syl); } } }));
           },
           hint: 'Di cada sonido y luego júntalos rapidito.',
           explain: { text: `${u.join(' y ')} juntos se leen “${syl}”.` },
@@ -115,9 +157,9 @@
       }
       const opts = GA.shuffle([syl, ...similarSyl(syl, pool, 3)]);
       return {
-        text: 'Escucha y toca la sílaba', say: `Toca la sílaba: ${syl}.`,
+        text: 'Escucha y toca la sílaba', say: `Escucha y toca la sílaba. ${sylPhrase(syl)}`,
         render(stage, api) {
-          stage.append(h('button', { class: 'btn btn-big btn-white lx-ear', onclick: () => GA.say(syl, { rate: 0.75 }) }, '🔊 Escuchar otra vez'),
+          stage.append(GA.syl.btn(syl),
             ui.answerChoices(opts.map((s) => ({ label: s, ok: s === syl, cls: 'lx-opt' })), api));
         },
         hint: 'Escucha con atención la primera letra y la vocal.',
@@ -255,7 +297,7 @@
         text: '¡Palabra relámpago!', say: 'Toca listo y mira bien. La palabra va a desaparecer.',
         render(stage, api) {
           const card = h('div', { class: 'lx-flash' }, h('span', { class: 'lx-flash-q' }, '⚡'));
-          const choices = ui.answerChoices(opts.map((o) => ({ label: o, ok: o === target, cls: 'txt lx-opt' })), api, { after: (o) => { if (o.ok) { card.innerHTML = ''; card.append(h('span', { class: 'lx-flash-w' }, target)); } } });
+          const choices = ui.answerChoices(opts.map((o) => ({ label: o, ok: o === target, cls: 'txt lx-opt' })), api, { after: (o, r) => { if (o.ok) { card.innerHTML = ''; card.append(h('span', { class: 'lx-flash-w' }, target)); } if (o.ok || r === 'done') go.remove(); } });
           choices.style.visibility = 'hidden';
           let shown = 0;
           const flash = () => {

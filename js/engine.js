@@ -16,6 +16,8 @@
       blurb: 'Sonidos, sílabas, palabras, rimas y cuentos.' },
     lector: { id: 'lector', name: 'Aprender a leer', short: 'Lectura', world: 'Camino del Lector', icon: '📖', cls: 'area-lector', color: '#E2457F',
       blurb: 'De las primeras sílabas a leer libros completos, paso a paso.' },
+    gimnasio: { id: 'gimnasio', name: 'Gimnasio de Lectura', short: 'Gimnasio', world: 'Gimnasio de Lectura', icon: '🏋️', cls: 'area-gimnasio', color: '#0F9BA8',
+      blurb: 'Sílaba por sílaba, b y d, es y se, trabadas y lectura veloz.' },
     hyrule: { id: 'hyrule', name: 'Hyrule en español', short: 'Hyrule', world: 'Hyrule en español', icon: '🗡️', cls: 'area-hyrule', color: '#2E8B57',
       blurb: 'Aprende a leer con las aventuras de Zelda: Breath of the Wild.' },
     ingles: { id: 'ingles', name: 'Inglés', short: 'Inglés', world: 'Hyrule in English', icon: '🇺🇸', cls: 'area-ingles', color: '#2F6FE0',
