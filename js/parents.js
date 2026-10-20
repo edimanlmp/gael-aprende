@@ -25,7 +25,7 @@
     vocales: 'Sonido de las vocales', 'primer-sonido': 'Sonido inicial', 'ultimo-sonido': 'Sonido final', 'letra-sonido': 'Relación letra-sonido', 'letras-espejo': 'Letras espejo (b, d, p, q)', 'mayus-minus': 'Mayúsculas y minúsculas',
     silabas: 'Formar palabras con sílabas', 'silabas-trabadas': 'Sílabas trabadas', deletrear: 'Escribir palabras', dictado: 'Dictado', 'contar-silabas': 'Contar sílabas', rimas: 'Rimas',
     'leer-palabras': 'Leer palabras', 'leer-precision': 'Leer con precisión palabras parecidas', 'leer-frases': 'Leer frases', sintaxis: 'Ordenar oraciones', 'comprension-literal': 'Comprensión literal',
-    secuencia: 'Secuencia de un cuento', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
+    secuencia: 'Secuencia de un cuento', 'lx-silabas': 'Leer sílabas', 'lx-palabras': 'Leer palabras nuevas', 'lx-precision': 'Leer con precisión (todas las letras)', 'lx-oraciones': 'Leer y entender oraciones', 'lx-relampago': 'Reconocer palabras de un vistazo', 'hy-palabras': 'Leer palabras de Hyrule', 'hy-frases': 'Leer frases de Hyrule', 'hy-verdad': 'Entender preguntas de Hyrule', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
   };
   const tagName = (t) => TAGS[t] || (t.startsWith('ciclo-') ? 'Ciclo de vida: ' + t.slice(6) : t.startsWith('tabla-') ? 'Tabla del ' + t.slice(6) : t);
 
@@ -91,6 +91,34 @@
       tip);
   }
 
+  // Progreso lector: letras aprendidas, libritos leídos y palabras por minuto
+  function readingCard() {
+    const all = D().reading || [];
+    const reads = all.filter((r) => !r.lang);
+    const enReads = all.filter((r) => r.lang === 'en');
+    const sil = E.st('lsil');
+    const G = GA.LECTOR.GROUPS;
+    const learned = sil.mastered ? G.length : sil.lvl - 1;
+    const books = new Set(reads.map((r) => r.id)).size;
+    const timed = reads.filter((r) => r.wpm).slice(-12);
+    const last = timed.slice(-3);
+    const avg = last.length ? Math.round(last.reduce((a, r) => a + r.wpm, 0) / last.length) : null;
+    const max = Math.max(60, ...timed.map((r) => r.wpm));
+    const byId = {}; [...Object.values(GA.LECTOR.BOOKS), ...Object.values(GA.HYRULE.TEXTS), ...Object.values(GA.HYRULE_EN.TEXTS)].flat().forEach((b) => { byId[b.id] = b; });
+    const chart = timed.length ? h('div', { class: 'lx-wpm', role: 'img', 'aria-label': 'Palabras por minuto en las últimas lecturas' },
+      timed.map((r) => h('div', { class: 'col', title: `${byId[r.id] ? byId[r.id].t : r.id}: ${r.wpm} ppm` },
+        h('div', { class: 'bar', style: { height: Math.max(4, (r.wpm / max) * 100) + '%', background: 'var(--read)' } }), h('small', null, r.wpm)))) : null;
+    return card('📖 Camino del lector',
+      h('div', { class: 'pp-stats' },
+        stat('Letras y sílabas', learned ? `${learned}/${G.length}` : '—', learned ? 'Ya domina: ' + G.slice(0, learned).map((g) => g.n).join(' · ') : 'Empezando: ' + G[0].n),
+        stat('Libritos leídos', books, `${reads.length} ${reads.length === 1 ? 'lectura' : 'lecturas'} en total`),
+        stat('Velocidad lectora', avg ? `${avg} ppm` : '—', avg ? 'promedio de las últimas 3 lecturas sin ayuda' : 'aparece al leer un librito sin “Leer conmigo”')),
+      chart ? h('h3', { class: 'pp-h3' }, 'Palabras por minuto (últimas lecturas)') : null, chart,
+      enReads.length ? h('p', null, `🇺🇸 Lecturas en inglés (Legends of Hyrule): ${enReads.length}, de ${new Set(enReads.map((r) => r.id)).size} textos distintos. No se mezclan con la velocidad en español.`) : null,
+      h('p', { class: 'muted' }, 'Referencia de la SEP (México) para lectura en voz alta: 1º de primaria 35–59 ppm, 2º 60–84, 3º 85–99, 4º 100–114. Más importante que la velocidad es que lea con precisión, con expresión y que entienda.'),
+      h('p', { class: 'muted' }, `💡 Para que la medición sea fiel, siéntense con ${D().name || 'Gael'} y pídanle que lea el librito en voz alta. Volver a leer los libritos de su “Biblioteca” (lectura repetida) es una de las mejores formas de ganar fluidez.`));
+  }
+
   GA.screens.parents = function () {
     GA.voice.stop();
     const app = document.getElementById('app');
@@ -115,13 +143,13 @@
 
     // Recomendaciones
     const recs = [];
-    if (!allDays.length) recs.push('Empiecen con la Misión del día: combina las tres áreas y la app ubica automáticamente el nivel de inicio de cada habilidad.');
+    if (!allDays.length) recs.push('Empiecen con la Misión del día: combina todos los mundos (incluido el Camino del Lector) y la app ubica automáticamente el nivel de inicio de cada habilidad.');
     if (min7 < 60 && allDays.length) recs.push('La investigación sobre práctica espaciada sugiere sesiones cortas y frecuentes: 15 a 20 minutos, 4 o 5 días por semana, funcionan mejor que una sesión larga.');
     if (due.length) recs.push(`Hay ${due.length} ${due.length === 1 ? 'habilidad' : 'habilidades'} con repaso pendiente (${due.map((s) => s.title).join(', ')}). La Misión del día los incluye automáticamente.`);
     support.slice(0, 3).forEach((s) => recs.push(`${s.icon} ${s.title}: está costando trabajo. Jueguen juntos una ronda y pídanle que explique en voz alta cómo lo piensa; usen objetos reales (fichas, monedas, juguetes) para practicar el mismo concepto.`));
     if (topErr.length) recs.push(`El error más frecuente es en “${tagName(topErr[0][0])}”. Una idea: busquen ejemplos de esto en la vida diaria (en la cocina, el súper o un paseo).`);
     const areaP = Object.keys(GA.AREAS).map((a) => [a, E.areaProgress(a)]).sort((a, b) => a[1] - b[1]);
-    if (allDays.length && areaP[2][1] - areaP[0][1] > 0.15) recs.push(`Ha avanzado más en ${GA.AREAS[areaP[2][0]].short} que en ${GA.AREAS[areaP[0][0]].short}. Pueden entrar directamente a ${GA.AREAS[areaP[0][0]].world} para equilibrar.`);
+    if (allDays.length && areaP[areaP.length - 1][1] - areaP[0][1] > 0.15) recs.push(`Ha avanzado más en ${GA.AREAS[areaP[areaP.length - 1][0]].short} que en ${GA.AREAS[areaP[0][0]].short}. Pueden entrar directamente a ${GA.AREAS[areaP[0][0]].world} para equilibrar.`);
     if (strengths.length) recs.push(`Celebren el esfuerzo, no sólo el resultado: “Te esforzaste mucho en ${strengths[0].title}” refuerza la mentalidad de crecimiento.`);
 
     const statusPill = (st) => h('span', { class: 'pp-pill', style: { background: st.color } }, st.label);
@@ -162,7 +190,11 @@
         stat('Minutos esta semana', min7), stat('Ejercicios esta semana', items7, items7 ? `${Math.round((ok7 / items7) * 100)}% correctos a la primera` : ''),
         stat('Días activos', allDays.length, `Racha actual: ${E.streak()}`), stat('Ejercicios totales', totalItems),
         stat('Aventuras dominadas', `${d.medals.length}/${GA.skillList.length}`), stat('Estrellas y estampas', `${d.stars} ⭐`, `${d.stickers.length} estampas`), stat('Dragones y figuras', `${GA.dragons.count()}/${GA.dragons.total()} 🐉`)),
+      card('🧪 Modo prueba',
+        h('p', { class: 'muted' }, 'Entra a cualquier aventura y nivel para probarlo tú. No cuenta en estadísticas ni da estrellas, dragones o Milkeritos.'),
+        h('button', { class: 'btn', onclick: () => GA.screens.testLab() }, '🧪 Abrir modo prueba')),
       card('Actividad de los últimos 14 días', activityChart()),
+      readingCard(),
       h('div', { class: 'pp-grid' },
         card('💪 Fortalezas', strengths.length ? h('ul', null, strengths.map((s) => h('li', null, `${s.icon} ${s.title} — ${E.st(s.id).mastered ? 'dominado' : `nivel ${E.st(s.id).lvl}, ${Math.round(E.accuracy(s.id, 12) * 100)}% de precisión`}`))) : h('p', { class: 'muted' }, 'Aparecerán cuando haya más práctica.')),
         card('🌱 Áreas de mejora', support.length || topErr.length ? h('div', null,

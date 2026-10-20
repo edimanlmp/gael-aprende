@@ -119,7 +119,7 @@
         { k: 'q', t: '¿Quién le mostró el camino?', o: ['🦀 Un cangrejo', '🐦 Un pájaro', '🐟 Un pez'], a: 0 },
         { k: 'o', t: '¿Qué pasó primero?', o: ['🌊 Lola dijo que quería ver el mar', '🦀 Encontró al cangrejo', '🌅 Vio el mar'], a: 0 },
         { k: 'o', t: '¿Qué pasó al final?', o: ['🌅 Lola vio el mar', '🐾 Lola empezó a caminar', '🌲 Lola vivía en el bosque'], a: 0 },
-        { k: 'i', t: '¿Por qué tardó todo el día en llegar?', o: ['🐢 Porque las tortugas caminan despacio', '😴 Porque se durmió', '🚗 Porque fue en coche'], a: 0 },
+        { k: 'i', t: '¿Por qué tardó todo el día en llegar?', o: ['🐢 Porque las tortugas caminan despacio', '😴 Porque se durmió', '🚗 Porque fue en carro'], a: 0 },
         { k: 'v', t: '¿Cómo se sintió Lola al ver el mar?', o: ['😀 Feliz', '😢 Triste', '😠 Enojada'], a: 0 },
         { k: 'v', t: '“Amable” quiere decir…', o: ['🤝 Que ayuda y trata bien', '😠 Que se enoja', '💨 Que corre rápido'], a: 0 },
       ],
@@ -162,7 +162,7 @@
       qs: [
         { k: 'q', t: '¿De qué color era la pelota?', o: ['🔴 Roja', '🔵 Azul', '🟡 Amarilla'], a: 0 },
         { k: 'q', t: '¿Quién tenía la pelota?', o: ['🐱 Michi, la gata', '🐭 Un ratón', '🦜 Un loro'], a: 0 },
-        { k: 'o', t: '¿Dónde buscó Max primero?', o: ['🛏️ Debajo de la cama', '🌳 En el jardín', '🚗 En el coche'], a: 0 },
+        { k: 'o', t: '¿Dónde buscó Max primero?', o: ['🛏️ Debajo de la cama', '🌳 En el jardín', '🚗 En el carro'], a: 0 },
         { k: 'o', t: '¿Qué pasó al final?', o: ['🤝 Jugaron juntos', '😢 Max lloró', '🛏️ Max se durmió'], a: 0 },
         { k: 'i', t: '¿Cómo se sintió Max cuando no encontraba su pelota?', o: ['😟 Preocupado', '😀 Muy feliz', '😴 Con sueño'], a: 0 },
         { k: 'i', t: '¿Qué aprendimos de Michi?', o: ['🤝 Que compartir es divertido', '🏃 Que hay que correr', '🍖 Que hay que comer'], a: 0 },
@@ -176,7 +176,7 @@
         ['🌈', 'Luego salió el sol y apareció un arcoíris enorme.'], ['👏', 'Todos aplaudieron y Nube Gris se sintió muy orgullosa.']],
       qs: [
         { k: 'q', t: '¿Por qué estaba triste Nube Gris?', o: ['🌧️ Nadie quería la lluvia', '🌞 Hacía calor', '🎈 Perdió un globo'], a: 0 },
-        { k: 'q', t: '¿Quiénes tenían sed?', o: ['🌿 Las plantas', '🐟 Los peces', '🚗 Los coches'], a: 0 },
+        { k: 'q', t: '¿Quiénes tenían sed?', o: ['🌿 Las plantas', '🐟 Los peces', '🚗 Los carros'], a: 0 },
         { k: 'q', t: '¿Qué apareció después de la lluvia?', o: ['🌈 Un arcoíris', '⛄ Un muñeco de nieve', '🌙 La luna'], a: 0 },
         { k: 'o', t: '¿Qué pasó después de que llovió?', o: ['🌈 Salió el arcoíris', '🧒 Los niños dijeron “vete”', '☁️ La nube estaba triste'], a: 0 },
         { k: 'i', t: '¿Por qué la lluvia es importante?', o: ['🌱 Ayuda a crecer a las plantas', '🎮 Sirve para jugar videojuegos', '🍬 Es dulce'], a: 0 },

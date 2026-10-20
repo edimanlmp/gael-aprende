@@ -14,6 +14,10 @@
       blurb: 'Experimentos, animales, plantas, agua y el espacio.' },
     lengua: { id: 'lengua', name: 'Lectura y Lenguaje', short: 'Letras', world: 'Castillo de las Letras', icon: '📚', cls: 'area-lengua', color: '#FF7433',
       blurb: 'Sonidos, sílabas, palabras, rimas y cuentos.' },
+    lector: { id: 'lector', name: 'Aprender a leer', short: 'Lectura', world: 'Camino del Lector', icon: '📖', cls: 'area-lector', color: '#E2457F',
+      blurb: 'De las primeras sílabas a leer libros completos, paso a paso.' },
+    ingles: { id: 'ingles', name: 'Inglés', short: 'Inglés', world: 'Hyrule in English', icon: '🇺🇸', cls: 'area-ingles', color: '#2F6FE0',
+      blurb: 'Practica inglés leyendo las aventuras de Zelda.' },
   };
 
   let order = 0;
@@ -179,7 +183,7 @@
     return fresh[0] || cands[0];
   };
 
-  // Misión del día: repasos espaciados + práctica intercalada de las tres áreas
+  // Misión del día: repasos espaciados + práctica intercalada de todas las áreas
   E.dailyMission = function () {
     const len = GA.settings().roundLen + 2;
     const reviews = E.dueReviews().slice(0, 4).map((s) => ({ skill: s.id, mode: 'review', lvl: E.st(s.id).rev.l }));
@@ -203,7 +207,9 @@
   };
   E.skillRound = function (id) {
     E.startSkill(id);
-    return GA.range(1, GA.settings().roundLen).map(() => ({ skill: id, mode: 'learn' }));
+    const s = GA.skills[id];
+    const n = s.roundLen ? s.roundLen(E.st(id).lvl) : GA.settings().roundLen;
+    return GA.range(1, n).map(() => ({ skill: id, mode: 'learn' }));
   };
   E.streak = function () {
     let n = 0, k = today();

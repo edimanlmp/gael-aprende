@@ -26,6 +26,8 @@ import base64, json
 imgs = {}
 for f in sorted((ROOT / 'img' / 'especiales').glob('*.jpg')):
     imgs[f'img/especiales/{f.name}'] = 'data:image/jpeg;base64,' + base64.b64encode(f.read_bytes()).decode()
+for f in sorted((ROOT / 'img' / 'zelda').glob('*.webp')):
+    imgs[f'img/zelda/{f.name}'] = 'data:image/webp;base64,' + base64.b64encode(f.read_bytes()).decode()
 html = html.replace('<script>\n', '<script>\nwindow.GA_IMG = ' + json.dumps(imgs) + ';\n', 1)
 
 out = ROOT / 'dist' / 'gael-aprende.html'

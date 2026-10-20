@@ -8,7 +8,7 @@
 
   const OBJ = [
     { e: '🍎', p: 'manzanas', g: 'f' }, { e: '🐞', p: 'mariquitas', g: 'f' }, { e: '⭐', p: 'estrellas', g: 'f' }, { e: '🐟', p: 'peces', g: 'm' },
-    { e: '🍓', p: 'fresas', g: 'f' }, { e: '🚗', p: 'coches', g: 'm' }, { e: '🎈', p: 'globos', g: 'm' }, { e: '🐥', p: 'pollitos', g: 'm' },
+    { e: '🍓', p: 'fresas', g: 'f' }, { e: '🚗', p: 'carros', g: 'm' }, { e: '🎈', p: 'globos', g: 'm' }, { e: '🐥', p: 'pollitos', g: 'm' },
     { e: '🌸', p: 'flores', g: 'f' }, { e: '🍪', p: 'galletas', g: 'f' }, { e: '🦋', p: 'mariposas', g: 'f' }, { e: '🐸', p: 'ranas', g: 'f' },
     { e: '🧁', p: 'pastelitos', g: 'm' }, { e: '🐠', p: 'pececitos', g: 'm' }, { e: '🍩', p: 'donas', g: 'f' }, { e: '🦆', p: 'patos', g: 'm' },
   ];

@@ -305,7 +305,7 @@
   const LIFE = [
     { t: 'La ropa mojada se seca al sol', e: '👕☀️', p: 'evap' }, { t: 'El helado se derrite en tu mano', e: '🍦🫠', p: 'fusion' },
     { t: 'Aparecen gotitas en un vaso con agua fría', e: '🥛💧', p: 'cond' }, { t: 'Hacemos cubitos de hielo en el congelador', e: '🧊❄️', p: 'solid' },
-    { t: 'El espejo del baño se empaña con la ducha caliente', e: '🪞🚿', p: 'cond' }, { t: 'Un charco desaparece en un día caluroso', e: '💧🌞', p: 'evap' },
+    { t: 'El espejo del baño se empaña con el agua caliente de la regadera', e: '🪞🚿', p: 'cond' }, { t: 'Un charco desaparece en un día caluroso', e: '💧🌞', p: 'evap' },
     { t: 'La mantequilla se derrite en la sartén', e: '🧈🍳', p: 'fusion' }, { t: 'Un charco se congela en invierno', e: '⛸️❄️', p: 'solid' },
     { t: 'Sale vapor de la olla con agua hirviendo', e: '🍲♨️', p: 'evap' }, { t: 'La nieve se derrite en primavera', e: '⛄🌷', p: 'fusion' },
   ];

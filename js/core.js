@@ -78,7 +78,7 @@
   function freshProfile() {
     return {
       v: 1, name: '', avatar: '🦊', created: Date.now(), stars: 0, stickers: [], medals: [],
-      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {},
+      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [],
       settings: { voice: true, sfx: true, rate: 0.92, roundLen: 6, unlockAll: false, autoRead: true, voiceName: '' },
     };
   }
@@ -111,11 +111,14 @@
   // Voces "de juguete" de macOS/iOS: divertidas pero poco claras para aprender a leer
   const NOVELTY = /Eddy|Flo|Grandma|Grandpa|Reed|Rocko|Sandy|Shelley|Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Junior|Kathy|Ralph|Fred/i;
   GA.voice = {
-    v: null,
-    score(v) {
+    v: null, vEn: null,
+    score(v, want = 'es') {
       let s = 0;
       const lang = v.lang.replace('_', '-');
-      if (/es-MX/i.test(lang)) s += 30; else if (/es-US|es-419/i.test(lang)) s += 25; else if (/es-ES/i.test(lang)) s += 10;
+      if (want === 'en') {
+        if (/en-US/i.test(lang)) s += 30; else if (/en-GB|en-CA|en-AU/i.test(lang)) s += 20;
+        if (/Samantha|Ava|Allison|Susan|Zoe|Evan|Nathan/i.test(v.name)) s += 40; // voces claras de Apple
+      } else if (/es-MX/i.test(lang)) s += 30; else if (/es-US|es-419/i.test(lang)) s += 25; else if (/es-ES/i.test(lang)) s += 10;
       if (/Premium|Enhanced|Mejorada|Natural|Neural|Siri/i.test(v.name)) s += 200; // voces neuronales: casi humanas
       else if (/Google/i.test(v.name)) s += 120; // voz en línea de Chrome: clara y natural
       else if (/Microsoft .*Online/i.test(v.name)) s += 150;
@@ -126,11 +129,12 @@
       const sc = this.score(v);
       return sc >= 150 ? 'natural' : sc >= 100 ? 'buena' : sc < 0 ? 'divertida' : 'básica';
     },
-    list() {
+    list(want = 'es') {
       if (!('speechSynthesis' in window)) return [];
-      return speechSynthesis.getVoices().filter((v) => /^es/i.test(v.lang)).sort((a, b) => this.score(b) - this.score(a));
+      return speechSynthesis.getVoices().filter((v) => new RegExp('^' + want, 'i').test(v.lang)).sort((a, b) => this.score(b, want) - this.score(a, want));
     },
     choose() {
+      this.vEn = this.list('en')[0] || null;
       const vs = this.list();
       if (!vs.length) return;
       const wanted = GA.store.data && GA.settings().voiceName;
@@ -148,8 +152,9 @@
       speechSynthesis.cancel();
       return new Promise((res) => {
         const u = new SpeechSynthesisUtterance(clean);
-        u.lang = this.v ? this.v.lang : 'es-MX';
-        if (this.v) u.voice = this.v;
+        const v = opts.lang === 'en' ? this.vEn : this.v;
+        u.lang = v ? v.lang : opts.lang === 'en' ? 'en-US' : 'es-MX';
+        if (v) u.voice = v;
         u.rate = opts.rate || GA.settings().rate || 0.92;
         u.pitch = opts.pitch || 1;
         let done = false;

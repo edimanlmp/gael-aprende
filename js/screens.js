@@ -31,6 +31,19 @@
       <g fill="#E05A1C"><rect x="110" y="72" width="10" height="10"/><rect x="130" y="72" width="10" height="10"/><rect x="150" y="72" width="10" height="10"/><rect x="170" y="72" width="10" height="10"/><rect x="190" y="72" width="10" height="10"/></g>
       <path d="M111 34 v-14 l14 6z M209 34 v-14 l14 6z" fill="#FFC233"/>
       <g font-family="Baloo 2, sans-serif" font-weight="800" fill="#fff"><text x="30" y="80" font-size="46">A</text><text x="250" y="70" font-size="40">b</text><text x="62" y="130" font-size="30" opacity=".8">c</text><text x="262" y="128" font-size="34" opacity=".85">Ñ</text></g></svg>`,
+    lector: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#E2457F"/>
+      <path d="M0 165 Q90 140 170 160 T320 150 V200 H0Z" fill="#C2306A"/>
+      <g fill="#FFD6E6" opacity=".9"><rect x="40" y="150" width="34" height="14" rx="4"/><rect x="88" y="132" width="34" height="14" rx="4"/><rect x="136" y="114" width="34" height="14" rx="4"/><rect x="184" y="96" width="34" height="14" rx="4"/><rect x="232" y="78" width="34" height="14" rx="4"/></g>
+      <g font-family="Baloo 2, sans-serif" font-weight="800" fill="#C2306A" font-size="12" text-anchor="middle"><text x="57" y="161">ma</text><text x="105" y="143">sol</text><text x="153" y="125">luna</text><text x="201" y="107">frase</text><text x="249" y="89">libro</text></g>
+      <g transform="translate(249 50)"><path d="M0 -26 L7 -8 L26 -8 L11 3 L17 22 L0 10 L-17 22 L-11 3 L-26 -8 L-7 -8Z" fill="#FFC233"/></g>
+      <g transform="translate(92 70)"><path d="M-48 -26 Q-24 -36 0 -24 Q24 -36 48 -26 V30 Q24 20 0 32 Q-24 20 -48 30Z" fill="#fff"/><path d="M0 -24 V32" stroke="#E2457F" stroke-width="3"/>
+      <g stroke="#F5A3C2" stroke-width="3" stroke-linecap="round"><path d="M-38 -12 H-10 M-38 -2 H-10 M-38 8 H-14 M10 -12 H38 M10 -2 H38 M10 8 H32"/></g></g>
+      <g fill="#fff" font-family="Baloo 2, sans-serif" font-weight="800"><text x="22" y="40" font-size="30" opacity=".85">a</text><text x="170" y="44" font-size="26" opacity=".7">ñ</text><text x="292" y="140" font-size="28" opacity=".8">e</text></g></svg>`,
+    ingles: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2F6FE0"/>
+      <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1F4FB0"/>
+      <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>
+      <g font-family="Baloo 2, sans-serif" font-weight="800" fill="#fff"><text x="26" y="62" font-size="40">Hi!</text><text x="236" y="58" font-size="30" opacity=".9">ABC</text>
+      <text x="40" y="132" font-size="22" opacity=".8">sword</text><text x="238" y="126" font-size="22" opacity=".8">bow</text></g></svg>`,
   };
 
   // ---------- Bienvenida ----------
@@ -142,7 +155,7 @@
     if (open) {
       actions.push({ label: st.mastered ? '▶ Practicar' : '▶ ¡Jugar!', cls: 'btn-big', onClick: () => GA.run(E.skillRound(s.id), { title: s.title }) });
       if (due) actions.push({ label: '🔁 Repasar', cls: 'btn-info', onClick: () => GA.run(GA.range(1, 4).map(() => ({ skill: s.id, mode: 'review', lvl: st.rev.l })), { title: 'Repaso: ' + s.title }) });
-      if (s.sandbox) actions.push({ label: '🧪 Explorar libre', cls: 'btn-sun', onClick: () => GA.screens.sandbox(s) });
+      if (s.sandbox) actions.push({ label: s.sandboxLabel || '🧪 Explorar libre', cls: 'btn-sun', onClick: () => GA.screens.sandbox(s) });
     }
     actions.push({ label: 'Cerrar', cls: 'btn-white' });
     GA.ui.modal({
@@ -154,47 +167,48 @@
   }
 
   // ---------- Exploración libre ----------
-  GA.screens.sandbox = function (s) {
+  GA.screens.sandbox = function (s, back, opts) {
     clear();
     const a = GA.AREAS[s.area];
     const stage = h('div', { class: 'stage' });
     app().append(h('div', { class: 'wrap run ' + a.cls },
-      h('div', { class: 'run-top' }, h('button', { class: 'icon-btn', 'aria-label': 'Volver', onclick: () => GA.screens.world(s.area) }, '⬅'), h('h2', null, `🧪 ${s.title}: explorar libre`)),
+      h('div', { class: 'run-top' }, h('button', { class: 'icon-btn', 'aria-label': 'Volver', onclick: () => (back ? back() : GA.screens.world(s.area)) }, '⬅'), h('h2', null, s.sandboxLabel ? `${s.sandboxLabel}` : `🧪 ${s.title}: explorar libre`)),
       stage));
-    s.sandbox(stage);
-    GA.say('Modo explorar. ¡Experimenta todo lo que quieras!');
+    s.sandbox(stage, opts || {});
+    GA.say(s.sandboxLabel ? '¡Bienvenido a tu biblioteca! Escoge un librito.' : 'Modo explorar. ¡Experimenta todo lo que quieras!');
   };
 
   // ---------- Corredor de actividades ----------
   GA.run = function (queue, opts = {}) {
     clear();
     if (!queue.length) { GA.screens.home(); return; }
-    const S = { queue, i: 0, results: [], ctx: {}, t0: Date.now(), stars0: D().stars, events: [], startLv: {} };
+    const test = !!opts.test; // modo prueba para papás: no guarda nada ni da premios
+    const S = { queue, i: 0, results: [], ctx: {}, t0: Date.now(), stars0: D().stars, events: [], startLv: {}, seen: {} };
     queue.forEach((q) => { if (!(q.skill in S.startLv)) S.startLv[q.skill] = E.st(q.skill).lvl; });
     const dots = h('div', { class: 'dots' }, queue.map(() => h('i')));
     const starChip = h('span', { class: 'chip' }, '⭐ ', h('b', null, D().stars));
     const dragonChip = h('span', { class: 'chip', title: 'Dragones' }, '🐉 ', h('b', null, GA.dragons.count()));
     const lumi = h('div', { class: 'lumi-mini', html: GA.mascot('happy', 58) });
     const txt = h('div', { class: 'txt' });
-    let curSay = '';
-    const sayBtn = h('button', { class: 'icon-btn say', 'aria-label': 'Escuchar la instrucción', onclick: () => GA.say(curSay) }, '🔊');
+    let curSay = '', curLang;
+    const sayBtn = h('button', { class: 'icon-btn say', 'aria-label': 'Escuchar la instrucción', onclick: () => GA.say(curSay, { lang: curLang }) }, '🔊');
     const tagLine = h('div', { class: 'skill-tag' });
     const stage = h('div', { class: 'stage' });
     const root = h('div', { class: 'wrap run' },
       h('div', { class: 'run-top' },
-        h('button', { class: 'icon-btn', 'aria-label': 'Salir', onclick: exitAsk }, '✖'), dots, dragonChip, starChip),
+        h('button', { class: 'icon-btn', 'aria-label': 'Salir', onclick: exitAsk }, '✖'), dots, ...(test ? [h('span', { class: 'chip test-chip' }, '🧪 Prueba')] : [dragonChip, starChip])),
       h('div', { class: 'prompt' }, lumi, txt, sayBtn), tagLine, stage);
     const fb = h('div', { class: 'feedback' });
     app().append(root);
     document.body.append(fb);
 
     const setMood = (m) => { lumi.innerHTML = GA.mascot(m, 58); };
-    const setText = (t, say) => { txt.textContent = t; curSay = say || t; };
+    const setText = (t, say, lang) => { txt.textContent = t; curSay = say || t; curLang = lang; };
 
     function exitAsk() {
-      GA.ui.modal({ mascot: 'calm', title: '¿Terminar por ahora?', text: 'Tu avance ya está guardado.', actions: [
+      GA.ui.modal({ mascot: 'calm', title: '¿Terminar por ahora?', text: test ? 'Modo prueba: nada de esto se guarda.' : 'Tu avance ya está guardado.', actions: [
         { label: 'Seguir jugando', cls: 'btn-ok' },
-        { label: 'Salir', cls: 'btn-white', onClick: () => GA.screens.home() },
+        { label: 'Salir', cls: 'btn-white', onClick: () => (test ? GA.screens.testLab() : GA.screens.home()) },
       ] });
     }
 
@@ -204,14 +218,16 @@
       if (S.i >= queue.length) return summary();
       const entry = queue[S.i];
       const skill = GA.skills[entry.skill];
-      const lvl = entry.mode === 'review' ? entry.lvl : E.st(skill.id).lvl;
+      const lvl = entry.mode === 'review' || test ? entry.lvl : E.st(skill.id).lvl;
       root.className = 'wrap run ' + GA.AREAS[skill.area].cls;
       GA.$$('i', dots).forEach((d, k) => d.classList.toggle('cur', k === S.i));
       tagLine.innerHTML = '';
       tagLine.append(`${skill.icon} ${skill.title} · Nivel ${lvl}: ${skill.levels[lvl - 1]}`);
-      if (entry.mode === 'review') tagLine.append(h('span', { class: 'chip', style: { marginLeft: '8px', fontSize: '.85rem' } }, '🔁 Repaso'));
+      if (test) tagLine.append(h('span', { class: 'chip test-chip', style: { marginLeft: '8px', fontSize: '.85rem' } }, '🧪 Modo prueba'));
+      else if (entry.mode === 'review') tagLine.append(h('span', { class: 'chip', style: { marginLeft: '8px', fontSize: '.85rem' } }, '🔁 Repaso'));
       const lkey = skill.id + ':' + lvl;
-      if (entry.mode !== 'review' && skill.lessons && skill.lessons[lvl] && !D().lessons[lkey]) return lesson(skill, lvl, () => { D().lessons[lkey] = 1; GA.store.save(); next(); });
+      if (test && skill.lessons && skill.lessons[lvl] && !S.seen[lkey]) return lesson(skill, lvl, () => { S.seen[lkey] = 1; next(); });
+      if (!test && entry.mode !== 'review' && skill.lessons && skill.lessons[lvl] && !D().lessons[lkey]) return lesson(skill, lvl, () => { D().lessons[lkey] = 1; GA.store.save(); next(); });
       S.ctx[skill.id] = S.ctx[skill.id] || {};
       let item;
       try { item = skill.make(lvl, S.ctx[skill.id]); }
@@ -243,7 +259,7 @@
       let tries = 0, hint = false, done = false;
       const t = Date.now();
       setMood('happy');
-      setText(item.text, item.say || item.text);
+      setText(item.text, item.say || item.text, item.sayLang);
       stage.innerHTML = '';
       const api = {
         answer(ok, o = {}) {
@@ -261,13 +277,14 @@
           done = true; GA.sfx.play('bad'); finish(0); return 'done';
         },
         hintUsed() { hint = true; },
-        setText: (tx) => setText(tx),
+        setText: (tx, lang) => setText(tx, tx, lang),
+        test,
         say: GA.say,
       };
       function finish(score) {
         clearTimeout(api._t);
-        const ev = E.record(skill.id, lvl, score, Date.now() - t, entry.mode, item.tag);
-        E.addTime(Date.now() - t);
+        const ev = test ? [] : E.record(skill.id, lvl, score, Date.now() - t, entry.mode, item.tag);
+        if (!test) E.addTime(Date.now() - t);
         S.events.push(...ev.map((e) => Object.assign({ skill: skill.id }, e)));
         S.results.push({ skill: skill.id, score });
         const dot = GA.$$('i', dots)[S.i];
@@ -278,8 +295,13 @@
         if (score > 0) {
           GA.sfx.play('ok'); setMood('wow');
           if (score === 1) GA.confetti(50, 0.5);
-          GA.flyStar(stage, starChip);
           const title = score === 1 ? GA.pick(PRAISE) : GA.pick(PRAISE_RETRY);
+          if (test) {
+            showFb('good', title, item.fact || '', null, go, null, '🧪 Modo prueba: sin premios ni estadísticas.');
+            GA.say(title + (item.fact ? ' ' + item.fact : ''));
+            return;
+          }
+          GA.flyStar(stage, starChip);
           const dr = GA.dragons.award();
           dragonChip.querySelector('b').textContent = GA.dragons.count();
           const dmsg = GA.dragons.message(dr);
@@ -291,12 +313,13 @@
           setMood('calm');
           const ex = item.explain || { text: '' };
           showFb('explain', '¡Así se resuelve!', ex.text, ex.html, go);
-          GA.say('Mira cómo se resuelve. ' + ex.text);
+          if (item.lang === 'en') GA.say('Mira cómo se resuelve.').then(() => GA.say(ex.text, { lang: 'en' }));
+          else GA.say('Mira cómo se resuelve. ' + ex.text);
         }
       }
       try { item.render(stage, api); }
       catch (err) { console.error('Error en actividad', skill.id, err); stage.innerHTML = ''; S.i++; next(); return; }
-      if (GA.settings().autoRead) setTimeout(() => GA.say(item.say || item.text), 250);
+      if (GA.settings().autoRead) setTimeout(() => GA.say(item.say || item.text, { lang: item.sayLang }), 250);
     }
 
     function showFb(kind, title, text, html, onContinue, iconEl, extra) {
@@ -358,6 +381,7 @@
     function summary() {
       fb.remove();
       document.body.style.paddingBottom = '';
+      if (test) return testSummary();
       const got = D().stars - S.stars0;
       const okN = S.results.filter((r) => r.score === 1).length;
       const skills = [...new Set(queue.map((q) => q.skill))];
@@ -387,7 +411,37 @@
       GA.say(`${msg} Ganaste ${got} estrellas.`);
     }
 
+    function testSummary() {
+      const okN = S.results.filter((r) => r.score === 1).length;
+      app().innerHTML = '';
+      app().append(h('div', { class: 'wrap summary' },
+        h('div', { html: GA.mascot('happy', 110) }),
+        h('h1', null, '🧪 Prueba terminada'),
+        h('div', { class: 'chip', style: { fontSize: '1.2rem' } }, `${okN} de ${S.results.length} a la primera`),
+        h('p', { class: 'muted' }, 'Nada de esta ronda se guardó: no cuenta en estadísticas, niveles, repasos, estrellas ni dragones.'),
+        h('div', { class: 'actions', style: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' } },
+          h('button', { class: 'btn btn-big btn-ok', onclick: () => GA.run(queue.map((q) => Object.assign({}, q)), opts) }, '🔁 Otra vez'),
+          h('button', { class: 'btn btn-big btn-white', onclick: () => GA.screens.testLab() }, '🧪 Modo prueba'))));
+    }
+
     next();
+  };
+
+  // ---------- Modo prueba (papás) ----------
+  GA.screens.testLab = function () {
+    clear();
+    const play = (s, lvl) => { GA.sfx.play('tap'); GA.run(GA.range(1, s.roundLen ? s.roundLen(lvl) : GA.settings().roundLen || 6).map(() => ({ skill: s.id, lvl, mode: 'test' })), { title: s.title, test: true }); };
+    const areas = Object.values(GA.AREAS).map((a) => h('section', { class: 'test-area ' + a.cls },
+      h('h2', { class: 'section-title' }, `${a.icon} ${a.name}`),
+      h('div', { class: 'test-grid' }, GA.areaSkills(a.id).map((s) => h('div', { class: 'test-skill' },
+        h('h3', null, `${s.icon} ${s.title}`),
+        h('div', { class: 'test-lvls' },
+          s.levels.map((l, i) => h('button', { class: 'btn btn-sm', title: l, onclick: () => play(s, i + 1) }, h('b', null, `Nivel ${i + 1}`), h('small', null, l))),
+          s.sandbox ? h('button', { class: 'btn btn-sm btn-sun', onclick: () => GA.screens.sandbox(s, GA.screens.testLab, { test: true }) }, s.sandboxLabel || '🧪 Explorar libre') : null))))));
+    app().append(h('div', { class: 'wrap' },
+      h('div', { class: 'topbar' }, h('button', { class: 'icon-btn', 'aria-label': 'Volver al panel', onclick: () => GA.screens.parents() }, '⬅'), h('h1', { style: { marginRight: 'auto' } }, '🧪 Modo prueba')),
+      h('div', { class: 'test-note' }, 'Entra a cualquier aventura y cualquier nivel. Nada de lo que hagas aquí se guarda: no cuenta en estadísticas, niveles, repasos, estrellas ni dragones.'),
+      areas));
   };
 
   // ---------- Álbum ----------
