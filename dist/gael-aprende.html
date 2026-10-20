@@ -28,6 +28,7 @@
   --lang: #FF7433;  --lang-d: #D9551A;  --lang-l: #FFEBDF;
   --read: #E2457F;  --read-d: #B8285E;  --read-l: #FDE6EF;
   --eng: #2F6FE0;   --eng-d: #1F4FB0;   --eng-l: #E3ECFF;
+  --hyr: #2E8B57;   --hyr-d: #1E6B41;   --hyr-l: #E1F4E8;
   --sun: #FFC233;   --sun-d: #E09B00;
   --ok: #26BF63;    --ok-d: #189049;    --ok-l: #E2F8EB;
   --bad: #FF6B6B;   --bad-d: #D94848;   --bad-l: #FFE7E7;
@@ -47,6 +48,7 @@
 .area-ciencia { --c: var(--sci); --c-d: var(--sci-d); --c-l: var(--sci-l); }
 .area-lengua { --c: var(--lang); --c-d: var(--lang-d); --c-l: var(--lang-l); }
 .area-lector { --c: var(--read); --c-d: var(--read-d); --c-l: var(--read-l); }
+.area-hyrule { --c: var(--hyr); --c-d: var(--hyr-d); --c-l: var(--hyr-l); }
 .area-ingles { --c: var(--eng); --c-d: var(--eng-d); --c-l: var(--eng-l); }
 .area-mix { --c: var(--info); --c-d: var(--info-d); --c-l: var(--info-l); }
 
@@ -1446,6 +1448,8 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       blurb: 'Sonidos, sílabas, palabras, rimas y cuentos.' },
     lector: { id: 'lector', name: 'Aprender a leer', short: 'Lectura', world: 'Camino del Lector', icon: '📖', cls: 'area-lector', color: '#E2457F',
       blurb: 'De las primeras sílabas a leer libros completos, paso a paso.' },
+    hyrule: { id: 'hyrule', name: 'Hyrule en español', short: 'Hyrule', world: 'Hyrule en español', icon: '🗡️', cls: 'area-hyrule', color: '#2E8B57',
+      blurb: 'Aprende a leer con las aventuras de Zelda: Breath of the Wild.' },
     ingles: { id: 'ingles', name: 'Inglés', short: 'Inglés', world: 'Hyrule in English', icon: '🇺🇸', cls: 'area-ingles', color: '#2F6FE0',
       blurb: 'Practica inglés leyendo las aventuras de Zelda.' },
   };
@@ -6093,7 +6097,7 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
     }));
   }
   hyruleSkill({
-    id: 'lzel', area: 'lector', title: 'Leyendas de Hyrule', icon: '🗡️', desc: 'Aprende a leer en el mundo de Zelda: Breath of the Wild. De palabras sueltas a las grandes leyendas de Hyrule.',
+    id: 'lzel', area: 'hyrule', title: 'Leyendas de Hyrule', icon: '🗡️', desc: 'Aprende a leer en el mundo de Zelda: Breath of the Wild. De palabras sueltas a las grandes leyendas de Hyrule.',
     prereq: [['lsil', 2]], sandboxLabel: '📜 Archivo Sheikah',
     libraryIntro: 'Aquí se guardan los textos de Hyrule que ya abriste. ¡Vuelve a leerlos para leer cada vez más rápido!',
     lessons: {
@@ -6163,6 +6167,11 @@ window.GA_IMG = {"img/especiales/dragon-cloudjumper.jpg": "data:image/jpeg;base6
       <g transform="translate(92 70)"><path d="M-48 -26 Q-24 -36 0 -24 Q24 -36 48 -26 V30 Q24 20 0 32 Q-24 20 -48 30Z" fill="#fff"/><path d="M0 -24 V32" stroke="#E2457F" stroke-width="3"/>
       <g stroke="#F5A3C2" stroke-width="3" stroke-linecap="round"><path d="M-38 -12 H-10 M-38 -2 H-10 M-38 8 H-14 M10 -12 H38 M10 -2 H38 M10 8 H32"/></g></g>
       <g fill="#fff" font-family="Baloo 2, sans-serif" font-weight="800"><text x="22" y="40" font-size="30" opacity=".85">a</text><text x="170" y="44" font-size="26" opacity=".7">ñ</text><text x="292" y="140" font-size="28" opacity=".8">e</text></g></svg>`,
+    hyrule: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2E8B57"/>
+      <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1E6B41"/>
+      <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>
+      <g font-family="Baloo 2, sans-serif" font-weight="800" fill="#fff"><text x="20" y="62" font-size="36">¡Hola!</text><text x="240" y="58" font-size="30" opacity=".9">ABC</text>
+      <text x="30" y="132" font-size="22" opacity=".8">espada</text><text x="244" y="126" font-size="22" opacity=".8">arco</text></g></svg>`,
     ingles: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2F6FE0"/>
       <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1F4FB0"/>
       <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>

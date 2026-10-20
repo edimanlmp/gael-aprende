@@ -39,6 +39,11 @@
       <g transform="translate(92 70)"><path d="M-48 -26 Q-24 -36 0 -24 Q24 -36 48 -26 V30 Q24 20 0 32 Q-24 20 -48 30Z" fill="#fff"/><path d="M0 -24 V32" stroke="#E2457F" stroke-width="3"/>
       <g stroke="#F5A3C2" stroke-width="3" stroke-linecap="round"><path d="M-38 -12 H-10 M-38 -2 H-10 M-38 8 H-14 M10 -12 H38 M10 -2 H38 M10 8 H32"/></g></g>
       <g fill="#fff" font-family="Baloo 2, sans-serif" font-weight="800"><text x="22" y="40" font-size="30" opacity=".85">a</text><text x="170" y="44" font-size="26" opacity=".7">ñ</text><text x="292" y="140" font-size="28" opacity=".8">e</text></g></svg>`,
+    hyrule: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2E8B57"/>
+      <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1E6B41"/>
+      <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>
+      <g font-family="Baloo 2, sans-serif" font-weight="800" fill="#fff"><text x="20" y="62" font-size="36">¡Hola!</text><text x="240" y="58" font-size="30" opacity=".9">ABC</text>
+      <text x="30" y="132" font-size="22" opacity=".8">espada</text><text x="244" y="126" font-size="22" opacity=".8">arco</text></g></svg>`,
     ingles: `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#2F6FE0"/>
       <path d="M0 160 Q90 136 180 158 T320 150 V200 H0Z" fill="#1F4FB0"/>
       <g transform="translate(160 92)"><path d="M0 -58 L34 0 H-34Z M-34 0 L0 58 H-68Z M34 0 L68 58 H0Z" fill="#FFD54A" stroke="#E0A800" stroke-width="3" stroke-linejoin="round"/></g>

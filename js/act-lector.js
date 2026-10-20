@@ -577,7 +577,7 @@
     }));
   }
   hyruleSkill({
-    id: 'lzel', area: 'lector', title: 'Leyendas de Hyrule', icon: '🗡️', desc: 'Aprende a leer en el mundo de Zelda: Breath of the Wild. De palabras sueltas a las grandes leyendas de Hyrule.',
+    id: 'lzel', area: 'hyrule', title: 'Leyendas de Hyrule', icon: '🗡️', desc: 'Aprende a leer en el mundo de Zelda: Breath of the Wild. De palabras sueltas a las grandes leyendas de Hyrule.',
     prereq: [['lsil', 2]], sandboxLabel: '📜 Archivo Sheikah',
     libraryIntro: 'Aquí se guardan los textos de Hyrule que ya abriste. ¡Vuelve a leerlos para leer cada vez más rápido!',
     lessons: {

@@ -15,6 +15,7 @@
   --lang: #FF7433;  --lang-d: #D9551A;  --lang-l: #FFEBDF;
   --read: #E2457F;  --read-d: #B8285E;  --read-l: #FDE6EF;
   --eng: #2F6FE0;   --eng-d: #1F4FB0;   --eng-l: #E3ECFF;
+  --hyr: #2E8B57;   --hyr-d: #1E6B41;   --hyr-l: #E1F4E8;
   --sun: #FFC233;   --sun-d: #E09B00;
   --ok: #26BF63;    --ok-d: #189049;    --ok-l: #E2F8EB;
   --bad: #FF6B6B;   --bad-d: #D94848;   --bad-l: #FFE7E7;
@@ -34,6 +35,7 @@
 .area-ciencia { --c: var(--sci); --c-d: var(--sci-d); --c-l: var(--sci-l); }
 .area-lengua { --c: var(--lang); --c-d: var(--lang-d); --c-l: var(--lang-l); }
 .area-lector { --c: var(--read); --c-d: var(--read-d); --c-l: var(--read-l); }
+.area-hyrule { --c: var(--hyr); --c-d: var(--hyr-d); --c-l: var(--hyr-l); }
 .area-ingles { --c: var(--eng); --c-d: var(--eng-d); --c-l: var(--eng-l); }
 .area-mix { --c: var(--info); --c-d: var(--info-d); --c-l: var(--info-l); }
 
