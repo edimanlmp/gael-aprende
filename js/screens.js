@@ -370,6 +370,20 @@
         } else if (e.type === 'sticker') {
           GA.sfx.play('star');
           GA.ui.modal({ title: '¡Nueva estampa!', body: h('div', { class: 'levelup-burst' }, e.sticker), text: 'Ya está en tu álbum.', say: '¡Ganaste una estampa nueva para tu álbum!', actions: [{ label: 'Guardar ➜', cls: 'btn-ok', onClick: step }] });
+        } else if (e.type === 'dragon' && e.r.grand) {
+          const f = e.r.f;
+          GA.sfx.play('level'); GA.confetti(400);
+          setTimeout(() => GA.confetti(300), 900);
+          GA.ui.modal({
+            title: '🏆 ¡GRAN PREMIO! 🏆',
+            body: h('div', { class: 'grand-prize' },
+              h('div', { class: 'grand-rays' }),
+              h('div', { class: 'sp-big', style: { '--glow': f.color }, html: GA.dragons.specialArt(f, 280) }),
+              h('div', { class: 'chip', style: { background: '#F5A300', color: '#fff' } }, `🗡️ ${f.name} · Única en Hyrule`)),
+            text: `¡Juntaste ${GA.dragons.MASTER_AT} tesoros de Hyrule y tu corazón fue lo bastante fuerte! ${f.fact}`,
+            say: `¡Gran premio! ¡Sacaste la Espada Maestra de la piedra! Solo existe una en todo Hyrule, y es tuya. ¡Eres el héroe!`,
+            actions: [{ label: '¡Soy el héroe! ➜', cls: 'btn-ok', onClick: step }],
+          });
         } else if (e.type === 'dragon') {
           const r = e.r, R = GA.dragons.RARITY[r.d.e.r];
           GA.sfx.play('level'); GA.confetti(160);

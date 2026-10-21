@@ -93,9 +93,11 @@
   const ZELDA = [
     ZS('link', 'Link', 'legendario', '#2E8B57', 'Link es el héroe de Hyrule. Despertó después de dormir cien años.'),
     ZS('zelda', 'Princesa Zelda', 'legendario', '#F5D76E', 'Zelda estudia todo lo antiguo de Hyrule y tiene un poder sagrado.'),
-    ZS('espada', 'Espada Maestra', 'legendario', '#7EC8FF', 'Es la espada que ahuyenta la oscuridad. Solo un héroe puede sacarla de la piedra.'),
     ZS('ganon', 'Ganon', 'legendario', '#B91C1C', 'Ganon es el gran enemigo de Hyrule. ¡Link y Zelda siempre lo vencen!'),
     ZS('campeones', 'Los Elegidos', 'legendario', '#3D8BFF', 'Cinco héroes unidos para proteger Hyrule: juntos son más fuertes.'),
+    ZS('link-arco', 'Link arquero', 'legendario', '#38BDF8', 'Cuando Link salta y apunta con su arco, el tiempo se vuelve lento. ¡Así casi nunca falla!'),
+    ZS('vah-ruta', 'Vah Ruta', 'legendario', '#3B82F6', 'Vah Ruta es una bestia divina con forma de elefante. Con su trompa lanza chorros de agua enormes. Mipha era su piloto.'),
+    ZS('rhoam', 'Rey Rhoam', 'legendario', '#10B981', 'El rey Rhoam es el papá de Zelda. Al principio de la aventura ayuda a Link disfrazado de anciano.'),
     ZS('mipha', 'Mipha', 'epico', '#E11D48', 'Mipha es una princesa zora que puede curar heridas.'),
     ZS('daruk', 'Daruk', 'epico', '#B45309', 'Daruk es un goron enorme. Los gorones comen rocas, ¡y les encantan!'),
     ZS('revali', 'Revali', 'epico', '#1D4ED8', 'Revali es un orni que vuela altísimo y nunca falla con su arco.'),
@@ -106,6 +108,14 @@
     ZS('lynel', 'Centaleón', 'epico', '#9F1239', 'El centaleón es mitad león y mitad caballo. ¡Es el monstruo más fuerte!'),
     ZS('paravela', 'Paravela', 'epico', '#C2410C', 'Con la paravela Link baja planeando, como un ala delta de verdad.'),
     ZS('tableta', 'Piedra Sheikah', 'epico', '#0EA5E9', 'La Piedra Sheikah guarda mapas, fotos y poderes antiguos.'),
+    ZS('kass', 'Kass', 'epico', '#2563EB', 'Kass es un orni que toca el acordeón y canta canciones con pistas para resolver misterios.'),
+    ZS('hinox', 'Hinox', 'epico', '#B91C1C', 'El hinox es un gigante con un solo ojo. Duerme mucho, ¡así que hay que acercarse sin hacer ruido!'),
+    ZS('link-caballo', 'Link y su caballo', 'epico', '#F59E0B', 'Link puede ponerle nombre a su caballo. Si lo acaricia mucho, el caballo le hace más caso.'),
+    ZS('tunica', 'Túnica de campeón', 'epico', '#1D4ED8', 'La princesa Zelda le dio esta túnica azul a Link cuando lo nombraron campeón.'),
+    ZS('arm-ancestral', 'Armadura ancestral', 'epico', '#0EA5E9', 'La armadura ancestral está hecha con piezas de guardianes. ¡Protege a Link de sus rayos!'),
+    ZS('arm-zora', 'Armadura zora', 'epico', '#06B6D4', 'Con la armadura zora, Link puede nadar hacia arriba por las cascadas. Mipha la hizo para él.'),
+    ZS('vigor', 'Recipiente del vigor', 'epico', '#22C55E', 'Cada recipiente del vigor agranda la rueda verde de Link para escalar y correr más tiempo.'),
+    ZS('princesa', 'Princesa silenciosa', 'epico', '#60A5FA', 'Es la flor favorita de Zelda. Es muy rara: no crece en jardines, solo en lugares salvajes.'),
     ZS('korok', 'Kolog', 'raro', '#65A30D', 'Hay muchísimos kologs escondidos en Hyrule. ¡Cada uno regala una semilla!'),
     ZS('hada', 'Hada', 'raro', '#F472B6', 'Si Link se queda sin corazones, un hada lo salva.'),
     ZS('caballo', 'Caballo', 'raro', '#92400E', 'Los caballos de verdad pueden dormir de pie.'),
@@ -117,9 +127,26 @@
     ZS('bokoblin', 'Bokoblin', 'raro', '#EF4444', 'Los bokoblins viven en campamentos y duermen de noche.'),
     ZS('chuchu', 'Chuchu', 'raro', '#60A5FA', 'Los chuchus son gelatinas. Hay de fuego, de hielo y de rayo.'),
     ZS('octorok', 'Octorok', 'raro', '#7C3AED', 'Los octoroks escupen piedras. Los pulpos de verdad escupen tinta.'),
+    ZS('moblin', 'Moblin', 'raro', '#B45309', 'Los moblins son primos grandotes de los bokoblins, ¡y tienen brazos larguísimos!'),
+    ZS('lizalfos', 'Lizalfos', 'raro', '#16A34A', 'Los lizalfos son lagartijas que cambian de color para esconderse, como los camaleones de verdad.'),
+    ZS('keese', 'Keese', 'raro', '#7C3AED', 'Los keese son murciélagos de Hyrule. Los murciélagos de verdad usan el eco para moverse en la oscuridad.'),
+    ZS('espada-viajero', 'Espada de viajero', 'raro', '#94A3B8', 'Es una espada sencilla de los viajeros. Se gasta y se rompe, no como la Espada Maestra.'),
+    ZS('escudo-madera', 'Escudo de madera', 'raro', '#A16207', 'Los escudos de madera se queman con el fuego, pero en una tormenta no atraen los rayos.'),
+    ZS('flecha-bomba', 'Flecha bomba', 'raro', '#EF4444', 'Las flechas bomba explotan al tocar algo. ¡Hay que usarlas desde lejos!'),
+    ZS('arm-fuego', 'Armadura ignífuga', 'raro', '#EA580C', 'Con la armadura ignífuga, Link puede caminar cerca de los volcanes sin quemarse.'),
+    ZS('arm-escalada', 'Ropa de escalada', 'raro', '#0D9488', 'Con la ropa de escalada, Link sube las paredes y las montañas más rápido.'),
+    ZS('olla', 'Olla de cocina', 'raro', '#F97316', 'En una olla, Link puede mezclar hasta cinco ingredientes para cocinar.'),
+    ZS('brochetas', 'Brochetas', 'raro', '#D97706', 'Mientras mejores ingredientes cocina Link, más corazones recupera al comer.'),
+    ZS('hongo', 'Hongo hyliano', 'raro', '#F97316', 'Los hongos no son plantas: ¡pertenecen a su propio reino, el de los hongos!'),
+    ZS('pimiento', 'Pimiento picante', 'raro', '#DC2626', 'Comer pimiento picante ayuda a Link a no tener frío en la nieve.'),
+    ZS('rabano', 'Rábano', 'raro', '#EC4899', 'Los rábanos crecen bajo la tierra: lo que se come es su raíz.'),
   ];
+  // Gran premio: solo hay una Espada Maestra. No sale en los cofres: se gana al juntar MASTER_AT tesoros de Hyrule distintos
+  // (en el juego, Link necesita trece corazones para sacarla de la piedra)
+  const MASTER = { ...ZS('espada-art', 'Espada Maestra', 'legendario', '#7EC8FF', '¡Solo existe una en todo Hyrule! Es la espada que ahuyenta la oscuridad, y solo alguien con un corazón muy fuerte puede sacarla de la piedra. ¡Ese eres tú!'), id: 'zelda-espada', grand: true };
+  const MASTER_AT = 13;
   const SPECIAL_CHANCE = 0.15, ZELDA_CHANCE = 0.12;
-  const ALL_SPECIAL = [...SPECIAL, ...ZELDA];
+  const ALL_SPECIAL = [...SPECIAL, ...ZELDA, MASTER];
   const specialArt = (f, size, cls = '') => `<img class="special-img ${f.kind} ${cls}" src="${f.img}" alt="${f.name}" width="${size}" height="${f.kind === 'dragon' ? Math.round(size * 0.666) : size}" draggable="false">`;
   const byId = (id) => ALL.find((d) => d.id === id);
   const stageOf = (n) => STAGES.reduce((s, st, i) => (n >= st.at ? i + 1 : s), 1);
@@ -131,8 +158,9 @@
   // ---------- Colección ----------
   const D = () => GA.store.data;
   const col = () => (D().dragons = D().dragons || {});
+  const zeldaOwned = () => ZELDA.filter((f) => col()[f.id]).length;
   GA.dragons = {
-    ALL, DRAGONS, MILKS, ELEM, BREED, FLAVOR, ACC, RARITY, STAGES, SPECIAL, ZELDA, ALL_SPECIAL, byId, stageOf, stageName, svg: dragonSVG, egg: eggSVG, specialArt,
+    ALL, DRAGONS, MILKS, ELEM, BREED, FLAVOR, ACC, RARITY, STAGES, SPECIAL, ZELDA, MASTER, MASTER_AT, ALL_SPECIAL, zeldaOwned, byId, stageOf, stageName, svg: dragonSVG, egg: eggSVG, specialArt,
     count: () => Object.keys(col()).length,
     total: () => ALL.length + ALL_SPECIAL.length,
     // Dibujo de cualquier premio (dragón generado o figura especial)
@@ -151,6 +179,11 @@
     },
     // Entrega un dragón por una respuesta correcta
     award() {
+      if (!col()[MASTER.id] && zeldaOwned() >= MASTER_AT) {
+        col()[MASTER.id] = { n: 1, t: Date.now() };
+        GA.store.save();
+        return { special: true, grand: true, f: MASTER, d: { name: MASTER.name, e: { r: MASTER.r, c: ELEM.find((e) => e.id === 'oro').c } }, isNew: true, grew: false, stage: 1, copies: 1 };
+      }
       const luck = Math.random();
       if (luck < SPECIAL_CHANCE) return this.awardSpecial();
       if (luck < SPECIAL_CHANCE + ZELDA_CHANCE) return this.awardSpecial(ZELDA);
@@ -169,6 +202,7 @@
       return { d, isNew: rec.n === 1, grew: rec.n > 1 && stage > before, stage, copies: rec.n };
     },
     message(r) {
+      if (r.grand) return `¡GRAN PREMIO! ¡Sacaste la Espada Maestra! Solo existe una y es tuya`;
       if (r.special && r.f.kind === 'zelda') return r.isNew ? `¡Tesoro de Hyrule! ${r.f.name} (${RARITY[r.f.r].n})` : `¡Otra vez ${r.f.name}! Ya tienes ${r.copies}`;
       if (r.special) return r.isNew ? `¡Figura especial! ${r.f.name} (${RARITY[r.f.r].n})` : `¡Otra vez ${r.f.name}! Ya tienes ${r.copies}`;
       if (r.isNew) return `¡${r.d.kind === 'milk' ? 'Nuevo Milkerito' : 'Nuevo dragón'}! ${r.d.name} (${RARITY[r.d.e.r].n})`;
@@ -214,7 +248,7 @@
         h('div', { class: 'sp-big', style: { '--glow': f.color }, html: specialArt(f, 280) }),
         h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' } },
           h('span', { class: 'chip', style: { background: R.color, color: '#fff' } }, `${R.n} · ${f.kind === 'zelda' ? 'Tesoro de Hyrule' : 'Figura especial'}`),
-          h('span', { class: 'chip' }, `Encontrada ${rec.n} ${rec.n === 1 ? 'vez' : 'veces'}`)),
+          h('span', { class: 'chip' }, f.grand ? '🏆 Única en Hyrule' : `Encontrada ${rec.n} ${rec.n === 1 ? 'vez' : 'veces'}`)),
         h('p', { style: { margin: 0 } }, `💡 ${f.fact}`)),
       actions: [{ label: '🔊 Escuchar', cls: 'btn-white', keep: true, onClick: () => GA.say(`${f.name}. ${f.fact}`) }, { label: '¡Genial!', cls: 'btn-ok' }],
       say: f.name, dismissable: true,
@@ -246,11 +280,24 @@
           h('div', { class: 'cave-name' }, f.name), rec.n > 1 ? h('div', { class: 'cave-stage' }, `×${rec.n}`) : null,
           h('span', { class: 'cave-r', style: { background: R.color } }, R.n));
       }))) : null;
-    const zs = ZELDA.filter((f) => filter === 'todos' || filter === 'zelda' || f.r === filter);
     const zOwned = ZELDA.filter((f) => have[f.id]).length;
+    const masterCard = () => {
+      const got = !!have[MASTER.id], k = Math.min(zOwned, MASTER_AT);
+      return h(got ? 'button' : 'div', { class: 'master-card' + (got ? '' : ' locked'), style: { '--glow': MASTER.color }, onclick: got ? () => detailSpecial(MASTER) : null },
+        h('div', { class: 'master-art', html: specialArt(MASTER, 170) }),
+        h('div', { class: 'master-info' },
+          h('span', { class: 'master-tag' }, '🏆 Gran premio · Solo hay una'),
+          h('h3', null, got ? '¡La Espada Maestra es tuya!' : 'La Espada Maestra'),
+          got ? h('p', null, 'Juntaste los tesoros y tu corazón fue lo bastante fuerte para sacarla de la piedra. ¡Eres el héroe de Hyrule!')
+            : [h('p', null, `Junta ${MASTER_AT} tesoros de Hyrule distintos y tu corazón será lo bastante fuerte para sacarla de la piedra.`),
+              h('div', { class: 'master-hearts', 'aria-label': `${k} de ${MASTER_AT}` }, Array.from({ length: MASTER_AT }, (_, i) => h('span', { class: i < k ? 'on' : '' }, '❤'))),
+              h('small', null, `${k} de ${MASTER_AT} tesoros`)]));
+    };
+    const zs = ZELDA.filter((f) => filter === 'todos' || filter === 'zelda' || f.r === filter);
     const zeldaSection = zs.length ? h('section', { class: 'sp-section zelda-section' },
       h('h2', null, `🗡️ Tesoros de Hyrule · ${zOwned} de ${ZELDA.length}`),
       h('p', { class: 'cave-intro' }, 'A veces, en lugar de un huevo, ¡aparece un cofre de Hyrule! Junta a Link, Zelda y todos sus amigos.'),
+      masterCard(),
       h('div', { class: 'sp-grid' }, zs.map((f) => {
         const rec = have[f.id], R = RARITY[f.r];
         if (!rec) return h('div', { class: 'sp-card locked zelda' }, h('div', { class: 'sp-art', html: specialArt(f, 140) }), h('div', { class: 'sp-q' }, '?'), h('div', { class: 'cave-name' }, 'Tesoro misterioso'), h('span', { class: 'cave-r', style: { background: R.color } }, R.n));

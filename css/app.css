@@ -673,6 +673,26 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; line-height: 1.1; text-wr
 .hatch-special { display: grid; place-items: center; }
 .hatch-special img { box-shadow: 0 4px 12px rgba(0,0,0,.25); }
 .hatch-special img.milkerito, .hatch-special img.zelda { width: 90%; height: auto; }
+/* Gran premio: la Espada Maestra (solo hay una) */
+.master-card { display: flex; align-items: center; gap: 18px; width: 100%; margin: 4px 0 18px; padding: 16px 20px; border-radius: 24px; border: 3px solid #FFD95A; background: linear-gradient(135deg, rgba(126,200,255,.28), rgba(255,217,90,.22)); box-shadow: 0 0 28px rgba(255,217,90,.45); color: #fff; text-align: left; font: inherit; }
+button.master-card { cursor: pointer; animation: master-glow 2.4s ease-in-out infinite; }
+.master-card.locked { border-style: dashed; border-color: rgba(255,217,90,.6); box-shadow: none; }
+.master-art { flex: none; }
+.master-art img { width: 130px; height: 130px; background: radial-gradient(circle, #FFFFFF 0%, #CFEFFF 60%, #FFE9A8 100%); animation: sp-float 3s ease-in-out infinite; }
+.master-card.locked .master-art img { filter: brightness(.25) drop-shadow(0 0 8px #7EC8FF); animation: none; }
+.master-info h3 { font-size: 1.5rem; color: #FFE27A; margin: 6px 0 4px; }
+.master-info p { margin: 0 0 8px; }
+.master-tag { display: inline-block; background: #F5A300; color: #fff; font-family: var(--f-display); font-weight: 800; font-size: .85rem; padding: 3px 10px; border-radius: 999px; }
+.master-hearts { display: flex; flex-wrap: wrap; gap: 3px; font-size: 1.25rem; line-height: 1; }
+.master-hearts span { color: rgba(255,255,255,.25); }
+.master-hearts span.on { color: #FF4D6D; text-shadow: 0 0 6px rgba(255,77,109,.7); }
+@keyframes master-glow { 0%,100% { box-shadow: 0 0 18px rgba(255,217,90,.4); } 50% { box-shadow: 0 0 40px rgba(126,200,255,.8); } }
+.grand-prize { position: relative; display: grid; justify-items: center; gap: 8px; overflow: hidden; border-radius: 20px; padding: 6px 0; }
+.grand-prize > :not(.grand-rays) { position: relative; }
+.grand-rays { position: absolute; left: 50%; top: 150px; width: 420px; height: 420px; margin: -210px 0 0 -210px; border-radius: 50%; background: repeating-conic-gradient(rgba(255,217,90,.45) 0 12deg, transparent 12deg 24deg); mask: radial-gradient(circle, #000 30%, transparent 70%); animation: grand-spin 12s linear infinite; pointer-events: none; }
+@keyframes grand-spin { to { transform: rotate(360deg); } }
+@media (max-width: 560px) { .master-card { flex-direction: column; text-align: center; } .master-hearts { justify-content: center; } .grand-rays { width: 300px; height: 300px; margin: -150px 0 0 -150px; } }
+@media (prefers-reduced-motion: reduce) { button.master-card, .master-art img, .grand-rays { animation: none; } }
 .cave-banner-sp { align-self: center; margin-right: 6px; }
 .cave-banner-sp .milkerito, .cave-banner-sp .zelda { width: 86px; height: 86px; }
 .cave-banner-sp .dragon { width: 110px; }
