@@ -645,6 +645,9 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; line-height: 1.1; text-wr
 .special-img { display: block; max-width: 100%; height: auto; object-fit: cover; }
 .special-img.dragon { border-radius: 18px; }
 .special-img.milkerito { clip-path: circle(46% at 50% 50%); aspect-ratio: 1; }
+.special-img.zelda { aspect-ratio: 1; object-fit: contain; border-radius: 18px; padding: 6px; background: radial-gradient(circle, #FFFBEA 0%, #F3E3B5 100%); border: 3px solid #C9A227; }
+.zelda-section { background: linear-gradient(135deg, rgba(46,139,87,.22), rgba(201,162,39,.16)); border-color: rgba(201,162,39,.6); }
+.zelda-section h2 { color: #FFE9A8; }
 .sp-section { background: linear-gradient(135deg, rgba(255,210,63,.18), rgba(255,122,198,.12)); border: 2px solid rgba(255,210,63,.45); border-radius: 28px; padding: 16px 18px 20px; margin-bottom: 22px; }
 .sp-section h2, .cave-h2 { font-size: 1.5rem; color: #FFE27A; margin: 0 0 4px; }
 .cave-h2 { margin: 6px 0 12px; }
@@ -658,18 +661,20 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; line-height: 1.1; text-wr
 .sp-card .sp-art { min-height: 100px; display: grid; place-items: center; }
 .sp-card .sp-art img { box-shadow: 0 6px 16px rgba(0,0,0,.35); }
 .sp-card.milkerito .sp-art img { width: 120px; height: 120px; }
+.sp-card.zelda .sp-art img { width: 130px; height: 130px; }
 .sp-card.locked .sp-art img { filter: blur(9px) grayscale(1) brightness(.55); }
 .sp-card.locked { box-shadow: inset 0 0 0 2px rgba(255,255,255,.15); background: rgba(255,255,255,.05); }
 .sp-q { position: absolute; top: 34%; left: 50%; transform: translate(-50%, -50%); font-family: var(--f-display); font-size: 3.4rem; font-weight: 800; color: #FFE27A; text-shadow: 0 3px 0 rgba(0,0,0,.35); }
 .sp-big { border-radius: 26px; padding: 10px; background: radial-gradient(circle, color-mix(in srgb, var(--glow) 45%, white) 0%, transparent 72%); }
 .sp-big img { box-shadow: 0 10px 26px rgba(0,0,0,.25); animation: sp-float 3s ease-in-out infinite; }
 .sp-big .milkerito { width: 240px; height: 240px; }
+.sp-big .zelda { width: 240px; height: 240px; }
 @keyframes sp-float { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-6px) rotate(1deg); } }
 .hatch-special { display: grid; place-items: center; }
 .hatch-special img { box-shadow: 0 4px 12px rgba(0,0,0,.25); }
-.hatch-special img.milkerito { width: 90%; height: auto; }
+.hatch-special img.milkerito, .hatch-special img.zelda { width: 90%; height: auto; }
 .cave-banner-sp { align-self: center; margin-right: 6px; }
-.cave-banner-sp .milkerito { width: 86px; height: 86px; }
+.cave-banner-sp .milkerito, .cave-banner-sp .zelda { width: 86px; height: 86px; }
 .cave-banner-sp .dragon { width: 110px; }
 
 /* ---------- Retratos tipo estampa (critters.js) ---------- */

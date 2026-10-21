@@ -88,7 +88,38 @@
     SP('milkerito-estrella', 'Milkerito Estrella', 'milkerito', 'epico', '#FBBF24', 'El Sol también es una estrella, ¡la más cercana a nosotros!'),
     SP('milkerito-arcoiris', 'Milkerito Arcoíris', 'milkerito', 'epico', '#A78BFA', 'Un arcoíris tiene siete colores: rojo, naranja, amarillo, verde, azul, añil y violeta.'),
   ];
-  const SPECIAL_CHANCE = 0.15;
+  // Tesoros de Hyrule (The Legend of Zelda): salen de un cofre (ZELDA_CHANCE), aparte de los huevos dorados
+  const ZS = (file, name, r, color, fact) => ({ id: 'zelda-' + file, img: imgSrc(`img/zelda/${file}.webp`), name, kind: 'zelda', r, color, fact, special: true });
+  const ZELDA = [
+    ZS('link', 'Link', 'legendario', '#2E8B57', 'Link es el héroe de Hyrule. Despertó después de dormir cien años.'),
+    ZS('zelda', 'Princesa Zelda', 'legendario', '#F5D76E', 'Zelda estudia todo lo antiguo de Hyrule y tiene un poder sagrado.'),
+    ZS('espada', 'Espada Maestra', 'legendario', '#7EC8FF', 'Es la espada que ahuyenta la oscuridad. Solo un héroe puede sacarla de la piedra.'),
+    ZS('ganon', 'Ganon', 'legendario', '#B91C1C', 'Ganon es el gran enemigo de Hyrule. ¡Link y Zelda siempre lo vencen!'),
+    ZS('campeones', 'Los Elegidos', 'legendario', '#3D8BFF', 'Cinco héroes unidos para proteger Hyrule: juntos son más fuertes.'),
+    ZS('mipha', 'Mipha', 'epico', '#E11D48', 'Mipha es una princesa zora que puede curar heridas.'),
+    ZS('daruk', 'Daruk', 'epico', '#B45309', 'Daruk es un goron enorme. Los gorones comen rocas, ¡y les encantan!'),
+    ZS('revali', 'Revali', 'epico', '#1D4ED8', 'Revali es un orni que vuela altísimo y nunca falla con su arco.'),
+    ZS('urbosa', 'Urbosa', 'epico', '#F59E0B', 'Urbosa es la jefa gerudo y puede llamar a los rayos.'),
+    ZS('impa', 'Impa', 'epico', '#DC2626', 'Impa es la sabia de la aldea Kakariko. Recuerda muchas historias.'),
+    ZS('hestu', 'Obab', 'epico', '#16A34A', 'Obab baila con sus maracas cuando le das semillas kolog.'),
+    ZS('guardian', 'Guardián', 'epico', '#F97316', 'Los guardianes son máquinas antiguas que lanzan un rayo de luz.'),
+    ZS('lynel', 'Centaleón', 'epico', '#9F1239', 'El centaleón es mitad león y mitad caballo. ¡Es el monstruo más fuerte!'),
+    ZS('paravela', 'Paravela', 'epico', '#C2410C', 'Con la paravela Link baja planeando, como un ala delta de verdad.'),
+    ZS('tableta', 'Piedra Sheikah', 'epico', '#0EA5E9', 'La Piedra Sheikah guarda mapas, fotos y poderes antiguos.'),
+    ZS('korok', 'Kolog', 'raro', '#65A30D', 'Hay muchísimos kologs escondidos en Hyrule. ¡Cada uno regala una semilla!'),
+    ZS('hada', 'Hada', 'raro', '#F472B6', 'Si Link se queda sin corazones, un hada lo salva.'),
+    ZS('caballo', 'Caballo', 'raro', '#92400E', 'Los caballos de verdad pueden dormir de pie.'),
+    ZS('cucco', 'Cuco', 'raro', '#FDE68A', '¡No molestes a un cuco! Todos sus amigos vendrán a defenderlo.'),
+    ZS('arco', 'Arco', 'raro', '#A16207', 'Con un arco Link puede atinarle a cosas que están muy lejos.'),
+    ZS('escudo', 'Escudo hyliano', 'raro', '#1E40AF', 'El escudo hyliano es uno de los más fuertes de todo Hyrule.'),
+    ZS('corazon', 'Contenedor de corazón', 'raro', '#EF4444', 'Cada contenedor de corazón le da a Link un corazón más de vida.'),
+    ZS('manzana', 'Manzana', 'raro', '#DC2626', 'Las manzanas de verdad flotan en el agua porque tienen aire adentro.'),
+    ZS('bokoblin', 'Bokoblin', 'raro', '#EF4444', 'Los bokoblins viven en campamentos y duermen de noche.'),
+    ZS('chuchu', 'Chuchu', 'raro', '#60A5FA', 'Los chuchus son gelatinas. Hay de fuego, de hielo y de rayo.'),
+    ZS('octorok', 'Octorok', 'raro', '#7C3AED', 'Los octoroks escupen piedras. Los pulpos de verdad escupen tinta.'),
+  ];
+  const SPECIAL_CHANCE = 0.15, ZELDA_CHANCE = 0.12;
+  const ALL_SPECIAL = [...SPECIAL, ...ZELDA];
   const specialArt = (f, size, cls = '') => `<img class="special-img ${f.kind} ${cls}" src="${f.img}" alt="${f.name}" width="${size}" height="${f.kind === 'dragon' ? Math.round(size * 0.666) : size}" draggable="false">`;
   const byId = (id) => ALL.find((d) => d.id === id);
   const stageOf = (n) => STAGES.reduce((s, st, i) => (n >= st.at ? i + 1 : s), 1);
@@ -101,16 +132,16 @@
   const D = () => GA.store.data;
   const col = () => (D().dragons = D().dragons || {});
   GA.dragons = {
-    ALL, DRAGONS, MILKS, ELEM, BREED, FLAVOR, ACC, RARITY, STAGES, SPECIAL, byId, stageOf, stageName, svg: dragonSVG, egg: eggSVG, specialArt,
+    ALL, DRAGONS, MILKS, ELEM, BREED, FLAVOR, ACC, RARITY, STAGES, SPECIAL, ZELDA, ALL_SPECIAL, byId, stageOf, stageName, svg: dragonSVG, egg: eggSVG, specialArt,
     count: () => Object.keys(col()).length,
-    total: () => ALL.length + SPECIAL.length,
+    total: () => ALL.length + ALL_SPECIAL.length,
     // Dibujo de cualquier premio (dragón generado o figura especial)
     art(r, size) { return r.special ? specialArt(r.f, size) : dragonSVG(r.d, r.stage, { size }); },
-    awardSpecial() {
+    awardSpecial(set = SPECIAL) {
       const W = { raro: 55, epico: 30, legendario: 15 };
       let roll = Math.random() * 100, rk = 'raro';
       for (const k in W) { roll -= W[k]; if (roll <= 0) { rk = k; break; } }
-      const pool = SPECIAL.filter((f) => f.r === rk);
+      const pool = set.filter((f) => f.r === rk);
       const fresh = pool.filter((f) => !col()[f.id]);
       const f = fresh.length && Math.random() < 0.5 ? GA.pick(fresh) : GA.pick(pool);
       const rec = col()[f.id] || (col()[f.id] = { n: 0, t: Date.now() });
@@ -120,7 +151,9 @@
     },
     // Entrega un dragón por una respuesta correcta
     award() {
-      if (Math.random() < SPECIAL_CHANCE) return this.awardSpecial();
+      const luck = Math.random();
+      if (luck < SPECIAL_CHANCE) return this.awardSpecial();
+      if (luck < SPECIAL_CHANCE + ZELDA_CHANCE) return this.awardSpecial(ZELDA);
       const tot = Object.values(RARITY).reduce((a, r) => a + r.w, 0);
       let roll = Math.random() * tot, rk = 'comun';
       for (const k in RARITY) { roll -= RARITY[k].w; if (roll <= 0) { rk = k; break; } }
@@ -136,6 +169,7 @@
       return { d, isNew: rec.n === 1, grew: rec.n > 1 && stage > before, stage, copies: rec.n };
     },
     message(r) {
+      if (r.special && r.f.kind === 'zelda') return r.isNew ? `¡Tesoro de Hyrule! ${r.f.name} (${RARITY[r.f.r].n})` : `¡Otra vez ${r.f.name}! Ya tienes ${r.copies}`;
       if (r.special) return r.isNew ? `¡Figura especial! ${r.f.name} (${RARITY[r.f.r].n})` : `¡Otra vez ${r.f.name}! Ya tienes ${r.copies}`;
       if (r.isNew) return `¡${r.d.kind === 'milk' ? 'Nuevo Milkerito' : 'Nuevo dragón'}! ${r.d.name} (${RARITY[r.d.e.r].n})`;
       if (r.grew) return `¡Tu ${r.d.name} creció! Ahora es ${stageName(r.d, r.stage)}`;
@@ -179,7 +213,7 @@
       body: h('div', { style: { display: 'grid', gap: '10px', justifyItems: 'center' } },
         h('div', { class: 'sp-big', style: { '--glow': f.color }, html: specialArt(f, 280) }),
         h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' } },
-          h('span', { class: 'chip', style: { background: R.color, color: '#fff' } }, `${R.n} · Figura especial`),
+          h('span', { class: 'chip', style: { background: R.color, color: '#fff' } }, `${R.n} · ${f.kind === 'zelda' ? 'Tesoro de Hyrule' : 'Figura especial'}`),
           h('span', { class: 'chip' }, `Encontrada ${rec.n} ${rec.n === 1 ? 'vez' : 'veces'}`)),
         h('p', { style: { margin: 0 } }, `💡 ${f.fact}`)),
       actions: [{ label: '🔊 Escuchar', cls: 'btn-white', keep: true, onClick: () => GA.say(`${f.name}. ${f.fact}`) }, { label: '¡Genial!', cls: 'btn-ok' }],
@@ -195,11 +229,11 @@
     app.innerHTML = '';
     window.scrollTo(0, 0);
     const have = col();
-    const TABS = [['todos', 'Todos'], ['especiales', '⭐ Especiales'], ['dragones', '🐉 Dragones'], ['milkeritos', '🐮 Milkeritos'], ['legendario', '👑 Legendarios']];
+    const TABS = [['todos', 'Todos'], ['especiales', '⭐ Especiales'], ['dragones', '🐉 Dragones'], ['milkeritos', '🐮 Milkeritos'], ['zelda', '🗡️ Hyrule'], ['legendario', '👑 Legendarios']];
     const show = (d) => filter === 'todos' || (filter === 'dragones' && d.kind === 'dragon') || (filter === 'milkeritos' && d.kind === 'milk') || d.e.r === filter;
-    const list = filter === 'especiales' ? [] : ALL.filter(show);
+    const list = filter === 'especiales' || filter === 'zelda' ? [] : ALL.filter(show);
     const tabs = h('div', { class: 'seg cave-tabs' }, TABS.map(([k, l]) => h('button', { class: k === filter ? 'on' : '', onclick: () => GA.screens.dragons(k) }, l)));
-    const sps = SPECIAL.filter((f) => filter === 'todos' || filter === 'especiales' || f.r === filter || (filter === 'dragones' && f.kind === 'dragon') || (filter === 'milkeritos' && f.kind === 'milkerito'));
+    const sps = filter === 'zelda' ? [] : SPECIAL.filter((f) => filter === 'todos' || filter === 'especiales' || f.r === filter || (filter === 'dragones' && f.kind === 'dragon') || (filter === 'milkeritos' && f.kind === 'milkerito'));
     const spOwned = SPECIAL.filter((f) => have[f.id]).length;
     const specialSection = sps.length ? h('section', { class: 'sp-section' },
       h('h2', null, `⭐ Figuras especiales · ${spOwned} de ${SPECIAL.length}`),
@@ -209,6 +243,19 @@
         if (!rec) return h('div', { class: 'sp-card locked ' + f.kind }, h('div', { class: 'sp-art', html: specialArt(f, 150) }), h('div', { class: 'sp-q' }, '?'), h('div', { class: 'cave-name' }, f.kind === 'milkerito' ? 'Milkerito misterioso' : 'Dragón misterioso'), h('span', { class: 'cave-r', style: { background: R.color } }, R.n));
         return h('button', { class: 'sp-card ' + f.kind, style: { '--glow': f.color }, onclick: () => detailSpecial(f) },
           h('div', { class: 'sp-art', html: specialArt(f, 150) }),
+          h('div', { class: 'cave-name' }, f.name), rec.n > 1 ? h('div', { class: 'cave-stage' }, `×${rec.n}`) : null,
+          h('span', { class: 'cave-r', style: { background: R.color } }, R.n));
+      }))) : null;
+    const zs = ZELDA.filter((f) => filter === 'todos' || filter === 'zelda' || f.r === filter);
+    const zOwned = ZELDA.filter((f) => have[f.id]).length;
+    const zeldaSection = zs.length ? h('section', { class: 'sp-section zelda-section' },
+      h('h2', null, `🗡️ Tesoros de Hyrule · ${zOwned} de ${ZELDA.length}`),
+      h('p', { class: 'cave-intro' }, 'A veces, en lugar de un huevo, ¡aparece un cofre de Hyrule! Junta a Link, Zelda y todos sus amigos.'),
+      h('div', { class: 'sp-grid' }, zs.map((f) => {
+        const rec = have[f.id], R = RARITY[f.r];
+        if (!rec) return h('div', { class: 'sp-card locked zelda' }, h('div', { class: 'sp-art', html: specialArt(f, 140) }), h('div', { class: 'sp-q' }, '?'), h('div', { class: 'cave-name' }, 'Tesoro misterioso'), h('span', { class: 'cave-r', style: { background: R.color } }, R.n));
+        return h('button', { class: 'sp-card zelda', style: { '--glow': f.color }, onclick: () => detailSpecial(f) },
+          h('div', { class: 'sp-art', html: specialArt(f, 140) }),
           h('div', { class: 'cave-name' }, f.name), rec.n > 1 ? h('div', { class: 'cave-stage' }, `×${rec.n}`) : null,
           h('span', { class: 'cave-r', style: { background: R.color } }, R.n));
       }))) : null;
@@ -231,9 +278,9 @@
     app.append(h('div', { class: 'cave-screen' },
       h('div', { class: 'wrap' },
         h('div', { class: 'topbar' }, h('button', { class: 'icon-btn', 'aria-label': 'Volver', onclick: () => GA.screens.home() }, '⬅'),
-          h('h1', { style: { marginRight: 'auto', color: '#fff' } }, '🐉 Mi cueva de dragones'), h('span', { class: 'chip' }, `${n} de ${ALL.length + SPECIAL.length}`)),
-        h('p', { class: 'cave-intro' }, n ? 'Cada respuesta correcta hace nacer un huevo. Si sale un dragón repetido, ¡crece! A veces sale un huevo dorado con una figura especial. Toca uno para verlo de cerca.' : '¡Todavía no tienes dragones! Responde bien en cualquier juego y nacerá tu primer huevo.'),
-        tabs, specialSection, grid)));
+          h('h1', { style: { marginRight: 'auto', color: '#fff' } }, '🐉 Mi cueva de dragones'), h('span', { class: 'chip' }, `${n} de ${ALL.length + ALL_SPECIAL.length}`)),
+        h('p', { class: 'cave-intro' }, n ? 'Cada respuesta correcta hace nacer un huevo. Si sale un dragón repetido, ¡crece! A veces sale un huevo dorado con una figura especial o un cofre con un tesoro de Hyrule. Toca uno para verlo de cerca.' : '¡Todavía no tienes dragones! Responde bien en cualquier juego y nacerá tu primer huevo.'),
+        tabs, specialSection, zeldaSection, grid)));
     GA.say(n ? `Tienes ${n} dragones en tu cueva.` : 'Responde bien para que nazca tu primer dragón.');
   };
 })();

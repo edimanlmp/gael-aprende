@@ -90,7 +90,7 @@
     const owned = GA.dragons.ALL.filter((x) => (D().dragons || {})[x.id]);
     const rank = { comun: 0, raro: 1, epico: 2, legendario: 3 };
     const best = owned.slice().sort((x, y) => rank[y.e.r] - rank[x.e.r] || D().dragons[y.id].n - D().dragons[x.id].n).filter((x, i, arr) => arr.findIndex((z) => z.e.id === x.e.id) === i);
-    const sp = GA.dragons.SPECIAL.filter((f) => (D().dragons || {})[f.id]);
+    const sp = GA.dragons.ALL_SPECIAL.filter((f) => (D().dragons || {})[f.id]);
     const show = owned.length ? best.slice(0, 3) : GA.dragons.ALL.filter((x) => ['fuego-chispa', 'hielo-pluma', 'galaxia-rey'].includes(x.id));
     const arts = [...sp.slice(-2).map((f) => h('div', { class: 'cave-banner-sp', html: GA.dragons.specialArt(f, 96) })),
       ...show.slice(0, 3 - Math.min(2, sp.length)).map((x) => h('div', { html: GA.dragons.svg(x, owned.length ? GA.dragons.stageOf(D().dragons[x.id].n) : 1, { size: 110, sil: !owned.length }) }))];
@@ -98,7 +98,7 @@
     return h('button', { class: 'cave-banner', onclick: () => { GA.sfx.play('tap'); GA.screens.dragons(); } },
       h('div', { class: 'cave-banner-dr' }, arts),
       h('div', null, h('h2', null, '🐉 Mi cueva de dragones'),
-        h('p', null, n ? `Tienes ${n} de ${GA.dragons.total()} dragones y figuras. ¡Cada respuesta correcta hace nacer un huevo!` : '¡Responde bien en cualquier juego y nacerá tu primer dragón! A veces sale un huevo dorado con Chimuelo o un Milkerito.')),
+        h('p', null, n ? `Tienes ${n} de ${GA.dragons.total()} dragones y figuras. ¡Cada respuesta correcta hace nacer un huevo!` : '¡Responde bien en cualquier juego y nacerá tu primer dragón! A veces sale un huevo dorado con Chimuelo, un Milkerito o un tesoro de Zelda.')),
       h('span', { class: 'btn btn-sun' }, 'Ver ➜'));
   }
   GA.screens.home = function () {
@@ -374,13 +374,13 @@
           const r = e.r, R = GA.dragons.RARITY[r.d.e.r];
           GA.sfx.play('level'); GA.confetti(160);
           GA.ui.modal({
-            title: r.special ? '🥚✨ ¡Huevo dorado!' : r.grew ? `¡${r.d.name} creció!` : (r.d.kind === 'milk' ? `¡Milkerito ${R.n.toLowerCase()}!` : `¡Dragón ${R.n.toLowerCase()}!`),
+            title: r.special ? (r.f.kind === 'zelda' ? '🗝️✨ ¡Cofre de Hyrule!' : '🥚✨ ¡Huevo dorado!') : r.grew ? `¡${r.d.name} creció!` : (r.d.kind === 'milk' ? `¡Milkerito ${R.n.toLowerCase()}!` : `¡Dragón ${R.n.toLowerCase()}!`),
             body: h('div', { style: { display: 'grid', justifyItems: 'center', gap: '8px' } },
               r.special ? h('div', { class: 'sp-big', style: { '--glow': r.f.color }, html: GA.dragons.specialArt(r.f, 280) })
                 : h('div', { class: 'dragon-stage-bg', html: GA.dragons.svg(r.d, r.stage, { size: r.d.kind === 'milk' ? 230 : 300 }) }),
               h('div', { class: 'chip', style: { background: R.color, color: '#fff' } }, r.special ? `${r.f.name} · ${R.n}` : `${r.d.name} · ${GA.dragons.stageName(r.d, r.stage)}`)),
-            text: r.special ? `¡Encontraste una figura especial! ${r.f.fact}` : r.grew ? `Ahora es ${GA.dragons.stageName(r.d, r.stage)}. ¡Mira qué grande y poderoso está!` : 'Es muy difícil de encontrar. ¡Ya vive en tu cueva!',
-            say: r.special ? `¡Huevo dorado! ¡Encontraste a ${r.f.name}!` : r.grew ? `¡${r.d.name} creció! Ahora es ${GA.dragons.stageName(r.d, r.stage)}.` : `¡Increíble! Encontraste a ${r.d.name}, ${R.n.toLowerCase()}.`,
+            text: r.special ? `¡Encontraste ${r.f.kind === 'zelda' ? 'un tesoro de Hyrule' : 'una figura especial'}! ${r.f.fact}` : r.grew ? `Ahora es ${GA.dragons.stageName(r.d, r.stage)}. ¡Mira qué grande y poderoso está!` : 'Es muy difícil de encontrar. ¡Ya vive en tu cueva!',
+            say: r.special ? `¡${r.f.kind === 'zelda' ? 'Cofre de Hyrule' : 'Huevo dorado'}! ¡Encontraste a ${r.f.name}!` : r.grew ? `¡${r.d.name} creció! Ahora es ${GA.dragons.stageName(r.d, r.stage)}.` : `¡Increíble! Encontraste a ${r.d.name}, ${R.n.toLowerCase()}.`,
             actions: [{ label: '¡Wow! ➜', cls: 'btn-ok', onClick: step }],
           });
         } else if (e.type === 'unlock') {
