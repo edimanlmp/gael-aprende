@@ -78,7 +78,7 @@
   function freshProfile() {
     return {
       v: 1, name: '', avatar: '🦊', created: Date.now(), stars: 0, stickers: [], medals: [],
-      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [], gym: { pace: 30, max: 30 },
+      skills: {}, days: {}, lessons: {}, lastSkill: null, dragons: {}, reading: [], gym: { pace: 30, max: 30 }, judo: { w: {}, belts: {} },
       settings: { voice: true, sfx: true, rate: 0.92, roundLen: 6, unlockAll: false, autoRead: true, voiceName: '' },
     };
   }
@@ -111,13 +111,16 @@
   // Voces "de juguete" de macOS/iOS: divertidas pero poco claras para aprender a leer
   const NOVELTY = /Eddy|Flo|Grandma|Grandpa|Reed|Rocko|Sandy|Shelley|Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Junior|Kathy|Ralph|Fred/i;
   GA.voice = {
-    v: null, vEn: null,
+    v: null, vEn: null, vJa: null,
     score(v, want = 'es') {
       let s = 0;
       const lang = v.lang.replace('_', '-');
       if (want === 'en') {
         if (/en-US/i.test(lang)) s += 30; else if (/en-GB|en-CA|en-AU/i.test(lang)) s += 20;
         if (/Samantha|Ava|Allison|Susan|Zoe|Evan|Nathan/i.test(v.name)) s += 40; // voces claras de Apple
+      } else if (want === 'ja') {
+        if (/ja-JP/i.test(lang)) s += 30;
+        if (/Kyoko|Otoya|O-ren|Hattori/i.test(v.name)) s += 40; // voces japonesas de Apple
       } else if (/es-MX/i.test(lang)) s += 30; else if (/es-US|es-419/i.test(lang)) s += 25; else if (/es-ES/i.test(lang)) s += 10;
       if (/Premium|Enhanced|Mejorada|Natural|Neural|Siri/i.test(v.name)) s += 200; // voces neuronales: casi humanas
       else if (/Google/i.test(v.name)) s += 120; // voz en línea de Chrome: clara y natural
@@ -135,6 +138,7 @@
     },
     choose() {
       this.vEn = this.list('en')[0] || null;
+      this.vJa = this.list('ja')[0] || null;
       const vs = this.list();
       if (!vs.length) return;
       const wanted = GA.store.data && GA.settings().voiceName;
@@ -152,8 +156,8 @@
       speechSynthesis.cancel();
       return new Promise((res) => {
         const u = new SpeechSynthesisUtterance(clean);
-        const v = opts.lang === 'en' ? this.vEn : this.v;
-        u.lang = v ? v.lang : opts.lang === 'en' ? 'en-US' : 'es-MX';
+        const v = opts.lang === 'en' ? this.vEn : opts.lang === 'ja' ? this.vJa : this.v;
+        u.lang = v ? v.lang : { en: 'en-US', ja: 'ja-JP' }[opts.lang] || 'es-MX';
         if (v) u.voice = v;
         u.rate = opts.rate || GA.settings().rate || 0.92;
         u.pitch = opts.pitch || 1;
@@ -161,7 +165,7 @@
         const fin = () => { if (!done) { done = true; res(); } };
         u.onend = fin; u.onerror = fin;
         setTimeout(() => speechSynthesis.speak(u), 40);
-        setTimeout(fin, (600 + clean.length * 110) * Math.max(1, 0.92 / u.rate)); // respaldo si no llega onend (más largo si habla despacio)
+        setTimeout(fin, (600 + clean.length * (opts.lang === 'ja' ? 260 : 110)) * Math.max(1, 0.92 / u.rate)); // respaldo si no llega onend (más largo si habla despacio)
       });
     },
     stop() { if ('speechSynthesis' in window) speechSynthesis.cancel(); },

@@ -27,7 +27,7 @@
     'leer-palabras': 'Leer palabras', 'leer-precision': 'Leer con precisión palabras parecidas', 'leer-frases': 'Leer frases', sintaxis: 'Ordenar oraciones', 'comprension-literal': 'Comprensión literal',
     secuencia: 'Secuencia de un cuento', 'lx-silabas': 'Leer sílabas', 'lx-palabras': 'Leer palabras nuevas', 'lx-precision': 'Leer con precisión (todas las letras)', 'lx-oraciones': 'Leer y entender oraciones', 'lx-relampago': 'Reconocer palabras de un vistazo', 'hy-palabras': 'Leer palabras de Hyrule', 'g-silabas': 'Leer sílaba por sílaba (palabras nuevas e inventadas)', 'g-bd': 'Distinguir b y d', 'g-espejo': 'Palabras espejo (es/se, la/al, el/le…)', 'g-trabadas': 'Sílabas trabadas', 'g-tren': 'Reconocer sílabas rápido', 'g-fluidez': 'Leer oraciones con ritmo y entenderlas', 'hy-frases': 'Leer frases de Hyrule', 'hy-verdad': 'Entender preguntas de Hyrule', inferencia: 'Inferencias', vocabulario: 'Vocabulario', opuestos: 'Opuestos', categorias: 'Categorías', sinonimos: 'Sinónimos',
   };
-  const tagName = (t) => TAGS[t] || (t.startsWith('ciclo-') ? 'Ciclo de vida: ' + t.slice(6) : t.startsWith('tabla-') ? 'Tabla del ' + t.slice(6) : t);
+  const tagName = (t) => TAGS[t] || (t.startsWith('jw:') && GA.JUDO.byId[t.slice(3)] ? `Judo: “${GA.JUDO.byId[t.slice(3)].w}” (${GA.JUDO.byId[t.slice(3)].m})` : null) || (t.startsWith('ciclo-') ? 'Ciclo de vida: ' + t.slice(6) : t.startsWith('tabla-') ? 'Tabla del ' + t.slice(6) : t);
 
   GA.screens.parentsGate = function () {
     const a = GA.rand(6, 9), b = GA.rand(6, 9);
@@ -196,6 +196,7 @@
         h('button', { class: 'btn', onclick: () => GA.screens.testLab() }, '🧪 Abrir modo prueba')),
       card('Actividad de los últimos 14 días', activityChart()),
       readingCard(),
+      GA.judo.parentsCard(card, stat),
       h('div', { class: 'pp-grid' },
         card('💪 Fortalezas', strengths.length ? h('ul', null, strengths.map((s) => h('li', null, `${s.icon} ${s.title} — ${E.st(s.id).mastered ? 'dominado' : `nivel ${E.st(s.id).lvl}, ${Math.round(E.accuracy(s.id, 12) * 100)}% de precisión`}`))) : h('p', { class: 'muted' }, 'Aparecerán cuando haya más práctica.')),
         card('🌱 Áreas de mejora', support.length || topErr.length ? h('div', null,

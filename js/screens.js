@@ -10,6 +10,7 @@
   const PRAISE_RETRY = ['¡Lo lograste con esfuerzo!', '¡Bien! Intentar otra vez es de valientes.', '¡Muy bien! Aprendiste de tu error.'];
 
   function clear() { GA.voice.stop(); document.getElementById('overlay').innerHTML = ''; const fb = document.querySelector('.feedback'); if (fb) fb.remove(); app().innerHTML = ''; window.scrollTo(0, 0); }
+  GA.screens.clear = clear;
 
   // ---------- Arte de los mundos ----------
   const ART = {
@@ -111,7 +112,7 @@
       const mastered = sk.filter((s) => E.st(s.id).mastered).length;
       const p = Math.round(E.areaProgress(a.id) * 100);
       return h('button', { class: 'world-card ' + a.cls, onclick: () => { GA.sfx.play('tap'); GA.screens.world(a.id); } },
-        h('div', { class: 'art', html: ART[a.id] }),
+        h('div', { class: 'art', html: a.art ? a.art() : ART[a.id] }),
         h('div', { class: 'info' }, h('h3', null, a.world), h('div', { class: 'sub' }, a.blurb), h('div', { class: 'bar', role: 'progressbar', 'aria-valuenow': p }, h('i', { style: { width: Math.max(3, p) + '%' } })),
           h('div', { class: 'sub' }, `${mastered} de ${sk.length} aventuras dominadas`)));
     });
@@ -137,8 +138,9 @@
 
   // ---------- Mundo ----------
   GA.screens.world = function (areaId) {
-    clear();
     const a = GA.AREAS[areaId];
+    if (a.screen) return a.screen();
+    clear();
     const nodes = GA.areaSkills(areaId).map((s) => {
       const st = E.st(s.id), open = E.isUnlocked(s.id), n = s.levels.length;
       const due = st.rev && st.rev.due <= GA.dayKey();
@@ -221,7 +223,7 @@
     function exitAsk() {
       GA.ui.modal({ mascot: 'calm', title: '¿Terminar por ahora?', text: test ? 'Modo prueba: nada de esto se guarda.' : 'Tu avance ya está guardado.', actions: [
         { label: 'Seguir jugando', cls: 'btn-ok' },
-        { label: 'Salir', cls: 'btn-white', onClick: () => (test ? GA.screens.testLab() : GA.screens.home()) },
+        { label: 'Salir', cls: 'btn-white', onClick: () => (test ? GA.screens.testLab() : opts.back ? opts.back() : GA.screens.home()) },
       ] });
     }
 
@@ -231,19 +233,20 @@
       if (S.i >= queue.length) return summary();
       const entry = queue[S.i];
       const skill = GA.skills[entry.skill];
-      const lvl = entry.mode === 'review' || test ? entry.lvl : E.st(skill.id).lvl;
+      const lvl = entry.mode === 'review' || entry.mode === 'exam' || test ? entry.lvl : E.st(skill.id).lvl;
       root.className = 'wrap run ' + GA.AREAS[skill.area].cls;
       GA.$$('i', dots).forEach((d, k) => d.classList.toggle('cur', k === S.i));
       tagLine.innerHTML = '';
       tagLine.append(`${skill.icon} ${skill.title} · Nivel ${lvl}: ${skill.levels[lvl - 1]}`);
       if (test) tagLine.append(h('span', { class: 'chip test-chip', style: { marginLeft: '8px', fontSize: '.85rem' } }, '🧪 Modo prueba'));
       else if (entry.mode === 'review') tagLine.append(h('span', { class: 'chip', style: { marginLeft: '8px', fontSize: '.85rem' } }, '🔁 Repaso'));
+      else if (entry.mode === 'exam') tagLine.append(h('span', { class: 'chip', style: { marginLeft: '8px', fontSize: '.85rem' } }, '🥋 Examen: sin pistas'));
       const lkey = skill.id + ':' + lvl;
       if (test && skill.lessons && skill.lessons[lvl] && !S.seen[lkey]) return lesson(skill, lvl, () => { S.seen[lkey] = 1; next(); });
-      if (!test && entry.mode !== 'review' && skill.lessons && skill.lessons[lvl] && !D().lessons[lkey]) return lesson(skill, lvl, () => { D().lessons[lkey] = 1; GA.store.save(); next(); });
+      if (!test && entry.mode !== 'review' && entry.mode !== 'exam' && skill.lessons && skill.lessons[lvl] && !D().lessons[lkey]) return lesson(skill, lvl, () => { D().lessons[lkey] = 1; GA.store.save(); next(); });
       S.ctx[skill.id] = S.ctx[skill.id] || {};
       let item;
-      try { item = skill.make(lvl, S.ctx[skill.id]); }
+      try { item = skill.make(lvl, S.ctx[skill.id], entry); }
       catch (err) { console.error('Error creando actividad', skill.id, lvl, err); S.i++; return next(); }
       present(entry, skill, lvl, item);
     }
@@ -409,6 +412,7 @@
       fb.remove();
       document.body.style.paddingBottom = '';
       if (test) return testSummary();
+      if (opts.onDone) return opts.onDone(S);
       const got = D().stars - S.stars0;
       const okN = S.results.filter((r) => r.score === 1).length;
       const skills = [...new Set(queue.map((q) => q.skill))];
@@ -430,6 +434,7 @@
         h('div', { class: 'card' }, h('h3', null, 'Tu progreso'), rows),
         h('div', { class: 'actions', style: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' } },
           h('button', { class: 'btn btn-big btn-ok', onclick: () => (opts.mission ? GA.run(E.dailyMission(), opts) : GA.run(E.skillRound(skills[0]), opts)) }, opts.mission ? '🎯 Otra misión' : '▶ Seguir practicando'),
+          opts.back ? h('button', { class: 'btn btn-big btn-white', onclick: () => opts.back() }, opts.backLabel || '⬅ Volver') : null,
           h('button', { class: 'btn btn-big btn-white', onclick: () => GA.screens.home() }, '🏠 Inicio')));
       app().innerHTML = '';
       app().append(stage2);

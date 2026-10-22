@@ -20,6 +20,8 @@
       blurb: 'Sílaba por sílaba, b y d, es y se, trabadas y lectura veloz.' },
     hyrule: { id: 'hyrule', name: 'Hyrule en español', short: 'Hyrule', world: 'Hyrule en español', icon: '🗡️', cls: 'area-hyrule', color: '#2E8B57',
       blurb: 'Aprende a leer con las aventuras de Zelda: Breath of the Wild.' },
+    judo: { id: 'judo', name: 'Japonés del judo', short: 'Judo', world: 'Dojo de Judo', icon: '🥋', cls: 'area-judo', color: '#C7343F',
+      blurb: 'Aprende las palabras en japonés que usa tu sensei y gana tus cintas.' },
     ingles: { id: 'ingles', name: 'Inglés', short: 'Inglés', world: 'Hyrule in English', icon: '🇺🇸', cls: 'area-ingles', color: '#2F6FE0',
       blurb: 'Practica inglés leyendo las aventuras de Zelda.' },
   };
@@ -109,8 +111,8 @@
       }
     }
 
-    if (mode === 'review') {
-      const rv = st.rev;
+    if (mode === 'review' || mode === 'exam') { // el examen cuenta estrellas pero no mueve niveles ni repasos
+      const rv = mode === 'review' && st.rev;
       if (rv) {
         if (score === 1) { if (rv.due <= today()) { rv.box = Math.min(INTERVALS.length - 1, rv.box + 1); rv.due = GA.addDays(today(), INTERVALS[rv.box]); } }
         else { rv.box = 0; rv.due = GA.addDays(today(), 1); rv.slips = (rv.slips || 0) + 1; }

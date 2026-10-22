@@ -28,7 +28,9 @@ for f in sorted((ROOT / 'img' / 'especiales').glob('*.jpg')):
     imgs[f'img/especiales/{f.name}'] = 'data:image/jpeg;base64,' + base64.b64encode(f.read_bytes()).decode()
 for f in sorted((ROOT / 'img' / 'zelda').glob('*.webp')):
     imgs[f'img/zelda/{f.name}'] = 'data:image/webp;base64,' + base64.b64encode(f.read_bytes()).decode()
-html = html.replace('<script>\n', '<script>\nwindow.GA_IMG = ' + json.dumps(imgs) + ';\n', 1)
+# Pronunciación japonesa del Dojo de Judo (grabada con audio_judo.py)
+auds = {f'audio/judo/{f.name}': 'data:audio/mpeg;base64,' + base64.b64encode(f.read_bytes()).decode() for f in sorted((ROOT / 'audio' / 'judo').glob('*.mp3'))}
+html = html.replace('<script>\n', '<script>\nwindow.GA_IMG = ' + json.dumps(imgs) + ';\nwindow.GA_AUDIO = ' + json.dumps(auds) + ';\n', 1)
 
 out = ROOT / 'dist' / 'gael-aprende.html'
 out.parent.mkdir(exist_ok=True)

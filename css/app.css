@@ -857,3 +857,198 @@ button.master-card { cursor: pointer; animation: master-glow 2.4s ease-in-out in
 @media (max-width: 560px) { .g-tile { min-width: 74px; min-height: 76px; } .g-car { min-width: 70px; height: 66px; font-size: 1.7rem; } }
 @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 .g-station { font-weight: 800; color: var(--c-d); background: var(--c-l); border-radius: 14px; padding: 6px 14px; }
+
+/* ---------- Dojo de Judo ---------- */
+:root { --judo: #C7343F; --judo-d: #9B2230; --judo-l: #FDE7E9; }
+.area-judo { --c: var(--judo); --c-d: var(--judo-d); --c-l: var(--judo-l); }
+.judoka, .obi { display: block; overflow: visible; }
+.jd-hero { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; background: #fff; border-radius: var(--r-l); padding: 18px; margin-top: 18px; box-shadow: 0 6px 0 var(--c-l), var(--shadow); }
+.jd-hero-fig { background: radial-gradient(circle at 50% 45%, var(--c-l) 0 62%, transparent 63%); border-radius: 50%; padding: 6px; }
+.jd-hero-info { display: grid; gap: 10px; min-width: 0; }
+.jd-hero .bubble { box-shadow: none; background: var(--paper-2); cursor: pointer; }
+.jd-hero .bubble::before { border-right-color: var(--paper-2); }
+.jd-count { font-family: var(--f-display); font-size: 1.3rem; }
+.jd-count b { color: var(--c-d); font-size: 1.8rem; }
+.jd-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+.jd-locked { opacity: .6; }
+.jd-bar { height: 14px; border-radius: 999px; background: var(--c-l); overflow: hidden; display: flex; width: 100%; }
+.jd-bar i { display: block; height: 100%; transition: width .6s; }
+.jd-bar i.k { background: var(--ok); }
+.jd-bar i.s { background: #FFC94D; }
+.jd-belts { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+.jd-belt { position: relative; border: 0; background: #fff; border-radius: var(--r); padding: 16px 14px 14px; display: grid; justify-items: center; gap: 6px; text-align: center; box-shadow: 0 6px 0 var(--line), var(--shadow); transition: transform .12s; }
+.jd-belt:active { transform: translateY(5px); }
+.jd-belt h3 { font-size: 1.2rem; }
+.jd-belt .sub { font-size: .9rem; color: var(--ink-soft); }
+.jd-belt .badge { position: absolute; top: 8px; right: 10px; font-size: 1.4rem; }
+.jd-belt.locked { opacity: .55; filter: grayscale(.8); }
+.jd-belt.got { background: linear-gradient(180deg, #FFF8DC, #fff 60%); box-shadow: 0 6px 0 var(--sun), var(--shadow); }
+.jd-belt.next { outline: 4px solid var(--c); outline-offset: -4px; animation: jd-glow 2s ease-in-out infinite; }
+@keyframes jd-glow { 50% { box-shadow: 0 6px 0 var(--c-l), 0 0 0 8px var(--c-l), var(--shadow); } }
+.jd-note { margin-top: 18px; }
+
+.jd-q { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.jd-q .row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.jd-word { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.6rem, 9vw, 4.4rem); color: var(--c-d); background: #fff; border-radius: 26px; padding: 2px 30px; box-shadow: 0 6px 0 var(--c-l); line-height: 1.15; text-align: center; }
+.jd-cmd { background: var(--c); color: #fff; box-shadow: 0 6px 0 var(--c-d); }
+.jd-alt { font-size: .95rem; color: var(--ink-soft); }
+.jd-meaning { font-family: var(--f-display); font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800; color: var(--ink); text-align: center; }
+.jd-pic { display: grid; place-items: center; min-height: 90px; }
+.jd-emoji { line-height: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.12)); }
+.jd-ear { min-height: 52px; font-size: 1.3rem; }
+.jd-listen { display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.jd-big-ear { width: 130px; height: 130px; border-radius: 50%; border: 0; font-size: 3.6rem; background: var(--c); color: #fff; box-shadow: 0 8px 0 var(--c-d), var(--shadow); animation: jd-pulse 2.2s ease-in-out infinite; }
+.jd-big-ear:active { transform: translateY(6px); box-shadow: 0 2px 0 var(--c-d); }
+@keyframes jd-pulse { 50% { transform: scale(1.06); } }
+.choices.jd-choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); width: min(760px, 100%); }
+.choice.jd-opt { grid-template-columns: auto auto 1fr; justify-items: start; gap: 10px; font-size: 1.25rem; min-height: 92px; text-align: left; position: relative; }
+.jd-opt .jd-opt-pic { display: grid; place-items: center; width: 70px; }
+.jd-opt .jd-opt-txt { line-height: 1.2; }
+.jd-num { width: 30px; height: 30px; border-radius: 50%; background: var(--c-l); color: var(--c-d); display: grid; place-items: center; font-size: 1rem; }
+.choice.jd-reading { box-shadow: 0 6px 0 var(--c), 0 0 0 4px var(--c) inset; }
+.choice.right .jd-num { background: #fff; }
+.choice.jd-wopt { font-size: 1.7rem; min-width: 170px; }
+.choices.jd-poses { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 150px)); justify-content: center; width: 100%; }
+.choice.jd-pose { padding: 6px; position: relative; }
+.choice.jd-pose.right { background: var(--ok-l); box-shadow: 0 6px 0 var(--ok), 0 0 0 4px var(--ok) inset; }
+.jd-order { position: absolute; top: 6px; left: 6px; width: 34px; height: 34px; border-radius: 50%; background: var(--ok); color: #fff; display: grid; place-items: center; font-size: 1.3rem; }
+.jd-do { margin: 0; font-size: 1.1rem; text-align: center; }
+.jd-tile { font-family: var(--f-display); font-size: 2rem; font-weight: 800; min-width: 74px; text-align: center; background: #fff; border-radius: 18px; padding: 4px 14px; box-shadow: 0 5px 0 var(--c-l); color: var(--c-d); }
+.slot.jd-slot { min-width: 84px; }
+.jd-mini { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; font-size: 1.3rem; }
+.jd-mini .jd-emoji { font-size: 2.6rem !important; }
+.jd-lesson { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.jd-card { display: grid; justify-items: center; gap: 8px; text-align: center; background: #fff; border-radius: var(--r-l); padding: 16px 18px; width: min(560px, 100%); box-shadow: 0 6px 0 var(--c-l), var(--shadow); }
+.jd-card .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.jd-say { font-size: 1.2rem; color: var(--ink-soft); }
+.jd-say b { color: var(--ink); letter-spacing: .04em; }
+.jd-def { font-size: 1rem; color: var(--ink-soft); }
+.jd-tip { background: #FFF6D8; color: #6A4500; border-radius: 16px; padding: 8px 14px; font-size: 1.1rem; line-height: 1.35; }
+.jd-status { color: #fff; border-radius: 999px; padding: 2px 12px; font-size: .95rem; }
+.jd-new { background: var(--sun); color: #4A3300; }
+.jd-repeat { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; font-size: 1.1rem; }
+.jd-bubbles { display: flex; gap: 8px; }
+.jd-bubble { width: 54px; height: 54px; border-radius: 50%; border: 3px dashed var(--c); background: #fff; font-size: 1.6rem; opacity: .55; }
+.jd-bubble.on { opacity: 1; background: var(--ok-l); border: 3px solid var(--ok); animation: pop .4s; }
+.modal.jd-modal { width: min(600px, 100%); background: var(--paper-2); }
+.modal.jd-modal .jd-card { box-shadow: none; }
+
+.jd-sheet { display: grid; justify-items: center; gap: 10px; width: 100%; }
+.jd-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.jd-chip { border: 0; border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 1rem; background: #EEF2F8; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.jd-chip.sm { font-size: .82rem; padding: 2px 8px; cursor: default; }
+.jd-chip.st-learning { background: #FFF1C9; }
+.jd-chip.st-almost { background: #DDF3D6; }
+.jd-chip.st-known { background: var(--ok); color: #fff; }
+.jd-exam-ask { display: grid; place-items: center; }
+
+.jd-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 10px 2px 8px; margin-top: 8px; }
+.jd-tab { border: 0; background: #fff; border-radius: 16px; padding: 6px 12px; display: grid; justify-items: center; gap: 2px; font: inherit; font-size: .9rem; box-shadow: 0 4px 0 var(--line); flex: none; }
+.jd-tab.on { box-shadow: 0 4px 0 var(--c), 0 0 0 3px var(--c) inset; }
+.jd-legend { display: flex; flex-wrap: wrap; gap: 14px; }
+.jd-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.jd-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; flex: none; }
+.jd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.jd-tile-card { position: relative; border: 0; background: #fff; border-radius: 18px; padding: 12px 8px; display: grid; justify-items: center; gap: 4px; text-align: center; font: inherit; color: var(--ink); box-shadow: 0 5px 0 var(--line), var(--shadow); }
+.jd-tile-card:active { transform: translateY(4px); }
+.jd-tile-card b { font-family: var(--f-display); font-size: 1.25rem; color: var(--c-d); }
+.jd-tile-card small { color: var(--ink-soft); font-size: .85rem; line-height: 1.2; }
+.jd-tile-card .jd-dot { position: absolute; top: 10px; right: 10px; }
+.jd-tile-pic { min-height: 70px; display: grid; place-items: center; }
+
+.jd-ceremony { position: relative; display: grid; place-items: center; width: 280px; height: 260px; }
+.jd-ceremony .grand-rays { top: 50%; width: 300px; height: 300px; margin: -150px 0 0 -150px; }
+.jd-ceremony-fig { position: relative; animation: popin .6s cubic-bezier(.2,1.4,.4,1); }
+
+@media (max-width: 560px) {
+  .jd-hero { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .jd-hero .bubble::before { display: none; }
+  .jd-actions { justify-content: center; }
+  .choices.jd-choices { grid-template-columns: 1fr; }
+  .choices.jd-poses { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+  .jd-big-ear { width: 108px; height: 108px; font-size: 3rem; }
+}
+@media (prefers-reduced-motion: reduce) { .jd-big-ear, .jd-belt.next { animation: none; } }
+
+/* ---------- Dojo de Judo: escenas para explorar ---------- */
+.jx-section { margin: 22px 0 8px; }
+.jx-sub { margin: -6px 0 12px; }
+.jx-scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.jx-scene { border: 0; background: #fff; border-radius: var(--r); padding: 14px 10px; display: grid; justify-items: center; gap: 4px; text-align: center; font: inherit; color: var(--ink); box-shadow: 0 6px 0 var(--c-l), var(--shadow); transition: transform .12s; }
+.jx-scene:active { transform: translateY(5px); }
+.jx-scene-ic { font-size: 2.6rem; line-height: 1.1; }
+.jx-scene b { font-family: var(--f-display); font-size: 1.1rem; line-height: 1.15; }
+.jx-scene small { color: var(--ink-soft); }
+.jx-wrap { display: grid; gap: 14px; padding-bottom: 24px; }
+.jx-bar { display: grid; gap: 10px; margin-top: 14px; }
+.jx-intro { cursor: pointer; }
+.jx-intro::before { display: none; }
+.jx-tools { display: flex; flex-wrap: wrap; gap: 10px; }
+.jx-pic { position: relative; width: 100%; max-width: 980px; margin: 0 auto; aspect-ratio: 8 / 5; border-radius: var(--r-l); overflow: hidden; box-shadow: var(--shadow); background: #fff; }
+.jx-art, .jx-art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.jx-pin { position: absolute; transform: translate(-50%, -50%); border: 0; border-radius: 999px; padding: .2em .7em; font-family: var(--f-display); font-weight: 800; font-size: clamp(.72rem, 1.9vw, 1.15rem); background: #fff; color: var(--c-d); box-shadow: 0 3px 0 var(--c), 0 4px 10px rgba(0,0,0,.15); white-space: nowrap; touch-action: manipulation; min-width: 2.2em; }
+.jx-pin:active { transform: translate(-50%, -46%); }
+.jx-pin.on { background: var(--c); color: #fff; box-shadow: 0 3px 0 var(--c-d), 0 0 0 4px rgba(255,255,255,.8); }
+.jx-pin.right { background: var(--ok); color: #fff; box-shadow: 0 3px 0 var(--ok-d); animation: pop .4s; }
+.jx-pin.wrong { background: var(--bad-l); color: var(--bad-d); animation: shake .45s; }
+.jx-path { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 14px; counter-reset: s; }
+.jx-board { display: grid; gap: 16px; }
+.jx-group h3 { font-size: 1.2rem; color: var(--c-d); margin-bottom: 8px; }
+.jx-cards { display: flex; flex-wrap: wrap; gap: 12px; }
+.jx-group.arrows .jx-card:not(:last-child)::after { content: "➜"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--c); }
+.jx-card { position: relative; border: 0; background: #fff; border-radius: 18px; padding: 10px 8px 10px; min-width: 118px; display: grid; justify-items: center; gap: 2px; text-align: center; font: inherit; color: var(--ink); box-shadow: 0 5px 0 var(--line), var(--shadow); touch-action: manipulation; }
+.jx-card:active { transform: translateY(4px); }
+.jx-card b { font-family: var(--f-display); font-size: 1.15rem; color: var(--c-d); }
+.jx-card small { font-size: .85rem; color: var(--ink-soft); }
+.jx-card small b { font-size: inherit; color: var(--c); }
+.jx-card-pic { min-height: 82px; display: grid; place-items: center; }
+.jx-n { position: absolute; top: 6px; left: 6px; width: 26px; height: 26px; border-radius: 50%; background: var(--c); color: #fff; font-size: .85rem; display: grid; place-items: center; }
+.jx-card.on { box-shadow: 0 5px 0 var(--c), 0 0 0 4px var(--c) inset; background: var(--c-l); }
+.jx-card.right { box-shadow: 0 5px 0 var(--ok-d), 0 0 0 4px var(--ok) inset; background: var(--ok-l); animation: pop .4s; }
+.jx-card.wrong { background: var(--bad-l); opacity: .6; animation: shake .45s; }
+.jx-info { position: sticky; bottom: 10px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; background: #fff; border-radius: var(--r); padding: 12px 16px; box-shadow: 0 6px 0 var(--c-l), 0 10px 30px rgba(35,48,77,.2); }
+.jx-info > .muted { margin: 0; }
+.jx-info-txt { flex: 1; min-width: 200px; display: grid; gap: 4px; }
+.jx-info-w { font-family: var(--f-display); font-size: 1.8rem; font-weight: 800; color: var(--c-d); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.jx-info-m { font-family: var(--f-display); font-size: 1.3rem; font-weight: 800; }
+.jx-info-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.jx-target { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.jx-ear { width: 96px; height: 96px; font-size: 2.6rem; }
+.stage .jx-pic, .stage .jx-board, .stage .jx-path { width: 100%; }
+@media (max-width: 560px) {
+  .jx-card { min-width: 98px; }
+  .jx-card-pic { min-height: 64px; }
+  .jx-info-w { font-size: 1.4rem; }
+  .jx-pin { padding: .15em .45em; }
+}
+@media (max-width: 560px) {
+  .jx-info { padding: 8px 10px; gap: 8px; flex-wrap: nowrap; align-items: flex-start; }
+  .jx-info-pic svg, .jx-info-pic .jd-emoji { width: 52px !important; height: 52px !important; font-size: 40px !important; }
+  .jx-info-txt { min-width: 0; gap: 2px; }
+  .jx-info-m { font-size: 1.05rem; }
+  .jx-info .jd-say { font-size: .95rem; }
+  .jx-info .jd-tip { font-size: .9rem; padding: 4px 8px; }
+  .jx-info-btns { flex-direction: column; }
+  .jx-info-btns .btn { min-height: 40px; padding: .3em .6em; font-size: .9rem; }
+}
+
+/* Japonés y pronunciación junto a cada palabra */
+.jd-jp { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 4px 12px; line-height: 1.2; }
+.jd-kana { font-family: 'Hiragino Maru Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', sans-serif; font-weight: 700; font-size: 1.35rem; color: var(--ink); letter-spacing: .04em; }
+.jd-pron { font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; color: var(--c-d); white-space: nowrap; }
+.jd-jp.big .jd-kana { font-size: 1.9rem; }
+.jd-jp.big .jd-pron { font-size: 1.45rem; }
+.jd-jp.sm { gap: 0 6px; }
+.jd-jp.sm .jd-kana { font-size: .95rem; }
+.jd-jp.sm .jd-pron { font-size: .85rem; }
+.jd-opt-jp { display: block; font-size: .8rem; font-weight: 700; opacity: .9; }
+.jd-opt-jp .jd-kana { font-size: .95rem; }
+.jd-opt-jp .jd-pron { font-size: .85rem; }
+.choice.jd-wopt { display: grid; gap: 2px; }
+.choice.right .jd-pron, .choice.right .jd-kana { color: #fff; }
+.jd-mini .jd-kana { font-size: 1.2rem; }
+.jx-pin { display: grid; justify-items: center; line-height: 1.1; padding: .25em .7em .3em; }
+.jx-pin small { font-size: .72em; font-weight: 700; color: var(--ink-soft); }
+.jx-pin.on small, .jx-pin.right small { color: rgba(255,255,255,.9); }
+.jx-info-txt .jd-jp { justify-content: flex-start; }
