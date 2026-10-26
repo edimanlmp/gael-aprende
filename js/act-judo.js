@@ -557,7 +557,7 @@
   function startExam(b) {
     EXAM = { belt: b, res: {} };
     E.startSkill(b.id);
-    GA.run(GA.shuffle(b.words).map((w, i) => ({ skill: b.id, mode: 'exam', lvl: 3, word: w.id, i })), { title: 'Examen: ' + b.name, back: GA.screens.dojo, backLabel: '🥋 Dojo', onDone: examDone });
+    GA.run(GA.shuffle(b.words).map((w, i) => ({ skill: b.id, mode: 'exam', lvl: 3, word: w.id, i })), { title: 'Examen: ' + b.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo', onDone: examDone });
   }
   function examDone() {
     const b = EXAM.belt, res = EXAM.res;
@@ -585,7 +585,7 @@
         : h('p', { class: 'muted', style: { fontSize: '1.15rem' } }, `Te faltaron ${need - okW.length}. Practica estas palabras y vuelve a presentar el examen:`),
       bad.length ? h('div', { class: 'card' }, h('h3', null, pass ? 'Para repasar' : 'Estas palabras te faltan'), list(bad)) : null,
       h('div', { class: 'actions', style: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' } },
-        bad.length ? h('button', { class: 'btn btn-big btn-ok', onclick: () => GA.run(GA.shuffle([...bad, ...bad]).slice(0, 8).map((w) => ({ skill: b.id, mode: 'learn', word: w.id })), { title: b.name, back: GA.screens.dojo, backLabel: '🥋 Dojo' }) }, '▶ Practicar estas') : null,
+        bad.length ? h('button', { class: 'btn btn-big btn-ok', onclick: () => GA.run(GA.shuffle([...bad, ...bad]).slice(0, 8).map((w) => ({ skill: b.id, mode: 'learn', word: w.id })), { title: b.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) }, '▶ Practicar estas') : null,
         h('button', { class: 'btn btn-big btn-white', onclick: () => GA.screens.dojo() }, '🥋 Volver al dojo'))));
     if (pass) {
       GA.sfx.play('level'); GA.confetti(260); setTimeout(() => GA.confetti(200), 800);
@@ -610,7 +610,7 @@
     const st = E.st(b.id);
     const actions = [];
     if (open) {
-      actions.push({ label: '▶ ¡Entrenar!', cls: 'btn-big', onClick: () => GA.run(E.skillRound(b.id), { title: b.name, back: GA.screens.dojo, backLabel: '🥋 Dojo' }) });
+      actions.push({ label: '▶ ¡Entrenar!', cls: 'btn-big', onClick: () => GA.run(E.skillRound(b.id), { title: b.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) });
     }
     // El examen siempre se puede presentar: si ya se sabe las palabras, gana la cinta y se abre la siguiente
     actions.push({ label: passed(b) ? '🥋 Repetir examen' : open ? '🥋 Examen de cinta' : '🥋 ¿Ya te las sabes? Examen', cls: 'btn-sun', onClick: () => examAsk(b) });
@@ -657,10 +657,10 @@
             h('div', { class: 'bubble', onclick: () => GA.say(msg) }, msg, ' ', h('span', { style: { opacity: 0.6 } }, '🔊')),
             h('div', { class: 'jd-count' }, h('b', null, known), ` de ${total} palabras sabidas`), wordsBar(J.WORDS),
             h('div', { class: 'jd-actions' },
-              h('button', { class: 'btn btn-big', onclick: () => { GA.sfx.play('tap'); GA.run(E.skillRound(next.id), { title: next.name, back: GA.screens.dojo, backLabel: '🥋 Dojo' }); } }, `▶ Entrenar: ${next.name.replace('Cinta ', '')}`),
-              due.length ? h('button', { class: 'btn btn-info', onclick: () => GA.run(GA.shuffle(due).slice(0, 10).map((w) => ({ skill: beltOf(w).id, mode: 'learn', word: w.id })), { title: 'Repaso', back: GA.screens.dojo, backLabel: '🥋 Dojo' }) }, `🔁 Repasar ${Math.min(10, due.length)} ${due.length === 1 ? 'palabra' : 'palabras'}`) : null,
+              h('button', { class: 'btn btn-big', onclick: () => { GA.sfx.play('tap'); GA.run(E.skillRound(next.id), { title: next.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }); } }, `▶ Entrenar: ${next.name.replace('Cinta ', '')}`),
+              due.length ? h('button', { class: 'btn btn-info', onclick: () => GA.run(GA.shuffle(due).slice(0, 10).map((w) => ({ skill: beltOf(w).id, mode: 'learn', word: w.id })), { title: 'Repaso', back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) }, `🔁 Repasar ${Math.min(10, due.length)} ${due.length === 1 ? 'palabra' : 'palabras'}`) : null,
               h('button', { class: 'btn btn-sun', onclick: () => GA.screens.jlibreta() }, '📖 Mi libreta'),
-              h('button', { class: 'btn btn-white' + (sOpen ? '' : ' jd-locked'), onclick: () => (sOpen ? GA.run(E.skillRound('jsensei'), { title: sensei.title, back: GA.screens.dojo, backLabel: '🥋 Dojo' }) : GA.ui.modal({ title: '🗣️ El sensei dice', text: `Se abre cuando avances en <b>${E.lockText('jsensei')}</b>.`, actions: [{ label: 'Ok', cls: 'btn-white' }], dismissable: true })) }, sOpen ? '🗣️ El sensei dice' : '🔒 El sensei dice')))),
+              h('button', { class: 'btn btn-white' + (sOpen ? '' : ' jd-locked'), onclick: () => (sOpen ? GA.run(E.skillRound('jsensei'), { title: sensei.title, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) : GA.ui.modal({ title: '🗣️ El sensei dice', text: `Se abre cuando avances en <b>${E.lockText('jsensei')}</b>.`, actions: [{ label: 'Ok', cls: 'btn-white' }], dismissable: true })) }, sOpen ? '🗣️ El sensei dice' : '🔒 El sensei dice')))),
         GA.judo.scenesSection ? GA.judo.scenesSection() : null,
         h('h2', { class: 'section-title' }, 'Tus cintas'),
         h('div', { class: 'jd-belts' }, belts),

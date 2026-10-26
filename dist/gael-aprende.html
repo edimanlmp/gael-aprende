@@ -7918,7 +7918,7 @@ window.GA_AUDIO = {"audio/judo/_omedeto.mp3": "data:audio/mpeg;base64,SUQzBAAAAA
   function startExam(b) {
     EXAM = { belt: b, res: {} };
     E.startSkill(b.id);
-    GA.run(GA.shuffle(b.words).map((w, i) => ({ skill: b.id, mode: 'exam', lvl: 3, word: w.id, i })), { title: 'Examen: ' + b.name, back: GA.screens.dojo, backLabel: '🥋 Dojo', onDone: examDone });
+    GA.run(GA.shuffle(b.words).map((w, i) => ({ skill: b.id, mode: 'exam', lvl: 3, word: w.id, i })), { title: 'Examen: ' + b.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo', onDone: examDone });
   }
   function examDone() {
     const b = EXAM.belt, res = EXAM.res;
@@ -7946,7 +7946,7 @@ window.GA_AUDIO = {"audio/judo/_omedeto.mp3": "data:audio/mpeg;base64,SUQzBAAAAA
         : h('p', { class: 'muted', style: { fontSize: '1.15rem' } }, `Te faltaron ${need - okW.length}. Practica estas palabras y vuelve a presentar el examen:`),
       bad.length ? h('div', { class: 'card' }, h('h3', null, pass ? 'Para repasar' : 'Estas palabras te faltan'), list(bad)) : null,
       h('div', { class: 'actions', style: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' } },
-        bad.length ? h('button', { class: 'btn btn-big btn-ok', onclick: () => GA.run(GA.shuffle([...bad, ...bad]).slice(0, 8).map((w) => ({ skill: b.id, mode: 'learn', word: w.id })), { title: b.name, back: GA.screens.dojo, backLabel: '🥋 Dojo' }) }, '▶ Practicar estas') : null,
+        bad.length ? h('button', { class: 'btn btn-big btn-ok', onclick: () => GA.run(GA.shuffle([...bad, ...bad]).slice(0, 8).map((w) => ({ skill: b.id, mode: 'learn', word: w.id })), { title: b.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) }, '▶ Practicar estas') : null,
         h('button', { class: 'btn btn-big btn-white', onclick: () => GA.screens.dojo() }, '🥋 Volver al dojo'))));
     if (pass) {
       GA.sfx.play('level'); GA.confetti(260); setTimeout(() => GA.confetti(200), 800);
@@ -7971,7 +7971,7 @@ window.GA_AUDIO = {"audio/judo/_omedeto.mp3": "data:audio/mpeg;base64,SUQzBAAAAA
     const st = E.st(b.id);
     const actions = [];
     if (open) {
-      actions.push({ label: '▶ ¡Entrenar!', cls: 'btn-big', onClick: () => GA.run(E.skillRound(b.id), { title: b.name, back: GA.screens.dojo, backLabel: '🥋 Dojo' }) });
+      actions.push({ label: '▶ ¡Entrenar!', cls: 'btn-big', onClick: () => GA.run(E.skillRound(b.id), { title: b.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) });
     }
     // El examen siempre se puede presentar: si ya se sabe las palabras, gana la cinta y se abre la siguiente
     actions.push({ label: passed(b) ? '🥋 Repetir examen' : open ? '🥋 Examen de cinta' : '🥋 ¿Ya te las sabes? Examen', cls: 'btn-sun', onClick: () => examAsk(b) });
@@ -8018,10 +8018,10 @@ window.GA_AUDIO = {"audio/judo/_omedeto.mp3": "data:audio/mpeg;base64,SUQzBAAAAA
             h('div', { class: 'bubble', onclick: () => GA.say(msg) }, msg, ' ', h('span', { style: { opacity: 0.6 } }, '🔊')),
             h('div', { class: 'jd-count' }, h('b', null, known), ` de ${total} palabras sabidas`), wordsBar(J.WORDS),
             h('div', { class: 'jd-actions' },
-              h('button', { class: 'btn btn-big', onclick: () => { GA.sfx.play('tap'); GA.run(E.skillRound(next.id), { title: next.name, back: GA.screens.dojo, backLabel: '🥋 Dojo' }); } }, `▶ Entrenar: ${next.name.replace('Cinta ', '')}`),
-              due.length ? h('button', { class: 'btn btn-info', onclick: () => GA.run(GA.shuffle(due).slice(0, 10).map((w) => ({ skill: beltOf(w).id, mode: 'learn', word: w.id })), { title: 'Repaso', back: GA.screens.dojo, backLabel: '🥋 Dojo' }) }, `🔁 Repasar ${Math.min(10, due.length)} ${due.length === 1 ? 'palabra' : 'palabras'}`) : null,
+              h('button', { class: 'btn btn-big', onclick: () => { GA.sfx.play('tap'); GA.run(E.skillRound(next.id), { title: next.name, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }); } }, `▶ Entrenar: ${next.name.replace('Cinta ', '')}`),
+              due.length ? h('button', { class: 'btn btn-info', onclick: () => GA.run(GA.shuffle(due).slice(0, 10).map((w) => ({ skill: beltOf(w).id, mode: 'learn', word: w.id })), { title: 'Repaso', back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) }, `🔁 Repasar ${Math.min(10, due.length)} ${due.length === 1 ? 'palabra' : 'palabras'}`) : null,
               h('button', { class: 'btn btn-sun', onclick: () => GA.screens.jlibreta() }, '📖 Mi libreta'),
-              h('button', { class: 'btn btn-white' + (sOpen ? '' : ' jd-locked'), onclick: () => (sOpen ? GA.run(E.skillRound('jsensei'), { title: sensei.title, back: GA.screens.dojo, backLabel: '🥋 Dojo' }) : GA.ui.modal({ title: '🗣️ El sensei dice', text: `Se abre cuando avances en <b>${E.lockText('jsensei')}</b>.`, actions: [{ label: 'Ok', cls: 'btn-white' }], dismissable: true })) }, sOpen ? '🗣️ El sensei dice' : '🔒 El sensei dice')))),
+              h('button', { class: 'btn btn-white' + (sOpen ? '' : ' jd-locked'), onclick: () => (sOpen ? GA.run(E.skillRound('jsensei'), { title: sensei.title, back: () => GA.screens.dojo(), backLabel: '🥋 Dojo' }) : GA.ui.modal({ title: '🗣️ El sensei dice', text: `Se abre cuando avances en <b>${E.lockText('jsensei')}</b>.`, actions: [{ label: 'Ok', cls: 'btn-white' }], dismissable: true })) }, sOpen ? '🗣️ El sensei dice' : '🔒 El sensei dice')))),
         GA.judo.scenesSection ? GA.judo.scenesSection() : null,
         h('h2', { class: 'section-title' }, 'Tus cintas'),
         h('div', { class: 'jd-belts' }, belts),
@@ -8853,7 +8853,7 @@ window.GA_AUDIO = {"audio/judo/_omedeto.mp3": "data:audio/mpeg;base64,SUQzBAAAAA
         h('h3', null, `${s.icon} ${s.title}`),
         h('div', { class: 'test-lvls' },
           s.levels.map((l, i) => h('button', { class: 'btn btn-sm', title: l, onclick: () => play(s, i + 1) }, h('b', null, `Nivel ${i + 1}`), h('small', null, l))),
-          s.sandbox ? h('button', { class: 'btn btn-sm btn-sun', onclick: () => GA.screens.sandbox(s, GA.screens.testLab, { test: true }) }, s.sandboxLabel || '🧪 Explorar libre') : null))))));
+          s.sandbox ? h('button', { class: 'btn btn-sm btn-sun', onclick: () => GA.screens.sandbox(s, () => GA.screens.testLab(), { test: true }) }, s.sandboxLabel || '🧪 Explorar libre') : null))))));
     app().append(h('div', { class: 'wrap' },
       h('div', { class: 'topbar' }, h('button', { class: 'icon-btn', 'aria-label': 'Volver al panel', onclick: () => GA.screens.parents() }, '⬅'), h('h1', { style: { marginRight: 'auto' } }, '🧪 Modo prueba')),
       h('div', { class: 'test-note' }, 'Entra a cualquier aventura y cualquier nivel. Nada de lo que hagas aquí se guarda: no cuenta en estadísticas, niveles, repasos, estrellas ni dragones.'),
@@ -8875,8 +8875,46 @@ window.GA_AUDIO = {"audio/judo/_omedeto.mp3": "data:audio/mpeg;base64,SUQzBAAAAA
         : h('p', { class: 'muted' }, 'Cuando completes todos los niveles de una aventura, aquí aparecerá su medalla.')));
   };
 
+  // ---------- Historial del navegador (atrás / adelante) ----------
+  // Cada pantalla que se abre queda en el historial con sus datos; al ir atrás o adelante se vuelve a dibujar.
+  // Las entradas viven en memoria: si se recarga la página, atrás/adelante llevan al inicio.
+  const NAV = { seq: 0, entries: {}, restoring: false, ready: false };
+  const sameArgs = (a, b) => { try { return JSON.stringify(a) === JSON.stringify(b); } catch (e) { return false; } };
+  function navRecord(name, fn, args) {
+    if (NAV.restoring) return;
+    const cur = history.state && NAV.entries[history.state.ga];
+    const id = ++NAV.seq;
+    NAV.entries[id] = { name, fn, args };
+    // volver a dibujar la misma pantalla (p. ej. al cambiar un ajuste) no agrega un paso
+    const replace = !NAV.ready || (cur && cur.name === name && sameArgs(cur.args, args));
+    try { history[replace ? 'replaceState' : 'pushState']({ ga: id }, ''); } catch (e) { /* historial no disponible */ }
+    NAV.ready = true;
+  }
+  function navWrap() {
+    const skip = ['clear', 'parentsGate'];
+    Object.keys(GA.screens).forEach((k) => {
+      const raw = GA.screens[k];
+      if (skip.includes(k) || typeof raw !== 'function' || raw._nav) return;
+      const wrapped = function (...args) { navRecord(k, raw, args); return raw.apply(this, args); };
+      wrapped._nav = true;
+      GA.screens[k] = wrapped;
+    });
+    const run = GA.run;
+    GA.run = function (...args) { navRecord('run', run, args); return run.apply(this, args); };
+    window.addEventListener('popstate', (e) => {
+      const en = e.state && NAV.entries[e.state.ga];
+      NAV.restoring = true;
+      try {
+        if (!en) GA.screens.home();
+        else if (en.name === 'parents') GA.screens.parentsGate(); // el panel de padres siempre pide la operación
+        else en.fn(...en.args);
+      } finally { NAV.restoring = false; }
+    });
+  }
+
   // ---------- Arranque ----------
   GA.start = function () {
+    navWrap();
     GA.store.load();
     GA.voice.init();
     // desbloquear audio en iPad/iPhone con el primer toque

@@ -469,7 +469,7 @@
         h('h3', null, `${s.icon} ${s.title}`),
         h('div', { class: 'test-lvls' },
           s.levels.map((l, i) => h('button', { class: 'btn btn-sm', title: l, onclick: () => play(s, i + 1) }, h('b', null, `Nivel ${i + 1}`), h('small', null, l))),
-          s.sandbox ? h('button', { class: 'btn btn-sm btn-sun', onclick: () => GA.screens.sandbox(s, GA.screens.testLab, { test: true }) }, s.sandboxLabel || '🧪 Explorar libre') : null))))));
+          s.sandbox ? h('button', { class: 'btn btn-sm btn-sun', onclick: () => GA.screens.sandbox(s, () => GA.screens.testLab(), { test: true }) }, s.sandboxLabel || '🧪 Explorar libre') : null))))));
     app().append(h('div', { class: 'wrap' },
       h('div', { class: 'topbar' }, h('button', { class: 'icon-btn', 'aria-label': 'Volver al panel', onclick: () => GA.screens.parents() }, '⬅'), h('h1', { style: { marginRight: 'auto' } }, '🧪 Modo prueba')),
       h('div', { class: 'test-note' }, 'Entra a cualquier aventura y cualquier nivel. Nada de lo que hagas aquí se guarda: no cuenta en estadísticas, niveles, repasos, estrellas ni dragones.'),
@@ -491,8 +491,46 @@
         : h('p', { class: 'muted' }, 'Cuando completes todos los niveles de una aventura, aquí aparecerá su medalla.')));
   };
 
+  // ---------- Historial del navegador (atrás / adelante) ----------
+  // Cada pantalla que se abre queda en el historial con sus datos; al ir atrás o adelante se vuelve a dibujar.
+  // Las entradas viven en memoria: si se recarga la página, atrás/adelante llevan al inicio.
+  const NAV = { seq: 0, entries: {}, restoring: false, ready: false };
+  const sameArgs = (a, b) => { try { return JSON.stringify(a) === JSON.stringify(b); } catch (e) { return false; } };
+  function navRecord(name, fn, args) {
+    if (NAV.restoring) return;
+    const cur = history.state && NAV.entries[history.state.ga];
+    const id = ++NAV.seq;
+    NAV.entries[id] = { name, fn, args };
+    // volver a dibujar la misma pantalla (p. ej. al cambiar un ajuste) no agrega un paso
+    const replace = !NAV.ready || (cur && cur.name === name && sameArgs(cur.args, args));
+    try { history[replace ? 'replaceState' : 'pushState']({ ga: id }, ''); } catch (e) { /* historial no disponible */ }
+    NAV.ready = true;
+  }
+  function navWrap() {
+    const skip = ['clear', 'parentsGate'];
+    Object.keys(GA.screens).forEach((k) => {
+      const raw = GA.screens[k];
+      if (skip.includes(k) || typeof raw !== 'function' || raw._nav) return;
+      const wrapped = function (...args) { navRecord(k, raw, args); return raw.apply(this, args); };
+      wrapped._nav = true;
+      GA.screens[k] = wrapped;
+    });
+    const run = GA.run;
+    GA.run = function (...args) { navRecord('run', run, args); return run.apply(this, args); };
+    window.addEventListener('popstate', (e) => {
+      const en = e.state && NAV.entries[e.state.ga];
+      NAV.restoring = true;
+      try {
+        if (!en) GA.screens.home();
+        else if (en.name === 'parents') GA.screens.parentsGate(); // el panel de padres siempre pide la operación
+        else en.fn(...en.args);
+      } finally { NAV.restoring = false; }
+    });
+  }
+
   // ---------- Arranque ----------
   GA.start = function () {
+    navWrap();
     GA.store.load();
     GA.voice.init();
     // desbloquear audio en iPad/iPhone con el primer toque
